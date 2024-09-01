@@ -1,0 +1,56 @@
+.nav-link {
+    padding: 0.3rem 0.6rem; /* Add padding to the NavLink */
+    margin: 0 0.5rem; /* Add margin to create space between NavItems */
+    font-size: 1rem; /* Increase font size */
+  }
+  
+  .nav-text {
+    margin-left: 0.5rem; /* Add margin to the left of the text */
+    font-weight: bold;
+  }
+  
+  .navbar .nav-link {
+    color: white !important; /* Set text color to white */
+  }
+  
+  .navbar .icon {
+    color: white; /* Set icon color to white */
+  }
+
+  .navbar {
+    background-color: transparent; /* Set transparent background color */
+  }
+  
+  .navbar-transparent {
+    transition: background-color 0.3s ease; /* Add transition for smooth effect */
+  }
+  
+  .navbar .nav-link {
+    color: white !important; /* Set text color to white */
+  }
+  
+  .navbar .icon {
+    color: white; /* Set icon color to white */
+  }
+  
+  /* Header.css */
+
+.navbar-collapse {
+  justify-content: center !important; /* Ensure items are centered */
+}
+
+.navbar-nav {
+  display: flex;
+  align-items: center; /* Align items vertically in the middle */
+}
+
+.nav-item {
+  margin-right: 0px; /* Adjust spacing between items */
+}
+
+.top-scroll {
+  background-color: rgba(5, 38, 49, 0.308); /* Set background color to light blue */
+  transition: background-color 0.3s ease; /* Add transition for smooth effect */
+  /* box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.2), 0 6px 20px 0 rgba(255, 255, 255, 0.19); */
+  box-shadow: 0px 7px 7px -3px rgba(255, 255, 255, 0.137);
+}

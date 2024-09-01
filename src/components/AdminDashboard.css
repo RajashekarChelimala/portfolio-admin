@@ -1,0 +1,53 @@
+.admin-dashboard {
+    padding: 2rem;
+}
+
+div .dashboard-card {
+    background-color: unset;
+    color: white;
+    border: 1px solid white;
+    text-align: center;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 200px; /* Fixed height for cards */
+    overflow: hidden; /* Hide overflow content */
+    position: relative; /* For positioning child elements */
+}
+
+.dashboard-card:hover {
+    background-color: unset;
+    color: white;
+    border: 1px solid rgb(114, 85, 85);
+    box-shadow: 0 0 10px rgb(114, 85, 85); /* Glow effect */
+}
+
+.dashboard-card-icon {
+    font-size: 3rem; /* Larger icon size */
+    margin-bottom: 1rem;
+}
+
+.dashboard-card-title {
+    font-size: 1.5rem; /* Larger title font size */
+    margin-bottom: 0.5rem;
+    white-space: nowrap; /* Prevent title from wrapping */
+    overflow: hidden; /* Hide overflowing text */
+    text-overflow: ellipsis; /* Add ellipsis for overflow */
+}
+
+.dashboard-card-text {
+    color: rgb(255, 255, 255); /* Text color */
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide overflowing text */
+    text-overflow: ellipsis; /* Add ellipsis for overflow */
+}
+
+.text-center {
+    text-align: center;
+}
+
+div a {
+    text-decoration: none; /* Remove underline */
+}
