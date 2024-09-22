@@ -24,7 +24,7 @@ const AdminDashboard = () => {
               </Link>
             </Col>
             <Col sm="12" md="6" lg="3" className="mb-4">
-              <Link to="/posts">
+              <Link to="/manage-posts">
                 <Card className="dashboard-card">
                   <CardBody>
                     <AiOutlineFileText className="dashboard-card-icon" />

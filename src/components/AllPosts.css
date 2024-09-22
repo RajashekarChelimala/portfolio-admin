@@ -1,0 +1,42 @@
+div .search-input {
+    background-color: rgba(0, 0, 0, 0.2); /* Slightly darker transparent background */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    color: white;
+    padding: 10px;
+    width: 100%;
+    transition: background-color 0.3s; /* Smooth transition */
+  }
+  
+  div .search-input::placeholder {
+    color: rgba(255, 255, 255, 0.6); /* Light placeholder text */
+  }
+  
+  div .search-input:focus {
+    background-color: rgba(0, 0, 0, 0.3); /* Darker on focus */
+    outline: none; /* Remove default outline */
+    color:white;
+  }
+  
+  div .sort-select {
+    background-color: rgba(0, 0, 0, 0.2); /* Slightly darker transparent background */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    color: white;
+    padding: 10px;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Smooth transition */
+  }
+  
+  div .sort-select:focus {
+    background-color: rgba(0, 0, 0, 0.3); /* Darker on focus */
+    outline: none; /* Remove default outline */
+  }
+  
+  div .sort-select option {
+    background-color: rgba(18, 16, 16, 0.9); /* Match dropdown with select */
+    color: white;
+    padding: 10px; /* Reduced padding for options */
+  }
+  

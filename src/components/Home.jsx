@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Row, Col, Button } from "reactstrap";
+import { Container, Row, Col } from "reactstrap";
 import Type from "../ui-elements/Type";
 import myImg from "../assets/my-image.png";
 import { AiFillGithub, AiFillInstagram, AiOutlineTwitter } from "react-icons/ai";
@@ -8,17 +8,15 @@ import './Home.css';
 
 const Home = () => {
   return (
-    <Container className="home-section">
+    <Container className="home-section text-white">
       <section className="home-content">
         <Row className="align-items-center">
           <Col md={7}>
             <h1 style={{ paddingBottom: 15 }}>Hi There!</h1>
-
             <h1 style={{ paddingBottom: 15 }}>
               I'M
               <strong> RAJASHEKAR CHELIMALA</strong>
             </h1>
-
             <div>
               <h1>
                 <strong>
@@ -27,7 +25,6 @@ const Home = () => {
               </h1>
             </div>
           </Col>
-
           <Col md={5} className="mt-5">
             <img
               src={myImg}
@@ -50,7 +47,7 @@ const Home = () => {
               <br />
               <br />I am fluent in classics like
               <i>
-                <b > Java, Javascript and Python. </b>
+                <b> Java, Javascript and Python. </b>
               </i>
               <br />
               <br />
@@ -75,11 +72,6 @@ const Home = () => {
               </i>
             </p>
           </Col>
-          {/* <Col md={4} className="myAvtar">
-            <Tilt>
-              <img src={myImg} className="img-fluid" alt="avatar" />
-            </Tilt>
-          </Col> */}
         </Row>
         <Row>
           <Col md={12} className="text-center">
@@ -92,6 +84,7 @@ const Home = () => {
                 <a
                   href="https://github.com/RajashekarChelimala"
                   target="_blank"
+                  rel="noreferrer"
                 >
                   <AiFillGithub />
                 </a>
@@ -100,6 +93,7 @@ const Home = () => {
                 <a
                   href="https://twitter.com/RChelimala"
                   target="_blank"
+                  rel="noreferrer"
                 >
                   <AiOutlineTwitter />
                 </a>
@@ -108,6 +102,7 @@ const Home = () => {
                 <a
                   href="https://www.linkedin.com/in/rajashekar-chelimala"
                   target="_blank"
+                  rel="noreferrer"
                 >
                   <FaLinkedinIn />
                 </a>
@@ -116,6 +111,7 @@ const Home = () => {
                 <a
                   href="https://www.instagram.com/prince_chelimala_?igsh=c3hoZzIwMHhpend1"
                   target="_blank"
+                  rel="noreferrer"
                 >
                   <AiFillInstagram />
                 </a>

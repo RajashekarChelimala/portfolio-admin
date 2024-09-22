@@ -1,0 +1,29 @@
+.post-container {
+    max-width: 800px; /* Limit the width for a more centered look */
+    margin: 0 auto; /* Center the post */
+    padding: 20px; /* Add padding */
+    font-family: 'Georgia', serif; /* Use a serif font for a more editorial feel */
+    line-height: 1.6; /* Improve readability */
+  }
+  
+  .post-image {
+    width: 100%; /* Full width */
+    height: auto; /* Maintain aspect ratio */
+    margin-bottom: 20px; /* Space below the image */
+  }
+  
+  .post-title {
+    font-size: 2.5rem; /* Larger title size */
+    margin-bottom: 10px; /* Space below title */
+    color: #ffffff; /* Darker color for the title */
+  }
+  
+  .post-content {
+    font-size: 1.2rem; /* Content size */
+    color: #ffffff; /* Slightly lighter text color */
+  }
+  
+  .go-back-button {
+    margin-top: 20px; /* Space above the button */
+  }
+  

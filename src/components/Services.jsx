@@ -297,7 +297,7 @@ export default function Services() {
   ];
 
   return (
-    <Container>
+    <Container className="text-white">
       <h3>My Services</h3>
       <ThemeProvider theme={theme}>
         <DataGrid

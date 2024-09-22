@@ -24,9 +24,14 @@ export const AuthProvider = ({ children }) => {
         if (response.status === 200) {
           localStorage.setItem("accessToken", response.data.accessToken);
           setAuth({ accessToken: response.data.accessToken, isLoggedIn: true });
+        }else{
+          localStorage.removeItem("accessToken");
+          setAuth({ accessToken: '', isLoggedIn: false});
         }
       } catch (error) {
         console.error("Not authenticated", error);
+        localStorage.removeItem("accessToken");
+        setAuth({ accessToken: '', isLoggedIn: false});
       }
     };
 

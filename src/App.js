@@ -1,14 +1,17 @@
-import React, { useContext } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
 import Home from './components/Home';
 import Login from './components/Login';
 import BaseLayout from '../src/components/BaseLayout'; // Import the base layout component
-import { AuthContext, AuthProvider } from './context/AuthProvider';
+import {  AuthProvider } from './context/AuthProvider';
 import AdminDashboard from './components/AdminDashboard';
 import ProtectedRoute from './context/ProtectedRoute';
 import Services from './components/Services';
 import ToDo from './components/ToDo';
 import Register from './components/Register';
+import ManagePosts from './components/ManagePosts';
+import FullPost from './components/FullPost';
+import AllPosts from './components/AllPosts';
 
 function App() {
   return (
@@ -42,6 +45,20 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/manage-posts"
+          element={
+            <ProtectedRoute>
+              <ManagePosts />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/posts/:id"  element={
+              <FullPost />
+          }/>
+        <Route path="/posts"  element={
+              <AllPosts />
+          }/>
       </Route>
     </Routes>
     </AuthProvider>

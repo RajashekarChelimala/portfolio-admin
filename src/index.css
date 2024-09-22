@@ -1,5 +1,5 @@
 body {
-  color: white !important;
+  
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -13,3 +13,12 @@ code {
     monospace;
 }
 
+div .swal2-modal{
+  background-color: rgba(26, 23, 23, 0.76);
+  color: white;
+  border: 1px solid darkgrey;
+}
+
+div .jodit-workplace{
+  background-color: #0b0b0b !important;
+}

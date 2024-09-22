@@ -1,0 +1,57 @@
+div .card-custom {
+  display: flex; /* Use flexbox to create a consistent layout */
+  flex-direction: column; /* Stack children vertically */
+  overflow: hidden; /* Hide overflow */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  transition: transform 0.3s; /* Animation for hover effect */
+  background-color: unset !important;
+  border: 1px solid white;
+  height: 100%; /* Make the card take full height */
+}
+
+div .card-custom:hover {
+  transform: translateY(-5px); /* Lift effect on hover */
+  border: 1px solid white;
+}
+
+div .custom-card-body {
+  flex-grow: 1; /* Allow the body to grow and take available space */
+  display: flex;
+  flex-direction: column; /* Stack title, text, and buttons vertically */
+  justify-content: space-between; /* Distribute space between children */
+}
+
+div .card-title-custom {
+  font-size: 1.5rem; /* Larger title font */
+  font-weight: bold; /* Bold title */
+  color: #ffffff; /* Dark text color */
+}
+
+.card-text-custom {
+  max-height: 100px; /* Set a maximum height */
+  overflow: hidden; /* Hide overflow */
+  text-overflow: ellipsis; /* Optional: adds ellipsis (...) for overflow */
+  display: -webkit-box; /* For webkit browsers */
+  -webkit-line-clamp: 3; /* Limit to 3 lines */
+  -webkit-box-orient: vertical; /* Required for line clamp */
+  color: #ffffff; /* Dark text color */
+}
+
+div .card-button {
+  margin-top: auto; /* Push the buttons to the bottom */
+  display: flex; /* Use flexbox for alignment */
+  gap: 10px; /* Space between buttons */
+}
+
+.card-button button {
+  font-size: 0.9rem;
+  flex: 1; /* Make buttons take equal space */
+  font-weight: bold; /* Bold text for buttons */
+  border-radius: 5px; /* Rounded corners */
+  transition: background-color 0.2s; /* Transition for hover effect */
+}
+
+.card-button button:hover {
+  background-color: rgba(0, 0, 0, 0.1); /* Slightly darken on hover */
+  color: white;
+}
