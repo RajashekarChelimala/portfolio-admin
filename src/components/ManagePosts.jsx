@@ -16,8 +16,11 @@ import {
 } from "reactstrap";
 import { myPrivateAxios } from "../utils/api";
 import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2"; // Import SweetAlert2
+import Swal from "sweetalert2";
 import JoditEditor from "jodit-react";
+import AOS from "aos"; // Import AOS
+import "aos/dist/aos.css"; // Import AOS styles
+import { InfinitySpin } from "react-loader-spinner"; // Import InfinitySpin
 import "./ManagePosts.css";
 
 const ManagePosts = ({ placeholder }) => {
@@ -29,24 +32,26 @@ const ManagePosts = ({ placeholder }) => {
     _id: "",
   });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true); // Add loading state
   const navigate = useNavigate();
-
   const editor = useRef(null);
 
   // Correct useMemo implementation
   const config = useMemo(
     () => ({
-      readonly: false, // All options from https://xdsoft.net/jodit/docs/
+      readonly: false, 
       placeholder: placeholder || "Start typing...",
     }),
     [placeholder]
   );
 
   useEffect(() => {
+    AOS.init({ duration: 1000, easing: "ease-in-out", once: true }); // Initialize AOS
     fetchPosts();
   }, []);
 
   const fetchPosts = async () => {
+    setLoading(true); // Start loading
     try {
       const response = await myPrivateAxios.get("/posts");
       if (Array.isArray(response.data)) {
@@ -59,6 +64,8 @@ const ManagePosts = ({ placeholder }) => {
       console.error("Failed to fetch posts:", err);
       setError("Failed to fetch posts");
       setPosts([]);
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
@@ -176,7 +183,7 @@ const ManagePosts = ({ placeholder }) => {
             ref={editor}
             value={formData.content}
             config={config}
-            tabIndex={1} // tabIndex of textarea
+            tabIndex={1}
             onChange={handleContentChange}
             className="text-white"
           />
@@ -198,55 +205,71 @@ const ManagePosts = ({ placeholder }) => {
         </Button>
       </Form>
 
-      {/* Posts Cards */}
-      <Row>
-        {posts.length > 0 ? (
-          posts.map((post) => (
-            <Col sm="12" md="6" lg="4" key={post._id} className="mb-4">
-              <Card className="card-custom">
-                {post.image && (
-                  <CardImg
-                    top
-                    width="100%"
-                    src={post.image}
-                    alt={post.headline}
-                    style={{ maxHeight: "300px", objectFit: "cover" }}
-                  />
-                )}
-                <CardBody className="custom-card-body">
-                  <CardTitle className="card-title-custom" tag="h5">
-                    {post.headline}
-                  </CardTitle>
-                  <CardText
-                    className="card-text-custom"
-                    dangerouslySetInnerHTML={{ __html: post.content }}
-                  />
-                  <div className="card-button">
-                    <Button color="warning" onClick={() => handleEdit(post)}>
-                      Edit
-                    </Button>
-                    <Button
-                      color="danger"
-                      onClick={() => handleDelete(post._id)}
-                    >
-                      Delete
-                    </Button>
-                    <Button color="info" onClick={() => viewFullPost(post._id)}>
-                      View Full Post
-                    </Button>
-                  </div>
-                </CardBody>
-              </Card>
+      {/* Loader while fetching posts */}
+      {loading ? (
+        <div className="d-flex justify-content-center">
+          <InfinitySpin width="200" color="#ffffff" />
+        </div>
+      ) : (
+        <Row>
+          {posts.length > 0 ? (
+            posts.map((post) => (
+              <Col
+                sm="12"
+                md="6"
+                lg="4"
+                key={post._id}
+                className="mb-4"
+                data-aos="fade-up"
+              >
+                <Card className="card-custom">
+                  {post.image && (
+                    <CardImg
+                      top
+                      width="100%"
+                      src={post.image}
+                      alt={post.headline}
+                      style={{ maxHeight: "300px", objectFit: "cover" }}
+                    />
+                  )}
+                  <CardBody className="custom-card-body">
+                    <CardTitle className="card-title-custom" tag="h5">
+                      {post.headline}
+                    </CardTitle>
+                    <CardText
+                      className="card-text-custom"
+                      dangerouslySetInnerHTML={{ __html: post.content }}
+                    />
+                    <div className="card-button">
+                      <Button color="warning" onClick={() => handleEdit(post)}>
+                        Edit
+                      </Button>
+                      <Button
+                        color="danger"
+                        onClick={() => handleDelete(post._id)}
+                      >
+                        Delete
+                      </Button>
+                      <Button
+                        color="info"
+                        onClick={() => viewFullPost(post._id)}
+                      >
+                        View Full Post
+                      </Button>
+                    </div>
+                  </CardBody>
+                </Card>
+              </Col>
+            ))
+          ) : (
+            <Col>
+              <Alert color="info" className="text-center">
+                No posts available
+              </Alert>
             </Col>
-          ))
-        ) : (
-          <Col>
-            <Alert color="info" className="text-center">
-              No posts available
-            </Alert>
-          </Col>
-        )}
-      </Row>
+          )}
+        </Row>
+      )}
     </div>
   );
 };

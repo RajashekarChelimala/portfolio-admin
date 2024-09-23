@@ -11,20 +11,25 @@ import {
   Alert,
   Input,
 } from "reactstrap";
-import { AiFillHeart, AiOutlineLink } from "react-icons/ai"; // Import icons
+import { AiFillHeart, AiOutlineLink } from "react-icons/ai";
 import { IoEye } from "react-icons/io5";
-import { myAxios } from "../utils/api";
 import { useNavigate } from "react-router-dom";
+import { myAxios } from "../utils/api";
+import AOS from "aos";
+import "aos/dist/aos.css";
 import likeSoundFile from "../assets/sounds/like-sound.mp3";
-import "./AllPosts.css"; // Import custom CSS file
+import "./AllPosts.css";
+import Loader from "../ui-elements/Loader";
 
 const AllPosts = () => {
   const [posts, setPosts] = useState([]);
-  const [sortOrder, setSortOrder] = useState("mostRecent"); // Default sorting
+  const [sortOrder, setSortOrder] = useState("mostRecent");
   const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
+    AOS.init({ duration: 1000, easing: "ease-in-out", once: true });
     fetchPosts();
   }, []);
 
@@ -35,6 +40,8 @@ const AllPosts = () => {
     } catch (err) {
       console.error("Failed to fetch posts:", err);
       setPosts([]);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -70,7 +77,7 @@ const AllPosts = () => {
   const getVisitorId = () => {
     let visitorId = localStorage.getItem("visitorId");
     if (!visitorId) {
-      visitorId = Date.now().toString(); // Generate a unique ID based on timestamp
+      visitorId = Date.now().toString();
       localStorage.setItem("visitorId", visitorId);
     }
     return visitorId;
@@ -86,7 +93,7 @@ const AllPosts = () => {
     try {
       await myAxios.post(`/allPosts/${postId}/like`, { visitorId });
       playLikeSound();
-      fetchPosts(); // Refetch posts to update the like count
+      fetchPosts();
     } catch (err) {
       console.error("Failed to like post:", err);
       alert("Failed to like the post.");
@@ -134,85 +141,98 @@ const AllPosts = () => {
         </Col>
       </Row>
 
-      <Row>
-        {sortedPosts().length > 0 ? (
-          sortedPosts().map((post) => (
-            <Col sm="12" md="6" lg="4" key={post._id} className="mb-4">
-              <Card
-                className="card-custom"
-                onClick={() => viewFullPost(post._id)}
-                style={{ cursor: "pointer" }}
+      {loading ? (
+        <div className="d-flex justify-content-center">
+          <Loader type="bars" />
+        </div>
+      ) : (
+        <Row>
+          {sortedPosts().length > 0 ? (
+            sortedPosts().map((post) => (
+              <Col
+                sm="12"
+                md="6"
+                lg="4"
+                key={post._id}
+                className="mb-4"
+                data-aos="fade-up"
               >
-                {post.image && (
-                  <CardImg
-                    top
-                    width="100%"
-                    src={post.image}
-                    alt={post.headline}
-                    style={{ maxHeight: "300px", objectFit: "cover" }}
-                  />
-                )}
-                <CardBody className="custom-card-body">
-                  <CardTitle className="card-title-custom" tag="h5">
-                    {post.headline}
-                  </CardTitle>
-                  <CardText
-                    className="card-text-custom"
-                    dangerouslySetInnerHTML={{ __html: post.content }}
-                  />
-                  <div
-                    className="interaction-section d-flex justify-content-between mt-3"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <div className="interaction-icons d-flex gap-3">
-                      <Button
-                        color="danger"
-                        className="rounded-pill d-flex align-items-center"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          likePost(post._id);
-                        }}
-                      >
-                        <AiFillHeart className="me-2" size={20} />{" "}
-                        {post.likes || 0}
-                      </Button>
-                      <Button
-                        color="warning"
-                        className="rounded-pill d-flex align-items-center"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          viewFullPost(post._id);
-                        }}
-                      >
-                        <IoEye className="me-2" size={20} />{" "}
-                        {post.engagementCount || 0}
-                      </Button>
+                <Card
+                  className="card-custom"
+                  onClick={() => viewFullPost(post._id)}
+                  style={{ cursor: "pointer" }}
+                >
+                  {post.image && (
+                    <CardImg
+                      top
+                      width="100%"
+                      src={post.image}
+                      alt={post.headline}
+                      style={{ maxHeight: "300px", objectFit: "cover" }}
+                    />
+                  )}
+                  <CardBody className="custom-card-body">
+                    <CardTitle className="card-title-custom" tag="h5">
+                      {post.headline}
+                    </CardTitle>
+                    <CardText
+                      className="card-text-custom"
+                      dangerouslySetInnerHTML={{ __html: post.content }}
+                    />
+                    <div
+                      className="interaction-section d-flex justify-content-between mt-3"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <div className="interaction-icons d-flex gap-3">
+                        <Button
+                          color="danger"
+                          className="rounded-pill d-flex align-items-center"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            likePost(post._id);
+                          }}
+                        >
+                          <AiFillHeart className="me-2" size={20} />{" "}
+                          {post.likes || 0}
+                        </Button>
+                        <Button
+                          color="warning"
+                          className="rounded-pill d-flex align-items-center"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            viewFullPost(post._id);
+                          }}
+                        >
+                          <IoEye className="me-2" size={20} />{" "}
+                          {post.engagementCount || 0}
+                        </Button>
+                      </div>
+                      <div className="copy-link">
+                        <Button
+                          color="info"
+                          className="rounded-pill d-flex align-items-center"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            copyLink(post._id);
+                          }}
+                        >
+                          <AiOutlineLink className="me-2" size={20} /> Copy Link
+                        </Button>
+                      </div>
                     </div>
-                    <div className="copy-link">
-                      <Button
-                        color="info"
-                        className="rounded-pill d-flex align-items-center"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          copyLink(post._id);
-                        }}
-                      >
-                        <AiOutlineLink className="me-2" size={20} /> Copy Link
-                      </Button>
-                    </div>
-                  </div>
-                </CardBody>
-              </Card>
+                  </CardBody>
+                </Card>
+              </Col>
+            ))
+          ) : (
+            <Col>
+              <Alert color="info" className="text-center">
+                No posts available
+              </Alert>
             </Col>
-          ))
-        ) : (
-          <Col>
-            <Alert color="info" className="text-center">
-              No posts available
-            </Alert>
-          </Col>
-        )}
-      </Row>
+          )}
+        </Row>
+      )}
     </div>
   );
 };
