@@ -14,6 +14,8 @@ import FullPost from './components/FullPost';
 import AllPosts from './components/AllPosts';
 import AOS from 'aos';
 import 'aos/dist/aos.css'; // AOS animations CSS
+import Contact from './components/Contact';
+import ContactRequests from './components/ContactRequests';
 
 function App() {
   useEffect(() => {
@@ -58,11 +60,22 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/contact-requests"
+          element={
+            <ProtectedRoute>
+              <ContactRequests />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/posts/:id"  element={
               <FullPost />
           }/>
         <Route path="/posts"  element={
               <AllPosts />
+          }/>
+        <Route path="/contact"  element={
+              <Contact />
           }/>
       </Route>
     </Routes>

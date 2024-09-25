@@ -12,7 +12,7 @@ const AdminDashboard = () => {
     { path: '/projects', icon: <AiOutlineProject />, title: 'Manage Projects', text: 'Handle project details and updates.' },
     { path: '/content', icon: <AiOutlineEdit />, title: 'Manage Content', text: 'Edit and update application content.' },
     { path: '/manage-todo', icon: <AiOutlinePlusCircle />, title: 'Add To Do', text: 'Edit and update your own To Do.' },
-    { path: '/resume-requests', icon: <AiOutlineFile />, title: 'Resume Requests', text: 'List of people who requested a resume.' },
+    { path: '/contact-requests', icon: <AiOutlineFile />, title: 'Contact Requests', text: 'List of people who requested to contact.' },
   ];
 
   return (

@@ -1,0 +1,14 @@
+.input-dark{
+    background-color: transparent !important;
+    color: white !important;
+}
+
+.input-dark::placeholder {
+    color: white !important; /* Set placeholder text color to white */
+    opacity: 1; /* Adjusts the opacity, 1 is fully opaque */
+}
+
+.form-label{
+    font-weight: bold !important;
+    font-size: 1.2em;
+}

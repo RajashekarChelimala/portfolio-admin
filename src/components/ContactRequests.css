@@ -1,0 +1,129 @@
+/* Card styles */
+div .request-card {
+  background-color: rgba(255, 255, 255, 0.05); /* Light transparent card background */
+  border-radius: 10px;
+  padding: 20px;
+  margin: 10px 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); /* Soft shadow for depth */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  color: white;
+}
+
+div .request-card:hover {
+  transform: translateY(-10px); /* Lift effect */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.8); /* Deeper shadow on hover */
+}
+
+div .request-card h5 {
+  font-size: 1.3rem;
+  color: #00bfff; /* Light blue for names */
+  font-weight: 600;
+}
+
+div .request-card p {
+  color: #f1f1f1;
+  font-size: 1rem;
+}
+
+div .request-card .btn-primary {
+  background-color: #00bfff;
+  border: none;
+  font-weight: bold;
+  padding: 8px 16px;
+  margin-right: 10px;
+}
+
+div .request-card .btn-danger {
+  background-color: #ff4c4c;
+  border: none;
+  font-weight: bold;
+  padding: 8px 16px;
+}
+
+div .request-card .btn-link {
+  color: #00bfff; /* Light blue for 'Show more/less' */
+  font-size: 0.9rem;
+}
+
+div .request-card .btn-link:hover {
+  text-decoration: underline;
+}
+
+div .request-card-footer {
+  background-color: transparent; /* Transparent footer */
+  border-top: none;
+}
+
+/* Modal styles */
+div .modal-content {
+  background-color: #1c1c2c;
+  border-radius: 10px;
+  color: #fff;
+}
+
+div .modal-header {
+  border-bottom: none;
+}
+
+div .modal-header h5 {
+  color: #00bfff;
+}
+
+div .modal-body label {
+  color: #f1f1f1;
+}
+
+div .modal-body .form-control {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+}
+
+div .modal-body .form-control:focus {
+  background-color: rgba(255, 255, 255, 0.15);
+  box-shadow: none;
+}
+
+div .modal-footer {
+  border-top: none;
+}
+
+div .modal-footer .btn-primary {
+  background-color: #00bfff;
+  border: none;
+}
+
+div .modal-footer .btn-secondary {
+  background-color: #6c757d;
+  border: none;
+}
+
+/* Button hover effects */
+button {
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.dropzone {
+  border: 2px dashed #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  text-align: center;
+  margin: 10px 0;
+}
+
+.selected-file-remove-button {
+  background-color: transparent; /* Transparent background */
+  border: none; /* No border */
+  color: red; /* Red color for remove action */
+  cursor: pointer; /* Pointer cursor on hover */
+  padding: 0; /* Remove padding */
+  margin: 2px;
+}
+
+.selected-file-remove-button:hover {
+  text-decoration: underline; /* Underline on hover */
+}
