@@ -1,0 +1,12 @@
+.manage-content-container{
+    color: white;
+}
+
+.manage-content-container input, textarea {
+    background-color: transparent !important;
+    color: white !important;
+  }
+.manage-content-container input::placeholder, textarea::placeholder {
+    color: white !important;
+    opacity: 1;
+  }

@@ -245,6 +245,7 @@ export default function ManageSkills() {
         "Database",
         "Technology",
         "Tool",
+        "Others"
       ], // Dropdown options for status
     },
     { field: "icon", headerName: "Icon", width: 200, editable: true },

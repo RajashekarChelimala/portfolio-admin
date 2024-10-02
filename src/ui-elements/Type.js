@@ -1,16 +1,11 @@
 import React from "react";
 import Typewriter from "typewriter-effect";
 
-function Type() {
+function Type({ textArray }) {
   return (
     <Typewriter
       options={{
-        strings: [
-          "Software Developer",
-          "Freelancer",
-          "FullStack Developer",
-          "Works on ReactJS and SpringBoot",
-        ],
+        strings: textArray.length>0 ? textArray : ["A Developer", "A Creator"],
         autoStart: true,
         loop: true,
         deleteSpeed: 50,

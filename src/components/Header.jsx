@@ -42,7 +42,7 @@ const Header = () => {
     { href: "/projects", className: "fa-project-diagram", text: "Projects" },
     { href: "/posts", className: "fa-file-alt", text: "Posts" },
     { href: "/contact", className: "fa-envelope", text: "Contact" },
-    { href: "/request-resume", className: "fa-file-alt", text: "Resume" },
+    { href: "/resume", className: "fa-file-alt", text: "Resume" },
   ];
 
   // Conditionally add admin links based on authentication state

@@ -24,7 +24,6 @@ import externalLink from "../assets/external-link.svg";
 
 const ManageProjects = () => {
   const [projects, setProjects] = useState([]);
-  const [skills, setSkills] = useState([]);
   const [formData, setFormData] = useState({
     projectName: "",
     description: "",

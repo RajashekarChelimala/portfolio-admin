@@ -1,0 +1,148 @@
+.about-me h1, .about-me h2{
+    padding: 20px;
+    font-family: "Impact", sans-serif;
+    color: white;
+  }
+.about-me p{
+    padding: 20px;
+    font-family: sans-serif;
+    color: white;
+  }
+
+  .about-me .card-title{
+    font-weight: bold;
+  }
+  
+  /* General card styling */
+  .about-me .detail-card,
+  .about-me .skill-card-about,
+  .about-me .project-card-about,
+  .about-me .hobbie-card-about {
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, font-weight 0.3s ease;
+    border-radius: 10px;
+    padding: 5px;
+    color: white;
+    font-family: "Roboto", sans-serif; /* New font for card content */
+    font-style: italic; /* Set text to italic */
+    background-color:  #293051e3;
+  }
+  
+  /* Hover effects for different cards */
+  .about-me .detail-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    background-color: #ff7f50; /* Coral background on hover */
+    font-weight: bold;
+  }
+  
+  .about-me .skill-card-about:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    background-color: #4caf50; /* Green background on hover */
+    font-weight: bold;
+  }
+  
+  .about-me .project-card-about:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    background-color: #145392; /* DodgerBlue background on hover */
+    font-weight: bold;
+  }
+  
+  .about-me .hobbie-card-about:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    background-color: #ac286a; /* HotPink background on hover */
+    font-weight: bold;
+  }
+  
+  /* Header section with profile image and intro */
+  .header-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .profile-image {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .intro {
+    flex: 1;
+    padding-left: 20px;
+  }
+  
+  .intro h1 {
+    font-size: 36px;
+    color: #ffffff;
+    font-family: "Poppins", sans-serif;
+    font-weight: bold;
+  }
+  
+  /* Sections for details, skills, projects, hobbies */
+  .details-section,
+  .skills-section,
+  .projects-section,
+  .hobbies-section {
+    margin-top: 40px;
+    text-align: center;
+  }
+  
+  .about-me .project-card-about {
+    height: 320px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .project-card-about .card-body {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .project-card-about .card-text {
+    max-height: 180px;
+    overflow: hidden;
+    white-space: normal;
+    text-overflow: ellipsis;
+    font-family: "Roboto", sans-serif;
+  }
+  
+  /* Typography for titles */
+  .about-me .detail-card h5,
+  .about-me .skill-card-about p,
+  .about-me .project-card-about h5 {
+    margin-bottom: 10px;
+    font-family: "Poppins", sans-serif;
+  }
+
+  .about-me .skill-card-about i{
+    font-size: 50px;
+  }
+  
+  /* Social links section */
+  .social-links {
+    margin-top: 40px;
+    text-align: center;
+  }
+  
+  .social-links .icons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .social-links .icons a {
+    font-size: 24px;
+    color: #ffffff;
+    transition: color 0.3s ease;
+  }
+  
+  .social-links .icons a:hover {
+    color: #ff6347; /* Change icon color on hover */
+  }
+  

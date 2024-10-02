@@ -19,6 +19,9 @@ import ContactRequests from './components/ContactRequests';
 import ManageProjects from './components/ManageProjects';
 import Projects from './components/Projects';
 import ManageSkills from './components/ManageSkills';
+import Resume from './components/Resume';
+import ManageContent from './components/ManageContent';
+import AboutMe from './components/AboutMe';
 
 function App() {
   useEffect(() => {
@@ -87,6 +90,14 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/manage-content"
+          element={
+            <ProtectedRoute>
+              <ManageContent />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/posts/:id"  element={
               <FullPost />
           }/>
@@ -98,6 +109,12 @@ function App() {
           }/>
         <Route path="/projects"  element={
               <Projects />
+          }/>
+        <Route path="/resume"  element={
+              <Resume />
+          }/>
+        <Route path="/about"  element={
+              <AboutMe />
           }/>
       </Route>
     </Routes>
