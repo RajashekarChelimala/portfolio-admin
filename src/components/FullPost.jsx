@@ -14,7 +14,7 @@ const FullPost = () => {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await myAxios.get(`/allPosts/${id}`);
+        const response = await myAxios.get(`/posts/${id}`);
         setPost(response.data);
       } catch (err) {
         setError("Failed to fetch the post.");

@@ -16,6 +16,9 @@ import AOS from 'aos';
 import 'aos/dist/aos.css'; // AOS animations CSS
 import Contact from './components/Contact';
 import ContactRequests from './components/ContactRequests';
+import ManageProjects from './components/ManageProjects';
+import Projects from './components/Projects';
+import ManageSkills from './components/ManageSkills';
 
 function App() {
   useEffect(() => {
@@ -61,6 +64,22 @@ function App() {
           }
         />
         <Route
+          path="/manage-projects"
+          element={
+            <ProtectedRoute>
+              <ManageProjects />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/manage-skills"
+          element={
+            <ProtectedRoute>
+              <ManageSkills />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/contact-requests"
           element={
             <ProtectedRoute>
@@ -76,6 +95,9 @@ function App() {
           }/>
         <Route path="/contact"  element={
               <Contact />
+          }/>
+        <Route path="/projects"  element={
+              <Projects />
           }/>
       </Route>
     </Routes>

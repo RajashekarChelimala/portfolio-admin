@@ -7,11 +7,13 @@ div .request-card {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); /* Soft shadow for depth */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   color: white;
+  border-color: rgb(58, 56, 56);
 }
 
 div .request-card:hover {
   transform: translateY(-10px); /* Lift effect */
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.8); /* Deeper shadow on hover */
+  border-color: rgb(154, 149, 149);
 }
 
 div .request-card h5 {

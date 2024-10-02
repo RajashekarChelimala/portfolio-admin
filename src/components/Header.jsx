@@ -43,10 +43,19 @@ const Header = () => {
     { href: "/posts", className: "fa-file-alt", text: "Posts" },
     { href: "/contact", className: "fa-envelope", text: "Contact" },
     { href: "/request-resume", className: "fa-file-alt", text: "Resume" },
-    auth.isLoggedIn
-      ? { href: "#", className: "fa-sign-out-alt", text: "Logout", onClick: logout }
-      : { href: "/admin-login", className: "fa-sign-in-alt", text: "Admin Login" },
   ];
+
+  // Conditionally add admin links based on authentication state
+  if (auth.isLoggedIn) {
+    services.push(
+      { href: "/admin-dashboard", className: "fa-server", text: "Dashboard" },
+      { href: "#", className: "fa-sign-out-alt", text: "Logout", onClick: logout }
+    );
+  } else {
+    services.push(
+      { href: "/admin-login", className: "fa-sign-in-alt", text: "Admin Login" }
+    );
+  }
 
   return (
     <Navbar className={`navbar-transparent sticky-top${isTop ? '' : ' top-scroll'}`} expand="md">

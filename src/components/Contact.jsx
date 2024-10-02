@@ -63,6 +63,13 @@ const Contact = () => {
         messageRef.current.scrollIntoView({ behavior: "smooth" });
       }
     }
+    if (formData.name.trim().length === 0) {
+      errors.name = "Name cannot be empty.";
+      hasError = true;
+      if (nameRef.current && !errors.message && !errors.email && !errors.mobileNumber) {
+        nameRef.current.scrollIntoView({ behavior: "smooth" });
+      }
+    }
 
     setErrorData(errors);
     return !hasError;

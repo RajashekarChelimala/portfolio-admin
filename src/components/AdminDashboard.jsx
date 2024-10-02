@@ -3,13 +3,15 @@ import { Container, Row, Col, Card, CardBody, CardTitle, CardText } from 'reacts
 import { AiOutlineAppstore, AiOutlineFileText, AiOutlineProject, AiOutlineEdit, AiOutlinePlusCircle, AiOutlineFile } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import './AdminDashboard.css'; // Import your custom CSS
+import { GiSkills } from "react-icons/gi";
 
 const AdminDashboard = () => {
 
   const dashboardItems = [
     { path: '/manage-services', icon: <AiOutlineAppstore />, title: 'Manage Services', text: 'View and manage services offered by the application.' },
     { path: '/manage-posts', icon: <AiOutlineFileText />, title: 'Manage Posts', text: 'Manage the posts and articles in the application.' },
-    { path: '/projects', icon: <AiOutlineProject />, title: 'Manage Projects', text: 'Handle project details and updates.' },
+    { path: '/manage-projects', icon: <AiOutlineProject />, title: 'Manage Projects', text: 'Handle project details and updates.' },
+    { path: '/manage-skills', icon: <GiSkills />, title: 'Manage Skills', text: 'Handle skill details and updates.' },
     { path: '/content', icon: <AiOutlineEdit />, title: 'Manage Content', text: 'Edit and update application content.' },
     { path: '/manage-todo', icon: <AiOutlinePlusCircle />, title: 'Add To Do', text: 'Edit and update your own To Do.' },
     { path: '/contact-requests', icon: <AiOutlineFile />, title: 'Contact Requests', text: 'List of people who requested to contact.' },

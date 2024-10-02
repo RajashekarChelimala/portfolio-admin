@@ -35,7 +35,7 @@ const AllPosts = () => {
 
   const fetchPosts = async () => {
     try {
-      const response = await myAxios.get("/allPosts");
+      const response = await myAxios.get("/posts");
       setPosts(response.data);
     } catch (err) {
       console.error("Failed to fetch posts:", err);
@@ -91,7 +91,7 @@ const AllPosts = () => {
   const likePost = async (postId) => {
     const visitorId = getVisitorId();
     try {
-      await myAxios.post(`/allPosts/${postId}/like`, { visitorId });
+      await myAxios.post(`/posts/${postId}/like`, { visitorId });
       playLikeSound();
       fetchPosts();
     } catch (err) {
@@ -102,7 +102,7 @@ const AllPosts = () => {
 
   const viewFullPost = (postId) => {
     const visitorId = getVisitorId();
-    myAxios.post(`/allPosts/${postId}/engage`, { visitorId });
+    myAxios.post(`/posts/${postId}/engage`, { visitorId });
     navigate(`/posts/${postId}`);
   };
 

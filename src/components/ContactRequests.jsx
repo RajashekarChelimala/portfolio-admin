@@ -101,13 +101,13 @@ const ContactRequests = () => {
     }
   };
 
-  const handleReject = async (id) => {
+  const handleRemove = async (id) => {
     setIsLoading(true);
     try {
       await myAxios.delete(`/contact/${id}`);
       setRequests(requests.filter((request) => request.id !== id));
-      showSuccessToast("Request Removed Successfully!");
       fetchRequests();
+      showSuccessToast("Request Removed Successfully!");
     } catch (error) {
       showErrorToast("Error Removing request!");
     } finally {
@@ -130,7 +130,7 @@ const ContactRequests = () => {
                 key={request.id}
                 request={request}
                 toggleModal={toggleModal}
-                handleReject={handleReject}
+                handleRemove={handleRemove}
               />
             ))
           }
@@ -139,7 +139,7 @@ const ContactRequests = () => {
 
       <Modal isOpen={modal} toggle={() => toggleModal(null)}>
         <ModalHeader toggle={() => toggleModal(null)}>
-          Reply to {selectedRequest ? selectedRequest.name : ""}
+          Replying to {selectedRequest ? selectedRequest.name : ""}
         </ModalHeader>
         <ModalBody>
           <Form onSubmit={handleReplySubmit}>
@@ -209,7 +209,7 @@ const ContactRequests = () => {
   );
 };
 
-const RequestCard = ({ request, toggleModal, handleReject }) => {
+const RequestCard = ({ request, toggleModal, handleRemove }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleExpanded = () => {
@@ -217,7 +217,7 @@ const RequestCard = ({ request, toggleModal, handleReject }) => {
   };
 
   return (
-    <Card className="my-3 request-card">
+    <Card className="my-3 request-card" data-aos="fade-up">
       <CardBody>
         <CardTitle tag="h5">{request.name}</CardTitle>
         <CardText>{request.email}</CardText>
@@ -239,9 +239,9 @@ const RequestCard = ({ request, toggleModal, handleReject }) => {
         <Button
           color="danger"
           className="ml-2"
-          onClick={() => handleReject(request._id)}
+          onClick={() => handleRemove(request._id)}
         >
-          Reject
+          Remove
         </Button>
       </CardBody>
       {isExpanded && (

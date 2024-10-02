@@ -1,0 +1,106 @@
+.modern-heading {
+    color: #ffffff;
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.modern-label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #cccccc;
+    margin-bottom: 5px;
+}
+
+/* Error message styles */
+.error-input {
+    border: 1px solid #ff4d4d;
+}
+
+.error-text {
+    color: #ff4d4d;
+    font-size: 12px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+.manage-projects-container input,
+.manage-projects-container textarea {
+  background-color: transparent !important;
+  color: white !important;
+}
+
+.manage-projects-container input::placeholder,
+.manage-projects-container textarea::placeholder {
+  color: white !important;
+  opacity: 1;
+}
+
+input[type="date"] {
+    color: white; /* Change the text color */
+    background-color: transparent; /* Ensure background is transparent */
+    border: 1px solid #ccc;
+    position: relative;
+  }
+  
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1); /* Inverts the color to white */
+  }
+
+  /* Custom styles for react-select */
+div .custom-select__control {
+  background-color: transparent;
+  border-color: #ddd;
+  box-shadow: none;
+}
+
+div .custom-select__control:hover {
+  border-color: #ccc;
+}
+
+div .custom-select__menu {
+  background-color: rgb(0, 0, 0);
+  color: white;
+}
+
+div .custom-select__option {
+  background-color: transparent;
+  color: #fffafa;
+}
+
+div .custom-select__option:hover {
+  background-color: rgba(144, 137, 137, 0.388);
+  color: #fffafa;
+}
+
+div .custom-select__option--is-selected {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+div .custom-select__option--is-focused {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+div .custom-select__single-value {
+  color: #fff;
+}
+
+div .custom-select__multi-value {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+div .custom-select__multi-value__label {
+  color: #fff;
+}
+
+div .custom-select__multi-value__remove {
+  color: #fff;
+}
+
+div .custom-select__multi-value__remove:hover {
+  background-color: red;
+  color: white;
+}
