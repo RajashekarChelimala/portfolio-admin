@@ -6,7 +6,7 @@ div .request-card {
   margin: 10px 0;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); /* Soft shadow for depth */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  color: white;
+  color: var(--text-color);
   border-color: rgb(58, 56, 56);
 }
 
@@ -23,7 +23,7 @@ div .request-card h5 {
 }
 
 div .request-card p {
-  color: #f1f1f1;
+  color: var(--text-color);
   font-size: 1rem;
 }
 
@@ -58,9 +58,9 @@ div .request-card-footer {
 
 /* Modal styles */
 div .modal-content {
-  background-color: #1c1c2c;
+  background-color: var(--background-color);
   border-radius: 10px;
-  color: #fff;
+  color: var(--text-color);
 }
 
 div .modal-header {
@@ -72,17 +72,17 @@ div .modal-header h5 {
 }
 
 div .modal-body label {
-  color: #f1f1f1;
+  color: var(--text-color);
 }
 
 div .modal-body .form-control {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(126, 123, 123, 0.276);
   border: none;
-  color: white;
+  color: var(--text-color);
 }
 
 div .modal-body .form-control:focus {
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: rgba(126, 123, 123, 0.192);
   box-shadow: none;
 }
 

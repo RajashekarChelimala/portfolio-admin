@@ -52,6 +52,6 @@ div .card-button {
 }
 
 .card-button button:hover {
-  background-color: rgba(0, 0, 0, 0.1); /* Slightly darken on hover */
-  color: white;
+  background-color: var(--background-color); /* Slightly darken on hover */
+  color: var(--text-color);
 }

@@ -15,12 +15,12 @@
   .post-title {
     font-size: 2.5rem; /* Larger title size */
     margin-bottom: 10px; /* Space below title */
-    color: #ffffff; /* Darker color for the title */
+    color: var(--text-color); /* Darker color for the title */
   }
   
   .post-content {
     font-size: 1.2rem; /* Content size */
-    color: #ffffff; /* Slightly lighter text color */
+    color: var(--text-color); /* Slightly lighter text color */
   }
   
   .go-back-button {

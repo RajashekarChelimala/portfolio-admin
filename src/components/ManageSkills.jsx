@@ -14,7 +14,7 @@ import {
 } from "@mui/x-data-grid";
 
 import externalLink from "../assets/external-link.svg";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { ThemeProvider as MUIThemeProvider, createTheme } from "@mui/material/styles";
 import Swal from "sweetalert2";
 import { myPrivateAxios } from "../utils/api";
 import {
@@ -28,40 +28,7 @@ import {
 } from "reactstrap";
 import "./ManageSkills.css";
 
-const theme = createTheme({
-  palette: {
-    mode: "dark",
-    background: {
-      default: "#000", // Dark background for the entire application
-      paper: "transparent", // Transparent background for the table
-    },
-    text: {
-      primary: "#fff", // White text for the table and other components
-    },
-  },
-  components: {
-    MuiDataGrid: {
-      styleOverrides: {
-        root: {
-          backgroundColor: "transparent", // Transparent background for the table
-        },
-        columnHeaders: {
-          backgroundColor: "transparent", // Transparent background for headers
-          color: "#fff", // White text for headers
-        },
-        cell: {
-          color: "#fff", // White text for cells
-        },
-        toolbar: {
-          color: "#fff", // White text for the toolbar
-        },
-        icon: {
-          color: "#fff", // White color for icons
-        },
-      },
-    },
-  },
-});
+import { ThemeContext } from '../context/ThemeProvider'; // Adjust the import path
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
@@ -101,6 +68,43 @@ export default function ManageSkills() {
   const [rows, setRows] = useState([]);
   const [rowModesModel, setRowModesModel] = useState({});
   const [expanded, setExpanded] = useState({});
+  const { theme } = React.useContext(ThemeContext);
+
+   // Create the theme dynamically based on context
+   const muiTheme = createTheme({
+    palette: {
+      mode: theme, // Use the current theme from context
+      background: {
+        default: theme === "dark" ? "#000" : "#fff", // Adjust based on theme
+        paper: "transparent",
+      },
+      text: {
+        primary: theme === "dark" ? "#fff" : "#000", // Adjust based on theme
+      },
+    },
+    components: {
+      MuiDataGrid: {
+        styleOverrides: {
+          root: {
+            backgroundColor: "transparent",
+          },
+          columnHeaders: {
+            backgroundColor: "transparent",
+            color: theme === "dark" ? "#fff" : "#000", // Adjust based on theme
+          },
+          cell: {
+            color: theme === "dark" ? "#fff" : "#000", // Adjust based on theme
+          },
+          toolbar: {
+            color: theme === "dark" ? "#fff" : "#000", // Adjust based on theme
+          },
+          icon: {
+            color: theme === "dark" ? "#fff" : "#000", // Adjust based on theme
+          },
+        },
+      },
+    },
+  });
 
   const toggleExpand = (id) => {
     setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
@@ -324,7 +328,7 @@ export default function ManageSkills() {
 
   return (
     <>
-      <ThemeProvider theme={theme}>
+      <MUIThemeProvider theme={muiTheme}>
       <h2 className="modern-heading">Manage Skills</h2>
         <DataGrid
           rows={rows}
@@ -341,7 +345,7 @@ export default function ManageSkills() {
             toolbar: { setRows, setRowModesModel },
           }}
         />
-      </ThemeProvider>
+      </MUIThemeProvider>
       <Container className="mt-5" data-aos="fade-up">
         <h2 className="modern-heading">Skills</h2>
         <Row>

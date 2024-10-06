@@ -32,6 +32,7 @@ export default function Resume() {
   return (
     <div className="resume-container">
       <div className="resume-content">
+        <h1 className="text-center">Resume</h1>
         <div className="resume-frame-container">
           <iframe
             src={`${resumeLink}/preview`}

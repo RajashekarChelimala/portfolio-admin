@@ -10,9 +10,9 @@ import {
   Button,
 } from "reactstrap";
 import Loader from "../ui-elements/Loader"; // Loader component
-import "./Projects.css";
 import { myPrivateAxios } from "../utils/api";
 import externalLink from "../assets/external-link.svg";
+import './Projects.css';
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
@@ -47,7 +47,7 @@ const Projects = () => {
       <h2 className="projects-heading">Projects</h2>
       <Row>
         {projects.map((project) => (
-          <Col md="10" className="offset-1" key={project._id} data-aos="fade-up" data-aos-duration="1000">
+          <Col xs="12" sm="12" md="6" lg="6" key={project._id} data-aos="fade-up" data-aos-duration="1000">
             <Card className="project-card">
               <CardBody>
                 <header>

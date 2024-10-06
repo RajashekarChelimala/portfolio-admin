@@ -13,43 +13,10 @@ import {
   GridRowEditStopReasons,
 } from '@mui/x-data-grid';
 
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider as MUIThemeProvider, createTheme } from '@mui/material/styles';
 import axios from 'axios';
 
-const theme = createTheme({
-    palette: {
-      mode: 'dark',
-      background: {
-        default: '#000', // Dark background for the entire application
-        paper: 'transparent', // Transparent background for the table
-      },
-      text: {
-        primary: '#fff', // White text for the table and other components
-      },
-    },
-    components: {
-      MuiDataGrid: {
-        styleOverrides: {
-          root: {
-            backgroundColor: 'transparent', // Transparent background for the table
-          },
-          columnHeaders: {
-            backgroundColor: 'transparent', // Transparent background for headers
-            color: '#fff', // White text for headers
-          },
-          cell: {
-            color: '#fff', // White text for cells
-          },
-          toolbar: {
-            color: '#fff', // White text for the toolbar
-          },
-          icon: {
-            color: '#fff', // White color for icons
-          },
-        },
-      },
-    },
-  });
+import { ThemeContext } from '../context/ThemeProvider'; // Adjust the import path
 
 function EditToolbar(props) {
 
@@ -75,6 +42,43 @@ function EditToolbar(props) {
 export default function ToDo() {
   const [rows, setRows] = React.useState([]);
   const [rowModesModel, setRowModesModel] = React.useState({});
+
+  const { theme } = React.useContext(ThemeContext); // Use ThemeContext
+
+  const muiTheme = createTheme({
+    palette: {
+      mode: theme, // Use the current theme from context
+      background: {
+        default: theme === "dark" ? "#000" : "#fff", // Adjust based on theme
+        paper: "transparent",
+      },
+      text: {
+        primary: theme === "dark" ? "#fff" : "#000", // Adjust based on theme
+      },
+    },
+    components: {
+      MuiDataGrid: {
+        styleOverrides: {
+          root: {
+            backgroundColor: "transparent",
+          },
+          columnHeaders: {
+            backgroundColor: "transparent",
+            color: theme === "dark" ? "#fff" : "#000", // Adjust based on theme
+          },
+          cell: {
+            color: theme === "dark" ? "#fff" : "#000", // Adjust based on theme
+          },
+          toolbar: {
+            color: theme === "dark" ? "#fff" : "#000", // Adjust based on theme
+          },
+          icon: {
+            color: theme === "dark" ? "#fff" : "#000", // Adjust based on theme
+          },
+        },
+      },
+    },
+  });
 
   React.useEffect(() => {
     const fetchTodos = async () => {
@@ -252,7 +256,7 @@ export default function ToDo() {
   ];
 
   return (
-    <ThemeProvider theme={theme}>
+    <MUIThemeProvider theme={muiTheme}>
       <DataGrid
         rows={rows}
         columns={columns}
@@ -268,6 +272,6 @@ export default function ToDo() {
           toolbar: { setRows, setRowModesModel },
         }}
       />
-     </ThemeProvider>
+     </MUIThemeProvider>
   );
 }

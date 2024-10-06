@@ -155,14 +155,14 @@ const ManagePosts = ({ placeholder }) => {
 
   return (
     <div className="container mt-4">
-      <h2 className="text-white">Manage Posts</h2>
+      <h2>Manage Posts</h2>
 
       {error && <Alert color="danger">{error}</Alert>}
 
       {/* Post Form */}
       <Form onSubmit={handleSubmit} className="mb-4">
         <FormGroup>
-          <Label for="headline" className="text-white">
+          <Label for="headline">
             Headline
           </Label>
           <Input
@@ -176,7 +176,7 @@ const ManagePosts = ({ placeholder }) => {
           />
         </FormGroup>
         <FormGroup>
-          <Label for="content" className="text-white">
+          <Label for="content">
             Content
           </Label>
           <JoditEditor
@@ -185,11 +185,11 @@ const ManagePosts = ({ placeholder }) => {
             config={config}
             tabIndex={1}
             onChange={handleContentChange}
-            className="text-white"
+          
           />
         </FormGroup>
         <FormGroup>
-          <Label for="image" className="text-white">
+          <Label for="image">
             Thumbnail
           </Label>
           <Input

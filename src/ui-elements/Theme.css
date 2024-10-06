@@ -1,0 +1,23 @@
+/* src/theme.css */
+:root {
+    --background-color: white; /* Light theme background */
+    --text-color: black; /* Light theme text color */
+    --accent-color: #a5c239; /* Accent color for headings */
+    --link-color: #6c63ff; /* Color for social media icons */
+    --link-hover-color: #333; /* Hover color for links */
+    --body-font-size: 18px; /* Base font size for body text */
+  }
+  
+  .dark {
+    --background-color: black; /* Dark theme background */
+    --text-color: white; /* Dark theme text color */
+    --accent-color: #a5c239; /* Accent color for headings */
+    --link-color: #6c63ff; /* Color for social media icons */
+    --link-hover-color: #999; /* Hover color for links in dark mode */
+  }
+  
+  body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+  }
+  

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import {
   Button,
   Form,
@@ -12,8 +12,9 @@ import {
 } from "reactstrap";
 import Loader from "../ui-elements/Loader";
 import { showErrorToast, showSuccessToast } from "../ui-elements/toastConfig";
-import "./Contact.css";
+import ReCAPTCHA from "react-google-recaptcha"; // Import reCAPTCHA
 import { myAxios } from "../utils/api";
+import "./Contact.css";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -21,6 +22,7 @@ const Contact = () => {
     email: "",
     mobileNumber: "",
     message: "",
+    recaptchaToken: "", // Add reCAPTCHA token to form data
   });
 
   const [errorData, setErrorData] = useState({
@@ -31,6 +33,9 @@ const Contact = () => {
   });
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false); // New state to track reCAPTCHA verification
+
+  const recaptchaRef = useRef(null); // Add reCAPTCHA reference
 
   // Create refs to scroll to error fields
   const nameRef = useRef(null);
@@ -78,12 +83,11 @@ const Contact = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // If the input is for the phone field, allow only numeric characters
-    if (name === "phone") {
+    if (name === "mobileNumber") {
       const numericValue = value.replace(/\D/g, ""); // Replace any non-digit character
       setFormData((prevData) => ({
         ...prevData,
-        phone: numericValue,
+        mobileNumber: numericValue,
       }));
     } else {
       setFormData({
@@ -92,7 +96,6 @@ const Contact = () => {
       });
     }
 
-    // Reset the error for the specific field being typed in
     setErrorData((prevErrorData) => ({
       ...prevErrorData,
       [name]: "", // Clear the error for the current field
@@ -101,42 +104,62 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    if (validateForm()) {
+
+    // Check if the form is valid and reCAPTCHA is solved
+    if (validateForm() && isRecaptchaVerified) {
       setIsLoading(true);
-      
+
       try {
         const response = await myAxios.post(`/contact`, formData);
         showSuccessToast("Message sent successfully!");
-        
+
         // Reset the form data only on successful submission
         setFormData({
           name: "",
           email: "",
           mobileNumber: "",
           message: "",
+          recaptchaToken: "", // Reset reCAPTCHA token
         });
+
+        if (recaptchaRef.current) recaptchaRef.current.reset(); // Reset reCAPTCHA widget
+        setIsRecaptchaVerified(false); // Reset reCAPTCHA verification state
       } catch (error) {
         showErrorToast("Error Sending Message!");
       } finally {
         setIsLoading(false);
       }
+    } else {
+      showErrorToast("Please complete the reCAPTCHA verification.");
     }
   };
-  
+
+  const handleRecaptchaChange = (token) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      recaptchaToken: token, // Update reCAPTCHA token in formData
+    }));
+    setIsRecaptchaVerified(true); // reCAPTCHA is verified
+  };
+
+  const handleRecaptchaExpired = () => {
+    setIsRecaptchaVerified(false); // reCAPTCHA expired, disable send button again
+    setFormData((prevData) => ({
+      ...prevData,
+      recaptchaToken: "", // Clear token when reCAPTCHA expires
+    }));
+  };
 
   return (
-    <Container className="text-white">
+    <Container className="contact">
       <Row>
-        <Col md={6} className="mx-auto">
-          <h2 data-aos="fade-up" className="text-center my-4">
-            Contact Me
-          </h2>
+        <Col md={8} className="mx-auto">
+          <h2 data-aos="fade-up" className="text-center my-4">Contact Me</h2>
           <Form onSubmit={handleSubmit}>
             <FormGroup data-aos="fade-right" innerRef={nameRef}>
               <Label for="name">Name</Label>
               <Input
-                type="name"
+                type="text"
                 name="name"
                 className="input-dark"
                 id="name"
@@ -183,7 +206,7 @@ const Contact = () => {
                 name="message"
                 id="message"
                 className="input-dark"
-                style={{ height: "160px" }} // Adjust the height as needed
+                style={{ height: "160px" }}
                 placeholder="Enter your message"
                 value={formData.message}
                 invalid={!!errorData.message}
@@ -191,6 +214,15 @@ const Contact = () => {
               />
               <FormFeedback>{errorData.message}</FormFeedback>
             </FormGroup>
+            
+            {/* Add reCAPTCHA */}
+            <ReCAPTCHA
+              ref={recaptchaRef}
+              sitekey={process.env.REACT_APP_CAPTCHA_SITE_KEY} // Replace with your site key
+              onChange={handleRecaptchaChange}
+              onExpired={handleRecaptchaExpired} // Handle when reCAPTCHA expires
+            />
+
             {isLoading ? (
               <Loader type="triangle" />
             ) : (
@@ -198,7 +230,7 @@ const Contact = () => {
                 color="primary"
                 style={{ marginTop: "20px" }}
                 block
-                disabled={isLoading}
+                disabled={!isRecaptchaVerified || isLoading} // Disable until reCAPTCHA is verified
                 data-aos="fade-up"
               >
                 Send

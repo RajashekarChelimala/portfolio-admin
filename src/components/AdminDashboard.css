@@ -1,12 +1,12 @@
 .admin-dashboard {
     padding: 2rem;
-    color:white;
+    color: var(--text-color);
 }
 
 div .dashboard-card {
     background-color: unset;
-    color: white;
-    border: 1px solid white;
+    color: var(--text-color);
+    border: 1px solid var(--text-color);
     text-align: center;
     transition: all 0.3s ease;
     display: flex;
@@ -20,7 +20,7 @@ div .dashboard-card {
 
 .dashboard-card:hover {
     background-color: unset;
-    color: white;
+    color: var(--text-color);
     border: 1px solid rgb(114, 85, 85);
     box-shadow: 0 0 10px rgb(114, 85, 85); /* Glow effect */
 }
@@ -39,7 +39,7 @@ div .dashboard-card {
 }
 
 .dashboard-card-text {
-    color: rgb(255, 255, 255); /* Text color */
+    color: var(--text-color); /* Text color */
     white-space: nowrap; /* Prevent text from wrapping */
     overflow: hidden; /* Hide overflowing text */
     text-overflow: ellipsis; /* Add ellipsis for overflow */

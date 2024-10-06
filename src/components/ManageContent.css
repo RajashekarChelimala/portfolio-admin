@@ -1,12 +1,12 @@
 .manage-content-container{
-    color: white;
+    color: var(--text-color);
 }
 
-.manage-content-container input, textarea {
+.manage-content-container input, .manage-content-container textarea {
     background-color: transparent !important;
-    color: white !important;
+    color: var(--text-color) !important;
   }
-.manage-content-container input::placeholder, textarea::placeholder {
-    color: white !important;
+.manage-content-container input::placeholder,.manage-content-container textarea::placeholder {
+    color: var(--text-color) !important;
     opacity: 1;
   }

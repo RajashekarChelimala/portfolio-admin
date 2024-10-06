@@ -20,7 +20,7 @@ import {
   Col,
 } from "reactstrap";
 import { useDropzone } from "react-dropzone"; // Import useDropzone
-import { myAxios } from "../utils/api";
+import { myAxios, myPrivateAxios } from "../utils/api";
 import { showSuccessToast, showErrorToast } from "../ui-elements/toastConfig";
 import "./ContactRequests.css";
 import Loader from "../ui-elements/Loader";
@@ -43,7 +43,7 @@ const ContactRequests = () => {
   const fetchRequests = async () => {
     setIsLoading(true);
     try {
-      const response = await myAxios.get("/contact");
+      const response = await myPrivateAxios.get("/contact");
       setRequests(response.data);
     } catch (error) {
       showErrorToast("Error fetching contact requests!");
@@ -104,7 +104,7 @@ const ContactRequests = () => {
   const handleRemove = async (id) => {
     setIsLoading(true);
     try {
-      await myAxios.delete(`/contact/${id}`);
+      await myPrivateAxios.delete(`/contact/${id}`);
       setRequests(requests.filter((request) => request.id !== id));
       fetchRequests();
       showSuccessToast("Request Removed Successfully!");

@@ -12,35 +12,43 @@
   .home-content h1:first-child {
     font-size: 36px;
     margin-bottom: 15px;
+    color: var(--text-color);
   }
   
   /* Style the name heading */
   .home-content h1:nth-child(2) {
     font-size: 48px;
     margin-bottom: 15px;
+    color: var(--text-color);
+  }
+
+  .type-writer{
+    color: var(--text-color);
   }
   
   /* Style the "LET ME INTRODUCE MYSELF" heading */
   .home-about-description h1 {
     font-size: 36px;
-    color: #a5c239; /* Adjust color to match your theme */
+    color: var(--text-color);; /* Adjust color to match your theme */
   }
   
   /* Style the body text */
   .home-about-description p {
     font-size: 18px;
     line-height: 1.6;
-    color: #ffffff; /* Adjust color to match your theme */
+    color: var(--text-color); /* Adjust color to match your theme */
   }
   
   /* Style the social media section */
   .home-about-social {
     margin-top: 30px;
+    color: var(--text-color);
   }
   
   .home-about-social h1 {
     font-size: 24px;
     margin-bottom: 10px;
+    color: var(--text-color);
   }
   
   .home-about-social p {
@@ -49,19 +57,19 @@
   }
   
   /* Style the social media icons */
-  .social-icons {
+  .home-social-icons {
     display: inline-block;
     margin-right: 10px;
   }
   
-  .social-icons a {
+  .home-social-icons a {
     font-size: 24px;
-    color: #6c63ff; /* Adjust color to match your theme */
+    color: var(--text-color); /* Adjust color to match your theme */
     transition: color 0.3s ease;
   }
   
-  .social-icons a:hover {
-    color: #333; /* Adjust hover color */
+  .home-social-icons a:hover {
+    color: var(--text-color); /* Adjust hover color */
   }
 
   

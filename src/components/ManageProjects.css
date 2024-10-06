@@ -1,5 +1,5 @@
 .modern-heading {
-    color: #ffffff;
+    color: var(--text-color);
     font-size: 32px;
     font-weight: bold;
     margin-bottom: 30px;
@@ -11,7 +11,7 @@
 .modern-label {
     font-size: 16px;
     font-weight: 500;
-    color: #cccccc;
+    color: var(--text-color);
     margin-bottom: 5px;
 }
 
@@ -30,30 +30,30 @@
 .manage-projects-container input,
 .manage-projects-container textarea {
   background-color: transparent !important;
-  color: white !important;
+  color: var(--text-color) !important;
 }
 
 .manage-projects-container input::placeholder,
 .manage-projects-container textarea::placeholder {
-  color: white !important;
+  color: var(--text-color) !important;
   opacity: 1;
 }
 
 input[type="date"] {
-    color: white; /* Change the text color */
-    background-color: transparent; /* Ensure background is transparent */
-    border: 1px solid #ccc;
+    color: var(--text-color); /* Change the text color */
+    background-color: var(--background-color); /* Ensure background is transparent */
+    border: 1px solid var(--text-color);
     position: relative;
   }
   
   input[type="date"]::-webkit-calendar-picker-indicator {
-    filter: invert(1); /* Inverts the color to white */
+   color: var(--text-color); /* Inverts the color to var(--text-color) */
   }
 
   /* Custom styles for react-select */
 div .custom-select__control {
   background-color: transparent;
-  border-color: #ddd;
+  border-color: var(--text-color);
   box-shadow: none;
 }
 
@@ -62,45 +62,45 @@ div .custom-select__control:hover {
 }
 
 div .custom-select__menu {
-  background-color: rgb(0, 0, 0);
-  color: white;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 div .custom-select__option {
   background-color: transparent;
-  color: #fffafa;
+  color: var(--text-color);
 }
 
 div .custom-select__option:hover {
-  background-color: rgba(144, 137, 137, 0.388);
-  color: #fffafa;
+  background-color: rgba(214, 209, 209, 0.388);
+  color: var(--text-color);
 }
 
 div .custom-select__option--is-selected {
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: var(--background-color);
 }
 
 div .custom-select__option--is-focused {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: var(--background-color);
 }
 
 div .custom-select__single-value {
-  color: #fff;
+  color: var(--text-color);
 }
 
 div .custom-select__multi-value {
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: var(--background-color);
 }
 
 div .custom-select__multi-value__label {
-  color: #fff;
+  color: var(--text-color);
 }
 
 div .custom-select__multi-value__remove {
-  color: #fff;
+  color: var(--text-color);
 }
 
 div .custom-select__multi-value__remove:hover {
   background-color: red;
-  color: white;
+  color: var(--text-color);
 }

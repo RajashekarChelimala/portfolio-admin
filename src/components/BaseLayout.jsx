@@ -7,7 +7,7 @@ const BaseLayout = () => {
   return (
     <>
       <Header />
-      <div className="my-5">
+      <div style={{marginTop:'150px',marginBottom:'150px'}}>
         <Outlet />
       </div>
       <Footer />

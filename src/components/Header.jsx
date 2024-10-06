@@ -4,17 +4,19 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink,
   NavbarToggler,
   Collapse,
+  NavLink as ReactstrapNavLink,
 } from "reactstrap";
-import './Header.css'; // Import your custom CSS file
 import { AuthContext } from "../context/AuthProvider";
+import { NavLink as RouterNavLink } from "react-router-dom"; // Import NavLink from react-router-dom
+import { ThemeContext } from "../context/ThemeProvider"; // Import the ThemeContext
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isTop, setIsTop] = useState(true); // State to track if scrolled to top
   const { auth, logout } = useContext(AuthContext); // Access auth and logout from context
+  const { theme, toggleTheme } = useContext(ThemeContext); // Access theme and toggleTheme from context
 
   useEffect(() => {
     // Function to handle scroll event
@@ -57,22 +59,64 @@ const Header = () => {
     );
   }
 
+  const handleNavLinkClick = () => {
+    setIsOpen(false); // Close the navbar on link click
+  };
+
   return (
-    <Navbar className={`navbar-transparent sticky-top${isTop ? '' : ' top-scroll'}`} expand="md">
-      <NavbarBrand href="/" className="d-flex text-light">
+    <Navbar
+      color={theme} // Set color for the navbar
+      dark={theme==='dark'?true:false}
+      expand="md" // Enable responsiveness on medium screens and above
+      fixed="top" // Keep the navbar sticky on top
+      className={isTop ? "navbar-transparent" : "navbar-scrolled"} // Change style on scroll
+    >
+      <NavbarBrand href="/" className={`text-${theme==='dark'?'light':'dark'}`}>
         <b>RC.</b>
       </NavbarBrand>
       <NavbarToggler onClick={toggle} />
-      <Collapse isOpen={isOpen} navbar className="justify-content-center">
+      <Collapse className={`text-${theme==='dark'?'light':'dark'}`} isOpen={isOpen} navbar>
         <Nav className="ms-auto" navbar>
-          {services.map((item, index) => (
-            <NavItem key={index}>
-              <NavLink href={item.href} className="nav-link" onClick={item.onClick}>
-                <i className={`fas ${item.className} icon`} />
-                <span className="nav-text">{item.text}</span>
-              </NavLink>
-            </NavItem>
-          ))}
+          {services.map((item, index) =>
+            item.text === "Logout" ? (
+              <NavItem key={index}>
+                <ReactstrapNavLink
+                  href="#"
+                  className="d-flex align-items-center"
+                  onClick={item.onClick}
+                >
+                  <i className={`fas ${item.className} me-2`} />
+                  {item.text}
+                </ReactstrapNavLink>
+              </NavItem>
+            ) : (
+              <NavItem key={index}>
+                <RouterNavLink
+                  to={item.href}
+                  className="nav-link d-flex align-items-center"
+                  activeClassName="active"
+                  onClick={handleNavLinkClick} // Close the navbar on click
+                >
+                  <i className={`fas ${item.className} me-2`} />
+                  {item.text}
+                </RouterNavLink>
+              </NavItem>
+            )
+          )}
+          {/* Theme Toggle Button */}
+          <NavItem>
+            <button
+              onClick={toggleTheme}
+              className={`btn btn-outline-light ms-2 text-${theme==='dark'?'light':'dark'}`} // You can style this button as needed
+              aria-label="Toggle Theme"
+            >
+              {theme === "light" ? (
+                <i className="fas fa-moon" />
+              ) : (
+                <i className="fas fa-sun" />
+              )}
+            </button>
+          </NavItem>
         </Nav>
       </Collapse>
     </Navbar>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   Container,
   Form,
@@ -6,16 +6,16 @@ import {
   Label,
   Input,
   Button,
-  Spinner,
 } from "reactstrap";
 import { myAxios, myPrivateAxios } from "../utils/api";
 import AOS from "aos";
 import Swal from "sweetalert2";
 import "aos/dist/aos.css"; // AOS styles
-import "./ManageContent.css";
+import JoditEditor from "jodit-react";
 import Loader from "../ui-elements/Loader";
+import "./ManageContent.css";
 
-const ManageContent = () => {
+const ManageContent = ({ placeholder }) => {
   const [formData, setFormData] = useState({
     name: "",
     hobbies: "",
@@ -38,6 +38,16 @@ const ManageContent = () => {
 
   const [contentId, setContentId] = useState(null); // Store the content ID
   const [isLoading, setIsLoading] = useState(false); // Loader state
+
+  const editor = useRef(null); // Jodit editor reference
+  // Correct useMemo implementation
+  const config = useMemo(
+    () => ({
+      readonly: false, 
+      placeholder: placeholder || "Start typing...",
+    }),
+    [placeholder]
+  );
 
   useEffect(() => {
     AOS.init({ duration: 1000 }); // Initialize AOS animations
@@ -67,6 +77,10 @@ const ManageContent = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+  };
+
+  const handleContentChange = (content) => {
+    setFormData({ ...formData, introduction: content });
   };
 
   const validateForm = () => {
@@ -104,7 +118,7 @@ const ManageContent = () => {
 
   return (
     <Container className="manage-content-container" data-aos="fade-up">
-      <h2>Content Management</h2>
+      <h2 className="text-center">Content Management</h2>
       {isLoading ? (
         <Loader type="bars" />
       ) : (
@@ -114,24 +128,17 @@ const ManageContent = () => {
               <Label for={key}>
                 {key.charAt(0).toUpperCase() + key.slice(1).toLowerCase()}
               </Label>
-              {["introduction", "footerText"].includes(key) ? (
-                <Input
-                  type="textarea"
-                  name={key}
-                  id={key}
-                  value={formData[key]}
-                  onChange={handleChange}
-                  required={[
-                    "name",
-                    "hobbies",
-                    "organization",
-                    "designation",
-                    "location",
-                  ].includes(key)}
+              {key === "introduction" ? (
+                <JoditEditor
+                  ref={editor}
+                  value={formData.introduction}
+                  config={config}
+                  tabIndex={1}
+                  onChange={handleContentChange}
                 />
               ) : (
                 <Input
-                  type="text"
+                  type={["footerText"].includes(key) ? "textarea" : "text"}
                   name={key}
                   id={key}
                   value={formData[key]}

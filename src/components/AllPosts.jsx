@@ -113,8 +113,8 @@ const AllPosts = () => {
   };
 
   return (
-    <div className="container mt-4">
-      <h2 className="text-white">Manage Posts</h2>
+    <div className="container mt-4 all-posts">
+      <h2 className="text-center">Posts</h2>
 
       {/* Sorting and Searching */}
       <Row className="d-flex justify-content-between mb-3">

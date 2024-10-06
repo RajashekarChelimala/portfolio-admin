@@ -10,10 +10,11 @@ import {
   CardText,
   Button,
 } from "reactstrap";
-import myImg from "../assets/my-image-square.png";
+import myImg from "../assets/my-image.png";
 import { myAxios } from "../utils/api";
 import "./AboutMe.css";
 import { useNavigate } from "react-router-dom";
+import Loader from "../ui-elements/Loader";
 
 export default function AboutMe() {
   const [content, setContent] = useState(null);
@@ -61,18 +62,18 @@ export default function AboutMe() {
   };
 
   if (loading) {
-    return <div>Loading...</div>; // Display loading message while data is being fetched
+    return <Loader type="bars" />; // Display loading message while data is being fetched
   }
 
   return (
     <Container className="about-me">
       <Row className="header-section align-items-center">
         <Col md="4">
-          <img src={myImg} alt="Profile" className="profile-image img-fluid" />
+          <img src={content.imageLink || myImg} alt="Profile" className="profile-image img-fluid" />
         </Col>
         <Col md="8">
           <h1>About Me</h1>
-          <p>{content.introduction}</p>
+          <span dangerouslySetInnerHTML={{ __html: content.introduction }}></span>
         </Col>
       </Row>
 

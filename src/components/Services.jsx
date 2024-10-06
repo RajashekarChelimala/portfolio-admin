@@ -12,46 +12,11 @@ import {
   GridActionsCellItem,
   GridRowEditStopReasons,
 } from "@mui/x-data-grid";
-
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { ThemeProvider as MUIThemeProvider, createTheme } from "@mui/material/styles";
 import axios from "axios";
 import { Container } from "reactstrap";
 import { showErrorToast, showSuccessToast } from "../ui-elements/toastConfig";
-
-const theme = createTheme({
-  palette: {
-    mode: "dark",
-    background: {
-      default: "#000", // Dark background for the entire application
-      paper: "transparent", // Transparent background for the table
-    },
-    text: {
-      primary: "#fff", // White text for the table and other components
-    },
-  },
-  components: {
-    MuiDataGrid: {
-      styleOverrides: {
-        root: {
-          backgroundColor: "transparent", // Transparent background for the table
-        },
-        columnHeaders: {
-          backgroundColor: "transparent", // Transparent background for headers
-          color: "#fff", // White text for headers
-        },
-        cell: {
-          color: "#fff", // White text for cells
-        },
-        toolbar: {
-          color: "#fff", // White text for the toolbar
-        },
-        icon: {
-          color: "#fff", // White color for icons
-        },
-      },
-    },
-  },
-});
+import { ThemeContext } from '../context/ThemeProvider'; // Adjust the import path
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
@@ -85,8 +50,45 @@ function EditToolbar(props) {
 }
 
 export default function Services() {
+  const { theme } = React.useContext(ThemeContext); // Use ThemeContext
   const [rows, setRows] = React.useState([]);
   const [rowModesModel, setRowModesModel] = React.useState({});
+
+  // Create the theme dynamically based on context
+  const muiTheme = createTheme({
+    palette: {
+      mode: theme, // Use the current theme from context
+      background: {
+        default: theme === "dark" ? "#000" : "#fff", // Adjust based on theme
+        paper: "transparent",
+      },
+      text: {
+        primary: theme === "dark" ? "#fff" : "#000", // Adjust based on theme
+      },
+    },
+    components: {
+      MuiDataGrid: {
+        styleOverrides: {
+          root: {
+            backgroundColor: "transparent",
+          },
+          columnHeaders: {
+            backgroundColor: "transparent",
+            color: theme === "dark" ? "#fff" : "#000", // Adjust based on theme
+          },
+          cell: {
+            color: theme === "dark" ? "#fff" : "#000", // Adjust based on theme
+          },
+          toolbar: {
+            color: theme === "dark" ? "#fff" : "#000", // Adjust based on theme
+          },
+          icon: {
+            color: theme === "dark" ? "#fff" : "#000", // Adjust based on theme
+          },
+        },
+      },
+    },
+  });
 
   React.useEffect(() => {
     const fetchServices = async () => {
@@ -101,7 +103,7 @@ export default function Services() {
           }
         );
         const rowsWithId = response.data.map((service) => ({
-          id: service._id, // Use _id as id
+          id: service._id,
           serviceName: service.serviceName,
           iconName: service.iconName,
           targetUrl: service.targetUrl,
@@ -164,7 +166,6 @@ export default function Services() {
     try {
       console.log("Processing row update:", newRow);
 
-      // Update the row in the state
       const updatedRow = { ...newRow, isNew: false };
       setRows((prevRows) =>
         prevRows.map((row) => (row.id === newRow.id ? updatedRow : row))
@@ -174,7 +175,6 @@ export default function Services() {
 
       if (newRow.isNew) {
         const { id, isNew, ...payload } = newRow;
-        // Make API call to create a new row
         await axios.post(
           `${process.env.REACT_APP_BACKEND_URL}/services`,
           payload,
@@ -192,10 +192,8 @@ export default function Services() {
           showErrorToast("Error saving service.");
           console.error("Error saving service:", err);
         });
-      }
-       else {
+      } else {
         const { isNew, ...payload } = newRow;
-        // Make API call to update an existing row
         await axios.put(
           `${process.env.REACT_APP_BACKEND_URL}/services`,
           payload,
@@ -217,7 +215,6 @@ export default function Services() {
       return updatedRow;
     } catch (error) {
       console.error("Error saving row:", error);
-      // Optionally return the old row if there's an error
       return newRow;
     }
   };
@@ -297,25 +294,27 @@ export default function Services() {
   ];
 
   return (
-    <Container className="text-white">
-      <h3>My Services</h3>
-      <ThemeProvider theme={theme}>
+    <MUIThemeProvider theme={muiTheme}>
+      <Container>
+        <h2>Manage Services</h2>
         <DataGrid
           rows={rows}
           columns={columns}
           editMode="row"
           rowModesModel={rowModesModel}
-          onRowModesModelChange={handleRowModesModelChange}
           onRowEditStop={handleRowEditStop}
+          onRowModesModelChange={handleRowModesModelChange}
           processRowUpdate={processRowUpdate}
-          slots={{
-            toolbar: EditToolbar,
+          components={{
+            Toolbar: EditToolbar,
           }}
-          slotProps={{
+          componentsProps={{
             toolbar: { setRows, setRowModesModel },
           }}
+          autoHeight
+          sx={{ backgroundColor: "transparent" }}
         />
-      </ThemeProvider>
-    </Container>
+      </Container>
+    </MUIThemeProvider>
   );
 }

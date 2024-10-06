@@ -41,52 +41,33 @@ const Home = () => {
       {/* Section 1: Introduction */}
       <section className="home-content">
         <Row className="align-items-center">
-          <Col md={7}>
+          <Col xs={12} md={7} className="text-center text-md-start">
             <h1 data-aos="fade-right">Hi There!</h1>
             <h1 data-aos="fade-right">
               I'M <strong>{contentData.name.toUpperCase()}</strong>
             </h1>
-            <h1 data-aos="fade-right">
+            <h1 data-aos="fade-right" className="type-writer">
               <strong>
                 {/* Pass the comma-separated string after splitting it into an array */}
                 <Type textArray={contentData.typeWriterText.split(",")} />
               </strong>
             </h1>
           </Col>
-          <Col md={4} className="mt-4" data-aos="fade-left">
+          <Col xs={12} md={5} className="mt-4" data-aos="fade-left">
             <img
               src={contentData.imageLink || myImg}
               alt="Profile pic"
-              className="img-fluid rounded shadow-lg"
+              className="img-fluid rounded"
+              loading="lazy"
             />
           </Col>
         </Row>
       </section>
 
       {/* Section 2: About Me */}
-      <section className="home-content">
-        <Row>
-          <Col md={8} className="home-about-description" data-aos="fade-up">
-            <h1 style={{ fontSize: "2.6em" }}>
-              LET ME <span>INTRODUCE</span> MYSELF
-            </h1>
-            <p className="home-about-body">
-              {contentData.introduction}
-              <br />
-              <br />
-              My hobbies include <strong>{contentData.hobbies}</strong>. I currently work at{" "}
-              <strong>{contentData.organization}</strong> as a{" "}
-              <strong>{contentData.designation}</strong>.
-              <br />
-              <br />
-              I am passionate about web technologies like{" "}
-              <strong>JavaScript, React, Spring Boot, and more!</strong>
-            </p>
-          </Col>
-        </Row>
-
+      <section className="home-content mt-4">
         {/* Section 3: Find Me On */}
-        <Row>
+        <Row className="social-media-section">
           <Col md={12} className="text-center" data-aos="fade-left">
             <h1>FIND ME ON</h1>
             <p>
@@ -101,7 +82,7 @@ const Home = () => {
               ]
                 .filter(({ href }) => href)
                 .map(({ href, icon, label }, index) => (
-                  <li key={index} className="social-icons">
+                  <li key={index} className="home-social-icons">
                     <a href={href} target="_blank" rel="noreferrer" aria-label={label}>
                       {icon}
                     </a>
