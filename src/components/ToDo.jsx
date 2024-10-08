@@ -17,6 +17,7 @@ import { ThemeProvider as MUIThemeProvider, createTheme } from '@mui/material/st
 import axios from 'axios';
 
 import { ThemeContext } from '../context/ThemeProvider'; // Adjust the import path
+import { Container } from 'reactstrap';
 
 function EditToolbar(props) {
 
@@ -257,6 +258,7 @@ export default function ToDo() {
 
   return (
     <MUIThemeProvider theme={muiTheme}>
+      <Container>
       <DataGrid
         rows={rows}
         columns={columns}
@@ -272,6 +274,7 @@ export default function ToDo() {
           toolbar: { setRows, setRowModesModel },
         }}
       />
+      </Container>
      </MUIThemeProvider>
   );
 }

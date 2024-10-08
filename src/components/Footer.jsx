@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Container, Row, Col } from "reactstrap";
 import {
   AiFillGithub,
@@ -8,9 +8,12 @@ import {
 import { FaLinkedinIn } from "react-icons/fa";
 import "./Footer.css";
 import { myAxios } from "../utils/api";
+import { ThemeContext } from "../context/ThemeProvider";
 
 function Footer() {
   const [contentData, setContentData] = useState({});
+  const { theme } = useContext(ThemeContext);
+  const colorStyle = theme==='dark'?"#212529":"white";
   let date = new Date();
   let year = date.getFullYear();
   useEffect(() => {
@@ -26,7 +29,7 @@ function Footer() {
     fetchContentData();
   }, []);
   return (
-    <div className="footer-container">
+    <div className="footer-container" style={{backgroundColor:`${colorStyle}`}}>
       <Container>
         <Row className="footer-content">
           <Col md="8">

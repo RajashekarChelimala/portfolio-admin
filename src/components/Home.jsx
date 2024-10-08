@@ -43,15 +43,15 @@ const Home = () => {
         <Row className="align-items-center">
           <Col xs={12} md={7} className="text-center text-md-start">
             <h1 data-aos="fade-right">Hi There!</h1>
-            <h1 data-aos="fade-right">
+            <h2 data-aos="fade-right">
               I'M <strong>{contentData.name.toUpperCase()}</strong>
-            </h1>
-            <h1 data-aos="fade-right" className="type-writer">
+            </h2>
+            <h2 data-aos="fade-right" className="type-writer">
               <strong>
                 {/* Pass the comma-separated string after splitting it into an array */}
                 <Type textArray={contentData.typeWriterText.split(",")} />
               </strong>
-            </h1>
+            </h2>
           </Col>
           <Col xs={12} md={5} className="mt-4" data-aos="fade-left">
             <img

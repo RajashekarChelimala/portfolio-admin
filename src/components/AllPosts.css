@@ -1,4 +1,4 @@
-div .search-input {
+.all-posts .search-input {
     background-color: var(--background-color); /* Slightly darker transparent background */
     border: 1px solid rgba(120, 117, 117, 0.7);
     border-radius: 5px;
@@ -15,7 +15,7 @@ div .search-input {
   div .search-input:focus {
     background-color: var(--background-color); /* Darker on focus */
     outline: none; /* Remove default outline */
-    color:white;
+    color:var(--text-color);
   }
   
   div .sort-select {

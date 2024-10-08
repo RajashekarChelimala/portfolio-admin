@@ -155,7 +155,7 @@ const ManagePosts = ({ placeholder }) => {
 
   return (
     <div className="container mt-4">
-      <h2>Manage Posts</h2>
+      <h2 className="text-center">Manage Posts</h2>
 
       {error && <Alert color="danger">{error}</Alert>}
 

@@ -129,3 +129,7 @@ button:hover {
 .selected-file-remove-button:hover {
   text-decoration: underline; /* Underline on hover */
 }
+
+.contact-request h2{
+  color:var(--text-color);
+}

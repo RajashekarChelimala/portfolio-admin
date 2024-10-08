@@ -5,13 +5,13 @@ div .card-custom {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow */
   transition: transform 0.3s; /* Animation for hover effect */
   background-color: unset !important;
-  border: 1px solid white;
+  border: 1px solid var(--background-color);
   height: 100%; /* Make the card take full height */
 }
 
 div .card-custom:hover {
   transform: translateY(-5px); /* Lift effect on hover */
-  border: 1px solid white;
+  border: 1px solid var(--text-color);
 }
 
 div .custom-card-body {
@@ -24,7 +24,7 @@ div .custom-card-body {
 div .card-title-custom {
   font-size: 1.5rem; /* Larger title font */
   font-weight: bold; /* Bold title */
-  color: #ffffff; /* Dark text color */
+  color: var(--text-color); /* Dark text color */
 }
 
 .card-text-custom {
@@ -34,7 +34,7 @@ div .card-title-custom {
   display: -webkit-box; /* For webkit browsers */
   -webkit-line-clamp: 3; /* Limit to 3 lines */
   -webkit-box-orient: vertical; /* Required for line clamp */
-  color: #ffffff; /* Dark text color */
+  color: var(--text-color); /* Dark text color */
 }
 
 div .card-button {

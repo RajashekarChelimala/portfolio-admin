@@ -24,6 +24,8 @@ import { myAxios, myPrivateAxios } from "../utils/api";
 import { showSuccessToast, showErrorToast } from "../ui-elements/toastConfig";
 import "./ContactRequests.css";
 import Loader from "../ui-elements/Loader";
+import Swal from "sweetalert2";
+import { sweetAlert } from "../ui-elements/sweetAlert";
 
 const ContactRequests = () => {
   const [requests, setRequests] = useState([]);
@@ -91,11 +93,23 @@ const ContactRequests = () => {
     formData.append("to", selectedRequest.email);
 
     try {
-      await myAxios.post("/contact/send-email", formData);
-      showSuccessToast("Reply sent successfully!");
+      await myPrivateAxios.post("/contact/send-email", formData);
+      // showSuccessToast("Reply sent successfully!");
+      sweetAlert({
+        type: 'success',
+        title: 'Success!',
+        text: 'Replied through Email!',
+        timer: 2000, // Auto-close after 2 seconds
+      });
       setReplyData({ subject: "", body: "", attachments: [] }); // Reset after sending
     } catch (error) {
-      showErrorToast("Error sending reply!");
+      // showErrorToast("Error sending reply!");
+      sweetAlert({
+        type: 'error',
+        title: 'Error!',
+        text: 'Error sending reply!',
+        timer: 2000, // Auto-close after 2 seconds
+      });
     } finally {
       setIsLoading(false);
     }
@@ -104,21 +118,50 @@ const ContactRequests = () => {
   const handleRemove = async (id) => {
     setIsLoading(true);
     try {
-      await myPrivateAxios.delete(`/contact/${id}`);
-      setRequests(requests.filter((request) => request.id !== id));
-      fetchRequests();
-      showSuccessToast("Request Removed Successfully!");
+      // Show the confirmation alert
+      const result = await sweetAlert({
+        showConfirmButton: true,
+        showCancelButton: true,
+      });
+  
+      // Check if the user confirmed
+      if (result.isConfirmed) {
+        // Proceed with the deletion
+        await myPrivateAxios.delete(`/contact/${id}`);
+        setRequests((prevRequests) => prevRequests.filter((request) => request.id !== id));
+        
+        // Fetch updated requests
+        fetchRequests();
+        
+        // Show success toast
+        sweetAlert({
+          type: 'success',
+          title: 'Success!',
+          text: 'Request Removed Successfully!',
+          timer: 2000, // Auto-close after 2 seconds
+        });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // User clicked cancel
+        console.log('Cancelled!');
+      }
     } catch (error) {
-      showErrorToast("Error Removing request!");
+      // Show error toast if there's an issue
+      sweetAlert({
+        type: 'error',
+        title: 'Error!',
+        text: 'Error Removing request!',
+        timer: 2000, // Auto-close after 2 seconds
+      });
     } finally {
       setIsLoading(false);
     }
   };
+  
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
   return (
-    <Container className="text-white">
+    <Container className="text-white contact-request">
       <Row>
         <Col md={8} className="mx-auto">
           <h2 className="text-center my-4">Contact Requests</h2>

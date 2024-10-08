@@ -14,7 +14,10 @@ import {
 } from "@mui/x-data-grid";
 
 import externalLink from "../assets/external-link.svg";
-import { ThemeProvider as MUIThemeProvider, createTheme } from "@mui/material/styles";
+import {
+  ThemeProvider as MUIThemeProvider,
+  createTheme,
+} from "@mui/material/styles";
 import Swal from "sweetalert2";
 import { myPrivateAxios } from "../utils/api";
 import {
@@ -28,7 +31,7 @@ import {
 } from "reactstrap";
 import "./ManageSkills.css";
 
-import { ThemeContext } from '../context/ThemeProvider'; // Adjust the import path
+import { ThemeContext } from "../context/ThemeProvider"; // Adjust the import path
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
@@ -70,8 +73,8 @@ export default function ManageSkills() {
   const [expanded, setExpanded] = useState({});
   const { theme } = React.useContext(ThemeContext);
 
-   // Create the theme dynamically based on context
-   const muiTheme = createTheme({
+  // Create the theme dynamically based on context
+  const muiTheme = createTheme({
     palette: {
       mode: theme, // Use the current theme from context
       background: {
@@ -224,7 +227,7 @@ export default function ManageSkills() {
         text: "Error Submitting Skill",
         icon: "error", // Use `icon: "error"` instead of passing it as a string argument
       });
-      
+
       // Optionally return the old row if there's an error
       return newRow;
     }
@@ -249,7 +252,7 @@ export default function ManageSkills() {
         "Database",
         "Technology",
         "Tool",
-        "Others"
+        "Others",
       ], // Dropdown options for status
     },
     { field: "icon", headerName: "Icon", width: 200, editable: true },
@@ -329,22 +332,24 @@ export default function ManageSkills() {
   return (
     <>
       <MUIThemeProvider theme={muiTheme}>
-      <h2 className="modern-heading">Manage Skills</h2>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          editMode="row"
-          rowModesModel={rowModesModel}
-          onRowModesModelChange={handleRowModesModelChange}
-          onRowEditStop={handleRowEditStop}
-          processRowUpdate={processRowUpdate}
-          slots={{
-            toolbar: EditToolbar,
-          }}
-          slotProps={{
-            toolbar: { setRows, setRowModesModel },
-          }}
-        />
+        <Container>
+          <h2 className="modern-heading">Manage Skills</h2>
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            editMode="row"
+            rowModesModel={rowModesModel}
+            onRowModesModelChange={handleRowModesModelChange}
+            onRowEditStop={handleRowEditStop}
+            processRowUpdate={processRowUpdate}
+            slots={{
+              toolbar: EditToolbar,
+            }}
+            slotProps={{
+              toolbar: { setRows, setRowModesModel },
+            }}
+          />
+        </Container>
       </MUIThemeProvider>
       <Container className="mt-5" data-aos="fade-up">
         <h2 className="modern-heading">Skills</h2>
@@ -382,7 +387,10 @@ export default function ManageSkills() {
                       {skill.description.length > 100 && (
                         <a
                           onClick={() => toggleExpand(skill.id)} // Toggle only for the clicked skill
-                          style={{ cursor: "pointer",textDecoration: "underline" }}
+                          style={{
+                            cursor: "pointer",
+                            textDecoration: "underline",
+                          }}
                         >
                           {expanded[skill.id] ? "Show less" : "Show more"}
                         </a>

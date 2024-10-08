@@ -12,11 +12,14 @@ import {
   GridActionsCellItem,
   GridRowEditStopReasons,
 } from "@mui/x-data-grid";
+
 import { ThemeProvider as MUIThemeProvider, createTheme } from "@mui/material/styles";
 import axios from "axios";
 import { Container } from "reactstrap";
 import { showErrorToast, showSuccessToast } from "../ui-elements/toastConfig";
-import { ThemeContext } from '../context/ThemeProvider'; // Adjust the import path
+import { ThemeContext } from "../context/ThemeProvider"; 
+import "./Services.css";
+import { sweetAlert } from "../ui-elements/sweetAlert";
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
@@ -50,10 +53,9 @@ function EditToolbar(props) {
 }
 
 export default function Services() {
-  const { theme } = React.useContext(ThemeContext); // Use ThemeContext
   const [rows, setRows] = React.useState([]);
   const [rowModesModel, setRowModesModel] = React.useState({});
-
+  const { theme } = React.useContext(ThemeContext);
   // Create the theme dynamically based on context
   const muiTheme = createTheme({
     palette: {
@@ -103,7 +105,7 @@ export default function Services() {
           }
         );
         const rowsWithId = response.data.map((service) => ({
-          id: service._id,
+          id: service._id, // Use _id as id
           serviceName: service.serviceName,
           iconName: service.iconName,
           targetUrl: service.targetUrl,
@@ -166,6 +168,7 @@ export default function Services() {
     try {
       console.log("Processing row update:", newRow);
 
+      // Update the row in the state
       const updatedRow = { ...newRow, isNew: false };
       setRows((prevRows) =>
         prevRows.map((row) => (row.id === newRow.id ? updatedRow : row))
@@ -175,6 +178,7 @@ export default function Services() {
 
       if (newRow.isNew) {
         const { id, isNew, ...payload } = newRow;
+        // Make API call to create a new row
         await axios.post(
           `${process.env.REACT_APP_BACKEND_URL}/services`,
           payload,
@@ -185,15 +189,29 @@ export default function Services() {
           }
         )
         .then(response => {
-          showSuccessToast("Service saved successfully!");
+          // showSuccessToast("Service saved successfully!");
+          sweetAlert({
+            type: 'success',
+            title: 'Success!',
+            text: 'Service saved successfully!',
+            timer: 2000, // Auto-close after 2 seconds
+          });
           console.log("Row created successfully:", payload);
         })
         .catch(err => {
-          showErrorToast("Error saving service.");
+          // showErrorToast("Error saving service.");
+          sweetAlert({
+            type: 'error',
+            title: 'Error!',
+            text: 'Error saving service.',
+            timer: 2000, // Auto-close after 2 seconds
+          });
           console.error("Error saving service:", err);
         });
-      } else {
+      }
+       else {
         const { isNew, ...payload } = newRow;
+        // Make API call to update an existing row
         await axios.put(
           `${process.env.REACT_APP_BACKEND_URL}/services`,
           payload,
@@ -203,11 +221,23 @@ export default function Services() {
             },
           }
         ).then(response => {
-          showSuccessToast("Service updated successfully!");
+          // showSuccessToast("Service updated successfully!");
+          sweetAlert({
+            type: 'success',
+            title: 'Success!',
+            text: 'Service updated successfully!',
+            timer: 2000, // Auto-close after 2 seconds
+          });
           console.log("Row updated successfully:", payload);
         })
         .catch(err => {
-          showErrorToast("Error updating service.");
+          // showErrorToast("Error updating service.");
+          sweetAlert({
+            type: 'error',
+            title: 'Error!',
+            text: 'Error updating service.',
+            timer: 2000, // Auto-close after 2 seconds
+          });
           console.error("Error updating service:", err);
         });
       }
@@ -215,6 +245,7 @@ export default function Services() {
       return updatedRow;
     } catch (error) {
       console.error("Error saving row:", error);
+      // Optionally return the old row if there's an error
       return newRow;
     }
   };
@@ -294,27 +325,25 @@ export default function Services() {
   ];
 
   return (
-    <MUIThemeProvider theme={muiTheme}>
-      <Container>
-        <h2>Manage Services</h2>
+    <Container className="text-white manage-services">
+      <h2>Manage Services</h2>
+      <MUIThemeProvider theme={muiTheme}>
         <DataGrid
           rows={rows}
           columns={columns}
           editMode="row"
           rowModesModel={rowModesModel}
-          onRowEditStop={handleRowEditStop}
           onRowModesModelChange={handleRowModesModelChange}
+          onRowEditStop={handleRowEditStop}
           processRowUpdate={processRowUpdate}
-          components={{
-            Toolbar: EditToolbar,
+          slots={{
+            toolbar: EditToolbar,
           }}
-          componentsProps={{
+          slotProps={{
             toolbar: { setRows, setRowModesModel },
           }}
-          autoHeight
-          sx={{ backgroundColor: "transparent" }}
         />
-      </Container>
-    </MUIThemeProvider>
+      </MUIThemeProvider>
+    </Container>
   );
 }

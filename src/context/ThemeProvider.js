@@ -17,7 +17,15 @@ export const ThemeProvider = ({ children }) => {
   useEffect(() => {
     document.body.classList.toggle("dark", theme === "dark");
     document.body.classList.toggle("light", theme === "light");
+  
+    // Apply a light grey background color if the theme is "light"
+    if (theme === "light") {
+      document.body.style.backgroundColor = "rgb(240,240,240)"; // Light grey color
+    } else {
+      document.body.style.backgroundColor = ""; // Reset to default for dark theme
+    }
   }, [theme]);
+  
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';

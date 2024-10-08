@@ -15,6 +15,8 @@ import { showErrorToast, showSuccessToast } from "../ui-elements/toastConfig";
 import ReCAPTCHA from "react-google-recaptcha"; // Import reCAPTCHA
 import { myAxios } from "../utils/api";
 import "./Contact.css";
+import Swal from "sweetalert2";
+import { sweetAlert } from "../ui-elements/sweetAlert";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -111,7 +113,13 @@ const Contact = () => {
 
       try {
         const response = await myAxios.post(`/contact`, formData);
-        showSuccessToast("Message sent successfully!");
+        // showSuccessToast("Message sent successfully!");
+        sweetAlert({
+          type: 'success',
+          title: 'Success!',
+          text: 'Message sent successfully!',
+          timer: 2000, // Auto-close after 2 seconds
+        });
 
         // Reset the form data only on successful submission
         setFormData({
@@ -125,7 +133,13 @@ const Contact = () => {
         if (recaptchaRef.current) recaptchaRef.current.reset(); // Reset reCAPTCHA widget
         setIsRecaptchaVerified(false); // Reset reCAPTCHA verification state
       } catch (error) {
-        showErrorToast("Error Sending Message!");
+        // showErrorToast("Error Sending Message!");
+        sweetAlert({
+          type: 'error',
+          title: 'Error!',
+          text: 'Error Sending Message!',
+          timer: 2000, // Auto-close after 2 seconds
+        });
       } finally {
         setIsLoading(false);
       }
@@ -228,10 +242,9 @@ const Contact = () => {
             ) : (
               <Button
                 color="primary"
-                style={{ marginTop: "20px" }}
+                style={{ marginTop: "10px" }}
                 block
                 disabled={!isRecaptchaVerified || isLoading} // Disable until reCAPTCHA is verified
-                data-aos="fade-up"
               >
                 Send
               </Button>

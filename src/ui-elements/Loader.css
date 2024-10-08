@@ -5,8 +5,8 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.7); /* Dark background */
-    backdrop-filter: blur(1px); /* Optional: adds blur */
+    background: rgba(0, 0, 0, 0.3); /* Dark background */
+    backdrop-filter: blur(2px); /* Optional: adds blur */
     z-index: 999; /* Ensure it's above everything */
     display: flex;
     justify-content: center;

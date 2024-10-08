@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
 import { showErrorToast, showSuccessToast } from "../ui-elements/toastConfig";
 import { useNavigate } from "react-router-dom";
+import { sweetAlert } from "../ui-elements/sweetAlert";
 
 export const AuthContext = createContext();
 
@@ -48,10 +49,22 @@ export const AuthProvider = ({ children }) => {
       );
       console.log("response", response); // Log the response
       navigate('/admin-login'); // Redirect to Admin Dashboard on successful registration
-      showSuccessToast(response.data.success);
+      // showSuccessToast(response.data.success);
+      sweetAlert({
+        type: 'success',
+        title: 'Success!',
+        text: response.data.success,
+        timer: 2000, // Auto-close after 2 seconds
+      });
     } catch (error) {
       console.error("Registration Failed", error); // Log the error
-      showErrorToast(error.response.data.message);
+      // showErrorToast(error.response.data.message);
+      sweetAlert({
+        type: 'error',
+        title: 'Error!',
+        text: error.response.data.message,
+        timer: 2000, // Auto-close after 2 seconds
+      });
     }
   };
 
