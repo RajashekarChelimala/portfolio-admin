@@ -42,18 +42,18 @@ const Home = () => {
       <section className="home-content">
         <Row className="align-items-center">
           <Col xs={12} md={7} className="text-center text-md-start">
-            <h1 data-aos="fade-right">Hi There!</h1>
-            <h2 data-aos="fade-right">
+            <h1>Hi There!</h1>
+            <h2>
               I'M <strong>{contentData.name.toUpperCase()}</strong>
             </h2>
-            <h2 data-aos="fade-right" className="type-writer">
+            <h2 className="type-writer">
               <strong>
                 {/* Pass the comma-separated string after splitting it into an array */}
                 <Type textArray={contentData.typeWriterText.split(",")} />
               </strong>
             </h2>
           </Col>
-          <Col xs={12} md={5} className="mt-4" data-aos="fade-left">
+          <Col xs={12} md={5} className="mt-4">
             <img
               src={contentData.imageLink || myImg}
               alt="Profile pic"
@@ -68,7 +68,7 @@ const Home = () => {
       <section className="home-content mt-4">
         {/* Section 3: Find Me On */}
         <Row className="social-media-section">
-          <Col md={12} className="text-center" data-aos="fade-left">
+          <Col md={12} className="text-center">
             <h1>FIND ME ON</h1>
             <p>
               Feel free to <span>connect</span> with me
