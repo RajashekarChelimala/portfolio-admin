@@ -1,3 +1,7 @@
 .login-form{
-    color: white !important;
+    color: var(--text-color);
+}
+
+.login-title{
+    color: var(--text-color);
 }

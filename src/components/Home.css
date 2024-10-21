@@ -77,15 +77,33 @@
   }
 
   
-  
-  /* Adjustments for mobile responsiveness */
-  @media (max-width: 768px) {
-    .home-content {
-      text-align: center;
-    }
-  
-    .home-content img {
-      max-height: 300px;
-    }
-  }
-  
+  /* Blurred background for loading */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6); /* Dim the background */
+  backdrop-filter: blur(10px); /* Apply blur effect */
+  z-index: 9999; /* Make sure it appears on top */
+}
+
+/* Loading screen styles */
+.loading-screen {
+  height: 100vh;
+  animation: fadeInOut 1.5s ease-in-out infinite;
+}
+
+/* Loading text styles */
+.loading-screen h2 {
+  font-size: 1.8rem;
+  animation: fadeInOut 1.5s ease-in-out infinite;
+}
+
+/* Fade-in-out animation */
+@keyframes fadeInOut {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
+}

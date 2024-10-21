@@ -4,8 +4,27 @@ import Type from "../ui-elements/Type";
 import myImg from "../assets/my-image.png";
 import { AiFillGithub, AiFillInstagram, AiOutlineTwitter } from "react-icons/ai";
 import { FaLinkedinIn } from "react-icons/fa";
-import { myAxios } from "../utils/api"; // Assuming `myAxios` is already configured for API requests
+import { myAxios } from "../utils/api";
 import "./Home.css";
+
+// Extended loading messages array
+const loadingMessages = [
+  'Hey, Welcome!',
+  'Hold tight, loading the magic...',
+  'Just a moment, great things are coming...',
+  'Fetching awesomeness for you!',
+  'Banging the server doors...',
+  'Pushing electrons through the wires...',
+  'Grabbing the good stuff...',
+  'Summoning the content...',
+  'Almost there, stay tuned...',
+  'Good things take time!',
+  'Giving you the best experience...',
+  'We are almost done...',
+  'Setting things up for you...',
+  'Here it comes!',
+  'Final touches...'
+];
 
 const Home = () => {
   const [contentData, setContentData] = useState({
@@ -15,19 +34,24 @@ const Home = () => {
     designation: "",
     location: "",
     introduction: "",
-    imageLink: myImg,
-    typeWriterText: "", // This will now be a comma-separated string
+    imageLink: "",
+    typeWriterText: "",
     instagram: "",
     twitter: "",
     linkedin: "",
     github: "",
   });
 
+  const [loadingMessagesQueue, setLoadingMessagesQueue] = useState(loadingMessages);
+  const [currentLoadingMessage, setCurrentLoadingMessage] = useState(loadingMessages[0]);
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const fetchContentData = async () => {
       try {
         const response = await myAxios.get("/content");
         setContentData(response.data);
+        setIsLoading(false); // Stop the loading screen once data is fetched
       } catch (error) {
         console.error("Error fetching content data:", error);
       }
@@ -35,6 +59,35 @@ const Home = () => {
 
     fetchContentData();
   }, []);
+
+  // Effect for showing unique loading messages one after the other
+  useEffect(() => {
+    if (isLoading && loadingMessagesQueue.length > 0) {
+      const intervalId = setInterval(() => {
+        // Pick the next message in queue and update the state
+        const nextMessage = loadingMessagesQueue.shift();
+        setCurrentLoadingMessage(nextMessage);
+
+        setLoadingMessagesQueue([...loadingMessagesQueue]); // Update queue without repeating messages
+      }, 1500); // Change message every 1.5 seconds
+
+      return () => clearInterval(intervalId); // Cleanup on component unmount
+    }
+  }, [isLoading, loadingMessagesQueue]);
+
+  if (isLoading) {
+    return (
+      <div className="loading-overlay">
+        <Container className="loading-screen d-flex align-items-center justify-content-center text-white">
+          <Row>
+            <Col>
+              <h2 className="text-center">{currentLoadingMessage}</h2>
+            </Col>
+          </Row>
+        </Container>
+      </div>
+    );
+  }
 
   return (
     <Container className="home-section text-white">
@@ -48,14 +101,13 @@ const Home = () => {
             </h2>
             <h2 className="type-writer">
               <strong>
-                {/* Pass the comma-separated string after splitting it into an array */}
                 <Type textArray={contentData.typeWriterText.split(",")} />
               </strong>
             </h2>
           </Col>
           <Col xs={12} md={5} className="mt-4">
             <img
-              src={contentData.imageLink || myImg}
+              src={contentData.imageLink}
               alt="Profile pic"
               className="img-fluid rounded"
               loading="lazy"
@@ -74,12 +126,26 @@ const Home = () => {
               Feel free to <span>connect</span> with me
             </p>
             <ul className="social-icons-list">
-              {[
-                { href: contentData.github, icon: <AiFillGithub />, label: "GitHub" },
-                { href: contentData.twitter, icon: <AiOutlineTwitter />, label: "Twitter" },
-                { href: contentData.linkedin, icon: <FaLinkedinIn />, label: "LinkedIn" },
-                { href: contentData.instagram, icon: <AiFillInstagram />, label: "Instagram" },
-              ]
+              {[{
+                href: contentData.github,
+                icon: <AiFillGithub />,
+                label: "GitHub"
+              },
+              {
+                href: contentData.twitter,
+                icon: <AiOutlineTwitter />,
+                label: "Twitter"
+              },
+              {
+                href: contentData.linkedin,
+                icon: <FaLinkedinIn />,
+                label: "LinkedIn"
+              },
+              {
+                href: contentData.instagram,
+                icon: <AiFillInstagram />,
+                label: "Instagram"
+              }]
                 .filter(({ href }) => href)
                 .map(({ href, icon, label }, index) => (
                   <li key={index} className="home-social-icons">
