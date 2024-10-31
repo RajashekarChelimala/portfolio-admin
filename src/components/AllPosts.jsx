@@ -20,6 +20,8 @@ import "aos/dist/aos.css";
 import likeSoundFile from "../assets/sounds/like-sound.mp3";
 import "./AllPosts.css";
 import Loader from "../ui-elements/Loader";
+import useSocket from "../hooks/useSocket";
+import { showSuccessToast } from "../ui-elements/toastConfig";
 
 const AllPosts = () => {
   const [posts, setPosts] = useState([]);
@@ -27,6 +29,29 @@ const AllPosts = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
+  const handleNewPost = (newPost) => {
+    showSuccessToast(`Hey, you got a New Post!`);
+    setPosts((prevPosts) => [newPost, ...prevPosts]);
+  };
+
+  const handleDeletePost = (deletedPostId) => {
+    setPosts((prevPosts) =>
+      prevPosts.filter((post) => post._id !== deletedPostId)
+    );
+  };
+
+  const handleUpdatePost = (updatedPost) => {
+    setPosts((prevPosts) =>
+      prevPosts.map((post) =>
+        post._id === updatedPost._id ? updatedPost : post
+      )
+    );
+  };
+
+  useSocket("newPost", handleNewPost);
+  useSocket("deletePost", handleDeletePost);
+  useSocket("updatePost", handleUpdatePost);
 
   useEffect(() => {
     AOS.init({ duration: 1000, easing: "ease-in-out", once: true });

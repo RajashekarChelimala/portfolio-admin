@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col } from "reactstrap";
-import Type from "../ui-elements/Type";
-import myImg from "../assets/my-image.png";
 import { AiFillGithub, AiFillInstagram, AiOutlineTwitter } from "react-icons/ai";
 import { FaLinkedinIn } from "react-icons/fa";
+import { Col, Container, Row } from "reactstrap";
+import Type from "../ui-elements/Type";
 import { myAxios } from "../utils/api";
 import "./Home.css";
 
@@ -69,7 +68,7 @@ const Home = () => {
         setCurrentLoadingMessage(nextMessage);
 
         setLoadingMessagesQueue([...loadingMessagesQueue]); // Update queue without repeating messages
-      }, 1500); // Change message every 1.5 seconds
+      }, 4000); // Change message every 3 seconds
 
       return () => clearInterval(intervalId); // Cleanup on component unmount
     }

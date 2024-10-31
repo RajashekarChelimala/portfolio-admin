@@ -1,31 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { useDropzone } from "react-dropzone"; // Import useDropzone
 import { FaTrash } from "react-icons/fa"; // Import the trash icon from React Icons
 import {
   Button,
   Card,
   CardBody,
-  CardTitle,
-  CardText,
   CardFooter,
+  CardText,
+  CardTitle,
+  Col,
+  Container,
   Form,
   FormGroup,
-  Label,
   Input,
+  Label,
   Modal,
-  ModalHeader,
   ModalBody,
   ModalFooter,
-  Container,
+  ModalHeader,
   Row,
-  Col,
 } from "reactstrap";
-import { useDropzone } from "react-dropzone"; // Import useDropzone
-import { myAxios, myPrivateAxios } from "../utils/api";
-import { showSuccessToast, showErrorToast } from "../ui-elements/toastConfig";
-import "./ContactRequests.css";
-import Loader from "../ui-elements/Loader";
 import Swal from "sweetalert2";
+import useSocket from "../hooks/useSocket";
+import Loader from "../ui-elements/Loader";
 import { sweetAlert } from "../ui-elements/sweetAlert";
+import { showErrorToast, showSuccessToast } from "../ui-elements/toastConfig";
+import { myPrivateAxios } from "../utils/api";
+import "./ContactRequests.css";
 
 const ContactRequests = () => {
   const [requests, setRequests] = useState([]);
@@ -37,6 +38,14 @@ const ContactRequests = () => {
     body: "",
     attachments: [], // Change to array for multiple files
   });
+
+  const handleNewContact = (newContact) => {
+    console.log("newContact",newContact);
+    showSuccessToast(`New Contact Request from ${newContact.name}`);
+    setRequests((prevRequests) => [newContact, ...prevRequests]);
+  };
+
+  useSocket("newContact", handleNewContact);
 
   useEffect(() => {
     fetchRequests();
@@ -96,18 +105,18 @@ const ContactRequests = () => {
       await myPrivateAxios.post("/contact/send-email", formData);
       // showSuccessToast("Reply sent successfully!");
       sweetAlert({
-        type: 'success',
-        title: 'Success!',
-        text: 'Replied through Email!',
+        type: "success",
+        title: "Success!",
+        text: "Replied through Email!",
         timer: 2000, // Auto-close after 2 seconds
       });
       setReplyData({ subject: "", body: "", attachments: [] }); // Reset after sending
     } catch (error) {
       // showErrorToast("Error sending reply!");
       sweetAlert({
-        type: 'error',
-        title: 'Error!',
-        text: 'Error sending reply!',
+        type: "error",
+        title: "Error!",
+        text: "Error sending reply!",
         timer: 2000, // Auto-close after 2 seconds
       });
     } finally {
@@ -123,40 +132,41 @@ const ContactRequests = () => {
         showConfirmButton: true,
         showCancelButton: true,
       });
-  
+
       // Check if the user confirmed
       if (result.isConfirmed) {
         // Proceed with the deletion
         await myPrivateAxios.delete(`/contact/${id}`);
-        setRequests((prevRequests) => prevRequests.filter((request) => request.id !== id));
-        
+        setRequests((prevRequests) =>
+          prevRequests.filter((request) => request.id !== id)
+        );
+
         // Fetch updated requests
         fetchRequests();
-        
+
         // Show success toast
         sweetAlert({
-          type: 'success',
-          title: 'Success!',
-          text: 'Request Removed Successfully!',
+          type: "success",
+          title: "Success!",
+          text: "Request Removed Successfully!",
           timer: 2000, // Auto-close after 2 seconds
         });
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         // User clicked cancel
-        console.log('Cancelled!');
+        console.log("Cancelled!");
       }
     } catch (error) {
       // Show error toast if there's an issue
       sweetAlert({
-        type: 'error',
-        title: 'Error!',
-        text: 'Error Removing request!',
+        type: "error",
+        title: "Error!",
+        text: "Error Removing request!",
         timer: 2000, // Auto-close after 2 seconds
       });
     } finally {
       setIsLoading(false);
     }
   };
-  
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
@@ -165,18 +175,15 @@ const ContactRequests = () => {
       <Row>
         <Col md={8} className="mx-auto">
           <h2 className="text-center my-4">Contact Requests</h2>
-          {isLoading && 
-            <Loader type="bars" />}
-           {
-            requests.map((request) => (
-              <RequestCard
-                key={request.id}
-                request={request}
-                toggleModal={toggleModal}
-                handleRemove={handleRemove}
-              />
-            ))
-          }
+          {isLoading && <Loader type="bars" />}
+          {requests.map((request) => (
+            <RequestCard
+              key={request.id}
+              request={request}
+              toggleModal={toggleModal}
+              handleRemove={handleRemove}
+            />
+          ))}
         </Col>
       </Row>
 

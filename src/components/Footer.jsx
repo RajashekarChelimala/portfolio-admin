@@ -1,21 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Container, Row, Col } from "reactstrap";
 import {
   AiFillGithub,
-  AiOutlineTwitter,
   AiFillInstagram,
+  AiOutlineTwitter,
 } from "react-icons/ai";
 import { FaLinkedinIn } from "react-icons/fa";
-import "./Footer.css";
-import { myAxios } from "../utils/api";
+import { Col, Container, Row } from "reactstrap";
 import { ThemeContext } from "../context/ThemeProvider";
+import { myAxios } from "../utils/api";
+import "./Footer.css";
 
 function Footer() {
   const [contentData, setContentData] = useState({});
   const { theme } = useContext(ThemeContext);
   const colorStyle = theme==='dark'?"#212529":"white";
-  let date = new Date();
-  let year = date.getFullYear();
   useEffect(() => {
     const fetchContentData = async () => {
       try {

@@ -1,22 +1,21 @@
-import React, { useState, useRef } from "react";
+import React, { useRef, useState } from "react";
+import ReCAPTCHA from "react-google-recaptcha"; // Import reCAPTCHA
 import {
   Button,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  FormFeedback,
-  Container,
-  Row,
   Col,
+  Container,
+  Form,
+  FormFeedback,
+  FormGroup,
+  Input,
+  Label,
+  Row,
 } from "reactstrap";
 import Loader from "../ui-elements/Loader";
-import { showErrorToast, showSuccessToast } from "../ui-elements/toastConfig";
-import ReCAPTCHA from "react-google-recaptcha"; // Import reCAPTCHA
+import { sweetAlert } from "../ui-elements/sweetAlert";
+import { showErrorToast } from "../ui-elements/toastConfig";
 import { myAxios } from "../utils/api";
 import "./Contact.css";
-import Swal from "sweetalert2";
-import { sweetAlert } from "../ui-elements/sweetAlert";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -73,7 +72,12 @@ const Contact = () => {
     if (formData.name.trim().length === 0) {
       errors.name = "Name cannot be empty.";
       hasError = true;
-      if (nameRef.current && !errors.message && !errors.email && !errors.mobileNumber) {
+      if (
+        nameRef.current &&
+        !errors.message &&
+        !errors.email &&
+        !errors.mobileNumber
+      ) {
         nameRef.current.scrollIntoView({ behavior: "smooth" });
       }
     }
@@ -112,12 +116,12 @@ const Contact = () => {
       setIsLoading(true);
 
       try {
-        const response = await myAxios.post(`/contact`, formData);
+        await myAxios.post(`/contact`, formData);
         // showSuccessToast("Message sent successfully!");
         sweetAlert({
-          type: 'success',
-          title: 'Success!',
-          text: 'Message sent successfully!',
+          type: "success",
+          title: "Success!",
+          text: "Message sent successfully!",
           timer: 2000, // Auto-close after 2 seconds
         });
 
@@ -135,9 +139,9 @@ const Contact = () => {
       } catch (error) {
         // showErrorToast("Error Sending Message!");
         sweetAlert({
-          type: 'error',
-          title: 'Error!',
-          text: 'Error Sending Message!',
+          type: "error",
+          title: "Error!",
+          text: "Error Sending Message!",
           timer: 2000, // Auto-close after 2 seconds
         });
       } finally {
@@ -168,7 +172,9 @@ const Contact = () => {
     <Container className="contact">
       <Row>
         <Col md={8} className="mx-auto">
-          <h2 data-aos="fade-up" className="text-center my-4">Contact Me</h2>
+          <h2 data-aos="fade-up" className="text-center my-4">
+            Contact Me
+          </h2>
           <Form onSubmit={handleSubmit}>
             <FormGroup data-aos="fade-right" innerRef={nameRef}>
               <Label for="name">Name</Label>
@@ -228,7 +234,7 @@ const Contact = () => {
               />
               <FormFeedback>{errorData.message}</FormFeedback>
             </FormGroup>
-            
+
             {/* Add reCAPTCHA */}
             <ReCAPTCHA
               ref={recaptchaRef}

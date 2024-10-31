@@ -1,28 +1,29 @@
-import React, { useContext, useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
-import Home from "./components/Home";
-import Login from "./components/Login";
-import BaseLayout from "../src/components/BaseLayout"; // Import the base layout component
-import { AuthProvider } from "./context/AuthProvider";
-import AdminDashboard from "./components/AdminDashboard";
-import ProtectedRoute from "./context/ProtectedRoute";
-import Services from "./components/Services";
-import ToDo from "./components/ToDo";
-import Register from "./components/Register";
-import ManagePosts from "./components/ManagePosts";
-import FullPost from "./components/FullPost";
-import AllPosts from "./components/AllPosts";
 import AOS from "aos";
 import "aos/dist/aos.css"; // AOS animations CSS
+import React, { useContext, useEffect } from "react";
+import { Route, Routes } from "react-router-dom";
+import BaseLayout from "../src/components/BaseLayout"; // Import the base layout component
+import AboutMe from "./components/AboutMe";
+import AdminDashboard from "./components/AdminDashboard";
+import AllPosts from "./components/AllPosts";
 import Contact from "./components/Contact";
 import ContactRequests from "./components/ContactRequests";
-import ManageProjects from "./components/ManageProjects";
-import Projects from "./components/Projects";
-import ManageSkills from "./components/ManageSkills";
-import Resume from "./components/Resume";
+import FullPost from "./components/FullPost";
+import Home from "./components/Home";
+import Login from "./components/Login";
 import ManageContent from "./components/ManageContent";
-import AboutMe from "./components/AboutMe";
-import { ThemeContext, ThemeProvider } from "./context/ThemeProvider";
+import ManagePosts from "./components/ManagePosts";
+import ManageProjects from "./components/ManageProjects";
+import ManageSkills from "./components/ManageSkills";
+import Projects from "./components/Projects";
+import Register from "./components/Register";
+import Resume from "./components/Resume";
+import Services from "./components/Services";
+import ToDo from "./components/ToDo";
+import { AuthContext } from "./context/AuthProvider";
+import ProtectedRoute from "./context/ProtectedRoute";
+import { ThemeContext } from "./context/ThemeProvider";
+import MouseFollowerParticle from "./ui-elements/MouseFollowerParticle";
 
 function App() {
   useEffect(() => {
@@ -30,9 +31,11 @@ function App() {
   }, []);
 
   const { theme } = useContext(ThemeContext);
+  const { auth } = useContext(AuthContext);
+
   return (
-    <div className={theme === 'dark' ? 'dark' : ''}>
-      <AuthProvider>
+    <div className={theme === "dark" ? "dark" : ""}>
+        {auth.isLoggedIn && <MouseFollowerParticle />}
         <Routes>
           <Route path="/" element={<BaseLayout />}>
             <Route index element={<Home />} />
@@ -110,8 +113,7 @@ function App() {
             <Route path="/about" element={<AboutMe />} />
           </Route>
         </Routes>
-      </AuthProvider>
-      </div>
+    </div>
   );
 }
 

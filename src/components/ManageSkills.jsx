@@ -385,7 +385,7 @@ export default function ManageSkills() {
                         ? skill.description
                         : `${skill.description.substring(0, 100)}...`}
                       {skill.description.length > 100 && (
-                        <a
+                        <span
                           onClick={() => toggleExpand(skill.id)} // Toggle only for the clicked skill
                           style={{
                             cursor: "pointer",
@@ -393,7 +393,7 @@ export default function ManageSkills() {
                           }}
                         >
                           {expanded[skill.id] ? "Show less" : "Show more"}
-                        </a>
+                        </span>
                       )}
                     </p>
                   </CardText>
