@@ -1,12 +1,11 @@
 import React, { useState, useContext } from 'react';
 import { Form, FormGroup, Label, Input, Button, Container, Row, Col, InputGroup, InputGroupText } from 'reactstrap';
 import { AiOutlineUser, AiOutlineLock, AiOutlineKey } from 'react-icons/ai';
-import './Register.css'; // Import your custom CSS if needed
+import './Register.css';
 import { AuthContext } from '../context/AuthProvider';
-import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
-  const { register } = useContext(AuthContext); // Destructure the `register` function from context
+  const { register } = useContext(AuthContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [adminKey, setAdminKey] = useState('');
@@ -15,9 +14,9 @@ const Register = () => {
     e.preventDefault();
     try {
       console.log("Registering");
-      await register(username, password, adminKey); // Use the `register` function from context
+      await register(username, password, adminKey);
     } catch (error) {
-      console.error("Registration failed", error); // Log the error
+      console.error("Registration failed", error);
     }
   };
 
@@ -68,17 +67,19 @@ const Register = () => {
                   <AiOutlineKey />
                 </InputGroupText>
                 <Input
-                  type="text"
+                  type="password"
                   name="adminKey"
                   id="adminKey"
-                  placeholder="Enter the admin key"
+                  placeholder="Enter Admin Key"
                   className="register-input"
                   value={adminKey}
                   onChange={(e) => setAdminKey(e.target.value)}
                 />
               </InputGroup>
             </FormGroup>
-            <Button type="submit" color="primary" className="register-button">Register</Button>
+            <Button color="primary" type="submit" block className="register-button">
+              Register
+            </Button>
           </Form>
         </Col>
       </Row>
