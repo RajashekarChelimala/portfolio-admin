@@ -1,37 +1,26 @@
 import React, { useState, useEffect } from "react";
 import {
-  Button,
-  Card,
-  CardImg,
-  CardBody,
-  CardTitle,
-  CardText,
   Row,
   Col,
-  Alert,
-  Input,
+  Container,
 } from "reactstrap";
-import { AiFillHeart, AiOutlineLink } from "react-icons/ai";
-import { IoEye } from "react-icons/io5";
+import { AiFillHeart, AiOutlineShareAlt, AiOutlineSearch, AiOutlineEye } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { myAxios } from "../utils/api";
-import AOS from "aos";
-import "aos/dist/aos.css";
+import { DEFAULT_POSTS } from "../utils/fallbackData";
 import likeSoundFile from "../assets/sounds/like-sound.mp3";
-import "./AllPosts.css";
-import Loader from "../ui-elements/Loader";
 import useSocket from "../hooks/useSocket";
 import { showSuccessToast } from "../ui-elements/toastConfig";
+import "./AllPosts.css";
 
 const AllPosts = () => {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState(DEFAULT_POSTS);
   const [sortOrder, setSortOrder] = useState("mostRecent");
   const [searchTerm, setSearchTerm] = useState("");
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   const handleNewPost = (newPost) => {
-    showSuccessToast(`Hey, you got a New Post!`);
+    showSuccessToast(`Hey, a new article was published!`);
     setPosts((prevPosts) => [newPost, ...prevPosts]);
   };
 
@@ -54,49 +43,19 @@ const AllPosts = () => {
   useSocket("updatePost", handleUpdatePost);
 
   useEffect(() => {
-    AOS.init({ duration: 1000, easing: "ease-in-out", once: true });
+    window.scrollTo({ top: 0, behavior: "smooth" });
     fetchPosts();
   }, []);
 
   const fetchPosts = async () => {
     try {
       const response = await myAxios.get("/posts");
-      setPosts(response.data);
+      if (Array.isArray(response.data) && response.data.length > 0) {
+        setPosts(response.data);
+      }
     } catch (err) {
-      console.error("Failed to fetch posts:", err);
-      setPosts([]);
-    } finally {
-      setLoading(false);
+      console.warn("Using default posts while backend wakes up:", err.message);
     }
-  };
-
-  const sortedPosts = () => {
-    let sorted = [...posts];
-    switch (sortOrder) {
-      case "mostRecent":
-        sorted.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        break;
-      case "oldest":
-        sorted.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
-        break;
-      case "liked":
-        sorted.sort((a, b) => b.likes - a.likes);
-        break;
-      case "mostEngaged":
-        sorted.sort((a, b) => b.engagementCount - a.engagementCount);
-        break;
-      default:
-        break;
-    }
-    return sorted.filter(
-      (post) =>
-        post.headline.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        post.content.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  };
-
-  const handleSearch = (e) => {
-    setSearchTerm(e.target.value);
   };
 
   const getVisitorId = () => {
@@ -109,155 +68,205 @@ const AllPosts = () => {
   };
 
   const playLikeSound = () => {
-    const likeSound = new Audio(likeSoundFile);
-    likeSound.play();
+    try {
+      const likeSound = new Audio(likeSoundFile);
+      likeSound.play();
+    } catch {
+      // Audio playback might be prevented by browser auto-play policy
+    }
   };
 
-  const likePost = async (postId) => {
+  const likePost = async (e, postId) => {
+    e.stopPropagation();
     const visitorId = getVisitorId();
     try {
       await myAxios.post(`/posts/${postId}/like`, { visitorId });
       playLikeSound();
-      fetchPosts();
+      // Optimistic update
+      setPosts((prev) =>
+        prev.map((p) => (p._id === postId ? { ...p, likes: (p.likes || 0) + 1 } : p))
+      );
     } catch (err) {
       console.error("Failed to like post:", err);
-      alert("Failed to like the post.");
     }
   };
 
   const viewFullPost = (postId) => {
     const visitorId = getVisitorId();
-    myAxios.post(`/posts/${postId}/engage`, { visitorId });
+    try {
+      myAxios.post(`/posts/${postId}/engage`, { visitorId });
+    } catch {
+      // Background engage fire-and-forget
+    }
     navigate(`/posts/${postId}`);
   };
 
-  const copyLink = (postId) => {
+  const copyLink = (e, postId) => {
+    e.stopPropagation();
     const postUrl = `${window.location.origin}/posts/${postId}`;
     navigator.clipboard.writeText(postUrl);
-    alert("Link copied to clipboard!");
+    showSuccessToast("Article link copied to clipboard!");
   };
 
+  const calculateReadTime = (content) => {
+    if (!content) return "2 min read";
+    const words = content.replace(/<[^>]*>?/gm, "").split(/\s+/).length;
+    const minutes = Math.ceil(words / 200);
+    return `${minutes} min read`;
+  };
+
+  const sortedPosts = () => {
+    let sorted = [...posts];
+    switch (sortOrder) {
+      case "mostRecent":
+        sorted.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+        break;
+      case "oldest":
+        sorted.sort((a, b) => new Date(a.createdAt || 0) - new Date(b.createdAt || 0));
+        break;
+      case "liked":
+        sorted.sort((a, b) => (b.likes || 0) - (a.likes || 0));
+        break;
+      case "mostEngaged":
+        sorted.sort((a, b) => (b.engagementCount || 0) - (a.engagementCount || 0));
+        break;
+      default:
+        break;
+    }
+    return sorted.filter(
+      (post) =>
+        post.headline?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        post.content?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  };
+
+  const filtered = sortedPosts();
+
   return (
-    <div className="container mt-4 all-posts">
-      <h2 className="text-center">Posts</h2>
+    <div className="posts-page">
+      <Container>
+        {/* Header Section */}
+        <section className="posts-header text-center my-4" data-aos="fade-up">
+          <span className="status-pill mb-3">
+            <span className="pulse-dot" /> Engineering Insights
+          </span>
+          <h1 className="section-title">
+            Articles & <span className="gradient-text">Publications</span>
+          </h1>
+          <p className="section-subtitle">
+            Deep dives into scalable architecture, modern full-stack workflows, performance, and best practices.
+          </p>
 
-      {/* Sorting and Searching */}
-      <Row className="d-flex justify-content-between mb-3">
-        <Col md="4">
-          <Input
-            type="text"
-            placeholder="Search..."
-            value={searchTerm}
-            onChange={handleSearch}
-            className="search-input"
-          />
-        </Col>
-        <Col md="4">
-          <select
-            value={sortOrder}
-            onChange={(e) => setSortOrder(e.target.value)}
-            className="sort-select"
-          >
-            <option value="mostRecent">Most Recent</option>
-            <option value="oldest">Oldest</option>
-            <option value="liked">Most Liked</option>
-            <option value="mostEngaged">Most Engaged</option>
-          </select>
-        </Col>
-      </Row>
+          {/* Search & Sort Bar */}
+          <div className="posts-control-bar glass-panel">
+            <div className="search-wrap">
+              <AiOutlineSearch className="search-icon" />
+              <input
+                type="text"
+                placeholder="Search articles by keyword or topic..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="search-field"
+              />
+            </div>
 
-      {loading ? (
-        <div className="d-flex justify-content-center">
-          <Loader type="bars" />
-        </div>
-      ) : (
-        <Row>
-          {sortedPosts().length > 0 ? (
-            sortedPosts().map((post) => (
-              <Col
-                sm="12"
-                md="6"
-                lg="4"
-                key={post._id}
-                className="mb-4"
-                data-aos="fade-up"
-              >
-                <Card
-                  className="card-custom"
-                  onClick={() => viewFullPost(post._id)}
-                  style={{ cursor: "pointer" }}
+            <div className="sort-pills">
+              {[
+                { label: "Most Recent", val: "mostRecent" },
+                { label: "Most Liked", val: "liked" },
+                { label: "Most Engaged", val: "mostEngaged" }
+              ].map((s) => (
+                <button
+                  key={s.val}
+                  className={`sort-pill ${sortOrder === s.val ? "active" : ""}`}
+                  onClick={() => setSortOrder(s.val)}
                 >
-                  {post.image && (
-                    <CardImg
-                      top
-                      width="100%"
-                      src={post.image}
-                      alt={post.headline}
-                      style={{ maxHeight: "300px", objectFit: "cover" }}
-                    />
-                  )}
-                  <CardBody className="custom-card-body">
-                    <CardTitle className="card-title-custom" tag="h5">
-                      {post.headline}
-                    </CardTitle>
-                    <CardText
-                      className="card-text-custom"
-                      dangerouslySetInnerHTML={{ __html: post.content }}
-                    />
-                    <div
-                      className="interaction-section d-flex justify-content-between mt-3"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <div className="interaction-icons d-flex gap-3">
-                        <Button
-                          color="danger"
-                          className="rounded-pill d-flex align-items-center"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            likePost(post._id);
-                          }}
-                        >
-                          <AiFillHeart className="me-2" size={20} />{" "}
-                          {post.likes || 0}
-                        </Button>
-                        <Button
-                          color="warning"
-                          className="rounded-pill d-flex align-items-center"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            viewFullPost(post._id);
-                          }}
-                        >
-                          <IoEye className="me-2" size={20} />{" "}
-                          {post.engagementCount || 0}
-                        </Button>
-                      </div>
-                      <div className="copy-link">
-                        <Button
-                          color="info"
-                          className="rounded-pill d-flex align-items-center"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            copyLink(post._id);
-                          }}
-                        >
-                          <AiOutlineLink className="me-2" size={20} /> Copy Link
-                        </Button>
-                      </div>
+                  {s.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Posts Grid */}
+        <Row className="g-4 my-4">
+          {filtered.length > 0 ? (
+            filtered.map((post) => (
+              <Col lg={4} md={6} sm={12} key={post._id} data-aos="fade-up">
+                <article
+                  className="article-modern-card glass-panel h-100"
+                  onClick={() => viewFullPost(post._id)}
+                >
+                  {post.image ? (
+                    <div className="article-cover-wrap">
+                      <img
+                        src={post.image}
+                        alt={post.headline}
+                        className="article-cover-img"
+                        loading="lazy"
+                      />
                     </div>
-                  </CardBody>
-                </Card>
+                  ) : (
+                    <div className="article-placeholder-cover">
+                      <span className="gradient-text fs-4 fw-bold">RC Tech</span>
+                    </div>
+                  )}
+
+                  <div className="article-body">
+                    <div className="article-meta">
+                      <span className="read-time-badge">{calculateReadTime(post.content)}</span>
+                      <span className="article-date">
+                        {post.createdAt ? new Date(post.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "Recent"}
+                      </span>
+                    </div>
+
+                    <h3 className="article-title">{post.headline}</h3>
+
+                    <p className="article-snippet">
+                      {post.content
+                        ? post.content.replace(/<[^>]*>?/gm, "").substring(0, 120) + "..."
+                        : "Click to read full publication."}
+                    </p>
+
+                    <div className="article-footer mt-auto pt-3">
+                      <div className="article-stats">
+                        <button
+                          type="button"
+                          className="stat-btn heart"
+                          onClick={(e) => likePost(e, post._id)}
+                          title="Like article"
+                        >
+                          <AiFillHeart className="stat-icon heart-icon" /> {post.likes || 0}
+                        </button>
+
+                        <span className="stat-item" title="Views">
+                          <AiOutlineEye className="stat-icon" /> {post.views || 0}
+                        </span>
+                      </div>
+
+                      <button
+                        type="button"
+                        className="share-btn"
+                        onClick={(e) => copyLink(e, post._id)}
+                        title="Copy article link"
+                      >
+                        <AiOutlineShareAlt />
+                      </button>
+                    </div>
+                  </div>
+                </article>
               </Col>
             ))
           ) : (
-            <Col>
-              <Alert color="info" className="text-center">
-                No posts available
-              </Alert>
+            <Col xs={12} className="text-center py-5">
+              <div className="glass-panel p-5 max-w-md mx-auto">
+                <h4>No articles matched your search.</h4>
+                <p className="text-secondary mb-0">Try searching for other engineering keywords.</p>
+              </div>
             </Col>
           )}
         </Row>
-      )}
+      </Container>
     </div>
   );
 };

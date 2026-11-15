@@ -193,7 +193,6 @@ const ManageProjects = () => {
   };
 
   const handleEdit = (project) => {
-    alert("EDIT:" + JSON.stringify(project));
     setFormData({
       ...project,
       fromDate: project.fromDate

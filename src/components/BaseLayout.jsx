@@ -5,13 +5,13 @@ import Footer from './Footer';
 
 const BaseLayout = () => {
   return (
-    <>
+    <div className="app-container">
       <Header />
-      <div style={{marginTop:'70px',marginBottom:'150px'}}>
+      <main className="main-content">
         <Outlet />
-      </div>
+      </main>
       <Footer />
-    </>
+    </div>
   );
 };
 

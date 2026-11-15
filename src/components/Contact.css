@@ -1,15 +1,175 @@
-.input-dark{
-    background-color: transparent !important;
-    color: var(--text-color) !important;
+/* ==========================================================================
+   Modern Contact Page Styling
+   ========================================================================== */
+
+.contact-page {
+  padding-bottom: 4rem;
 }
 
-.input-dark::placeholder {
-    color: var(--text-color) !important; /* Set placeholder text color to white */
-    opacity: 1; /* Adjusts the opacity, 1 is fully opaque */
+.contact-header {
+  padding-top: 2rem;
 }
 
-.form-label{
-    font-weight: bold !important;
-    font-size: 1.2em;
-    color: var(--text-color);
+/* ================= Contact Info Card ================= */
+.contact-info-card {
+  padding: 2.25rem 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.info-card-title {
+  font-size: 1.45rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.info-card-desc {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin-bottom: 1.5rem;
+}
+
+.email-copy-pill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-radius: 0.85rem;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+}
+
+.email-icon {
+  font-size: 1.25rem;
+  color: var(--accent-cyan);
+}
+
+.email-text {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.copy-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.15rem;
+  cursor: pointer;
+  padding: 0.2rem;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.copy-btn:hover {
+  color: var(--accent-cyan);
+  transform: scale(1.1);
+}
+
+.channel-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.channel-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.channel-icon-wrap {
+  width: 42px;
+  height: 42px;
+  border-radius: 0.75rem;
+  background: var(--bg-tertiary);
+  color: var(--accent-cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.channel-label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.channel-val {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.social-heading {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.contact-social-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  transition: all 0.2s ease;
+}
+
+.contact-social-btn:hover {
+  border-color: var(--accent-cyan);
+  background: var(--accent-gradient);
+  color: #ffffff !important;
+  transform: translateY(-2px);
+}
+
+/* ================= Contact Form Card ================= */
+.contact-form-card {
+  padding: 2.25rem 2rem;
+}
+
+.form-card-title {
+  font-size: 1.45rem;
+  font-weight: 700;
+}
+
+.modern-label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 0.4rem;
+}
+
+.modern-input {
+  background: var(--bg-primary) !important;
+  border: 1px solid var(--border-subtle) !important;
+  color: var(--text-primary) !important;
+  border-radius: 0.75rem !important;
+  padding: 0.75rem 1rem !important;
+  font-size: 0.95rem !important;
+  transition: all 0.2s ease !important;
+}
+
+.modern-input:focus {
+  border-color: var(--accent-cyan) !important;
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2) !important;
+  outline: none !important;
+}
+
+.modern-input.textarea {
+  resize: vertical;
 }

@@ -1,8 +1,193 @@
-/* Home.css or another relevant CSS file */
-.navbar {
-  overflow: hidden; /* Prevents overflow issues */
+.header-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 1rem 0;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.navbar .nav-link {
-  white-space: nowrap; /* Prevents text wrapping */
+.header-wrapper.scrolled {
+  padding: 0.6rem 0;
+}
+
+.custom-navbar {
+  background: var(--bg-nav);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 9999px;
+  padding: 0.5rem 1.25rem !important;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.header-wrapper.scrolled .custom-navbar {
+  border-color: var(--border-glow);
+  box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.35);
+}
+
+/* Brand Logo */
+.brand-logo {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--text-primary) !important;
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+
+.logo-accent {
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.logo-dot {
+  color: var(--accent-cyan);
+}
+
+/* Nav Links Group */
+.nav-links-group {
+  gap: 0.25rem;
+}
+
+.custom-nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.9rem !important;
+  color: var(--text-secondary) !important;
+  font-size: 0.92rem;
+  font-weight: 500;
+  border-radius: 9999px;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.custom-nav-link:hover {
+  color: var(--text-primary) !important;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.custom-nav-link.active {
+  color: var(--text-primary) !important;
+  font-weight: 600;
+  background: var(--bg-tertiary);
+}
+
+.dark .custom-nav-link.active {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff !important;
+}
+
+.nav-icon {
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+/* Theme Toggle Button */
+.theme-toggle-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.theme-toggle-btn:hover {
+  border-color: var(--accent-cyan);
+  background: var(--bg-tertiary);
+  transform: rotate(15deg);
+}
+
+.theme-icon.sun {
+  color: #fbbf24;
+}
+
+.theme-icon.moon {
+  color: #818cf8;
+}
+
+/* Nav Action Buttons */
+.nav-action-btn {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.45rem 0.9rem;
+  border-radius: 9999px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.nav-action-btn.ghost {
+  color: var(--text-secondary);
+  border-color: var(--border-subtle);
+  background: transparent;
+}
+
+.nav-action-btn.ghost:hover {
+  color: var(--text-primary);
+  border-color: var(--accent-cyan);
+  background: rgba(56, 189, 248, 0.08);
+}
+
+.nav-action-btn.secondary {
+  background: var(--accent-gradient);
+  color: #ffffff !important;
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+}
+
+.nav-action-btn.secondary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.45);
+}
+
+.nav-action-btn.danger {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  cursor: pointer;
+}
+
+.nav-action-btn.danger:hover {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+/* Mobile Toggler */
+.custom-toggler {
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: 0.5rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.dark .custom-toggler {
+  filter: invert(1);
+}
+
+@media (max-width: 767.98px) {
+  .custom-navbar {
+    border-radius: 1.25rem;
+  }
+  .navbar-collapse-custom {
+    padding-top: 1rem;
+    margin-top: 0.5rem;
+    border-top: 1px solid var(--border-subtle);
+  }
+  .custom-nav-link {
+    width: 100%;
+    padding: 0.65rem 1rem !important;
+  }
 }

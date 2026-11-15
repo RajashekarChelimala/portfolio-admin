@@ -1,7 +1,46 @@
-.login-form{
-    color: var(--text-color);
+/* ==========================================================================
+   Modern Login & Register Page Styling
+   ========================================================================== */
+
+.login-container {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.login-title{
-    color: var(--text-color);
+.login-form {
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 1.5rem;
+  padding: 2.5rem 2rem;
+  box-shadow: var(--card-shadow);
+}
+
+.login-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 1.75rem;
+  letter-spacing: -0.02em;
+}
+
+.login-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 0.4rem;
+}
+
+.login-input {
+  background: var(--bg-primary) !important;
+  border: 1px solid var(--border-subtle) !important;
+  color: var(--text-primary) !important;
+}
+
+.login-input:focus {
+  border-color: var(--accent-cyan) !important;
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2) !important;
 }

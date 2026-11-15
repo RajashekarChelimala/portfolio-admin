@@ -1,222 +1,279 @@
 import React, { useEffect, useState } from "react";
-import { FaGithub, FaLinkedin, FaInstagram, FaTwitter } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import {
   Container,
   Row,
   Col,
-  Card,
-  CardBody,
-  CardTitle,
-  CardText,
-  Button,
 } from "reactstrap";
+import {
+  AiOutlineArrowRight,
+  AiOutlineBook,
+  AiOutlineGlobal,
+  AiOutlineAim,
+  AiOutlineLaptop,
+  AiOutlineCompass
+} from "react-icons/ai";
+import { FaGraduationCap } from "react-icons/fa";
 import myImg from "../assets/my-image.png";
 import { myAxios } from "../utils/api";
+import { DEFAULT_CONTENT, DEFAULT_SKILLS, DEFAULT_PROJECTS } from "../utils/fallbackData";
 import "./AboutMe.css";
-import { useNavigate } from "react-router-dom";
-import Loader from "../ui-elements/Loader";
 
 export default function AboutMe() {
-  const [content, setContent] = useState(null);
-  const [skills, setSkills] = useState([]);
-  const [projects, setProjects] = useState([]);
-  const [loading, setLoading] = useState(true); // Set loading initially to true
-
-  const navigate = useNavigate(); // Initialize the navigate hook
+  const [content, setContent] = useState(DEFAULT_CONTENT);
+  const [skills, setSkills] = useState(DEFAULT_SKILLS);
+  const [projects, setProjects] = useState(DEFAULT_PROJECTS);
+  const [activeCategory, setActiveCategory] = useState("All");
 
   useEffect(() => {
-    fetchContentData();
-    fetchSkillsData();
-    fetchProjectsData();
-    // Scroll to top on page load
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    const loadData = async () => {
+      try {
+        const contentRes = await myAxios.get("/content");
+        if (contentRes.data && contentRes.data.name) {
+          setContent((prev) => ({ ...prev, ...contentRes.data }));
+        }
+      } catch (err) {
+        console.warn("Using default content in AboutMe:", err.message);
+      }
+
+      try {
+        const skillsRes = await myAxios.get("/skills");
+        if (Array.isArray(skillsRes.data) && skillsRes.data.length > 0) {
+          setSkills(skillsRes.data);
+        }
+      } catch (err) {
+        console.warn("Using default skills in AboutMe:", err.message);
+      }
+
+      try {
+        const projRes = await myAxios.get("/projects");
+        if (Array.isArray(projRes.data) && projRes.data.length > 0) {
+          setProjects(projRes.data.slice(0, 3));
+        }
+      } catch (err) {
+        console.warn("Using default projects in AboutMe:", err.message);
+      }
+    };
+
+    loadData();
   }, []);
 
-  const fetchContentData = async () => {
-    try {
-      const response = await myAxios.get("/content");
-      setContent(response.data);
-      setLoading(false); // Stop loading after data is fetched
-    } catch (error) {
-      console.error("Error fetching content data:", error);
-      setLoading(false); // Stop loading even on error
-    }
-  };
+  const profileImg = (content?.imageLink && content.imageLink.startsWith("http"))
+    ? content.imageLink
+    : myImg;
 
-  const fetchSkillsData = async () => {
-    try {
-      const response = await myAxios.get("/skills");
-      setSkills(response.data);
-    } catch (error) {
-      console.error("Error fetching skills data:", error);
-    }
-  };
+  // Extract unique skill types
+  const categories = ["All", ...Array.from(new Set(skills.map((s) => s.type || "Other")))];
 
-  const fetchProjectsData = async () => {
-    try {
-      const response = await myAxios.get("/projects");
-      setProjects(response.data.slice(0, 3));
-    } catch (error) {
-      console.error("Error fetching projects data:", error);
-    }
-  };
+  const filteredSkills = activeCategory === "All"
+    ? skills
+    : skills.filter((s) => s.type === activeCategory);
 
-  if (loading) {
-    return <Loader type="bars" />; // Display loading message while data is being fetched
-  }
+  const hobbiesList = content?.hobbies
+    ? content.hobbies.split(",").map((h) => h.trim())
+    : ["System Architecture", "Open Source Contributing", "Tech Blogging", "UI/UX Design"];
 
   return (
-    <Container className="about-me">
-      <Row className="header-section align-items-center">
-        <Col md="4">
-          <img src={content.imageLink || myImg} alt="Profile" className="profile-image img-fluid" />
-        </Col>
-        <Col md="8">
-          <h1>About Me</h1>
-          <span dangerouslySetInnerHTML={{ __html: content.introduction }}></span>
-        </Col>
-      </Row>
+    <div className="about-me-page">
+      <Container>
+        {/* ================= HEADER SECTION ================= */}
+        <section className="about-header text-center my-4" data-aos="fade-up">
+          <span className="status-pill mb-3">
+            <span className="pulse-dot" /> Engineering Journey
+          </span>
+          <h1 className="section-title">
+            About <span className="gradient-text">Me</span>
+          </h1>
+          <p className="section-subtitle">
+            Software engineer focused on high-performance web systems, resilient backend APIs, and modern UI engineering.
+          </p>
+        </section>
 
-      <Row className="details-section my-5">
-        <Col>
-          <h2>General Information</h2>
-          <Row>
-            <DetailCard title="Organization" value={content.organization} />
-            <DetailCard title="Designation" value={content.designation} />
-            <DetailCard title="Location" value={content.location} />
-            <DetailCard title="Education" value={content.education} />
-            <DetailCard title="Degree" value={content.degree} />
-            <DetailCard title="Languages" value={content.languages} />
-          </Row>
-        </Col>
-      </Row>
+        {/* ================= BENTO PROFILE GRID ================= */}
+        <section className="about-bento-grid my-5" data-aos="fade-up">
+          <Row className="g-4">
+            {/* Left Card: Profile & Core Bio */}
+            <Col lg={7} md={12}>
+              <div className="about-glass-card h-100">
+                <div className="about-intro-wrapper">
+                  <div className="about-avatar-ring">
+                    <img src={profileImg} alt={content?.name || "Rajashekar Chelimala"} className="about-avatar-img" />
+                  </div>
+                  <div>
+                    <h2 className="about-name">{content?.name || "Rajashekar Chelimala"}</h2>
+                    <p className="about-role-tag">{content?.designation || "Full Stack Software Engineer"}</p>
+                    <p className="about-location">📍 {content?.location || "Hyderabad, India"}</p>
+                  </div>
+                </div>
 
-      <Row className="skills-section my-5">
-        <Col>
-          <h2>My Skillset</h2>
-          <Row>
-            {skills.map((skill) => (
-              <SkillCard key={skill.name} skill={skill} />
-            ))}
-          </Row>
-        </Col>
-      </Row>
+                <div className="about-story mt-4">
+                  <p>
+                    I fell in love with programming early on and have spent years mastering scalable system design,
+                    reactive frontend architecture, and resilient API ecosystems.
+                  </p>
+                  <p>
+                    I enjoy transforming complex backend workflows into seamless, high-speed user experiences.
+                    My primary toolchain centers around <strong>React, TypeScript, Node.js, Express, and MongoDB</strong> on the web,
+                    along with <strong>Java & Spring Boot</strong> for enterprise-grade distributed microservices.
+                  </p>
+                  <p>
+                    Whenever possible, I prioritize clean architecture, automated testing, containerized deployments,
+                    and performance optimizations to ensure 99.9% uptime.
+                  </p>
+                </div>
+              </div>
+            </Col>
 
-      <Row className="projects-section my-5">
-        <Col>
-          <h2>Projects</h2>
-          <Row>
-            {projects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
-            ))}
-          </Row>
-          <Row className="my-3">
-            <Col>
-              <Button
-                color="primary"
-                outline
-                onClick={() => navigate("/projects")} // Navigate to the /projects route on click
-              >
-                View All Projects
-              </Button>
+            {/* Right Card: Quick Facts & Credentials */}
+            <Col lg={5} md={12}>
+              <div className="about-glass-card h-100">
+                <h3 className="card-heading mb-4">Professional Snapshot</h3>
+
+                <div className="snapshot-list">
+                  <div className="snapshot-item">
+                    <div className="snapshot-icon"><AiOutlineLaptop /></div>
+                    <div>
+                      <div className="snapshot-label">Role & Focus</div>
+                      <div className="snapshot-val">{content?.designation || "Full Stack Software Engineer"}</div>
+                    </div>
+                  </div>
+
+                  <div className="snapshot-item">
+                    <div className="snapshot-icon"><FaGraduationCap /></div>
+                    <div>
+                      <div className="snapshot-label">Degree</div>
+                      <div className="snapshot-val">{content?.degree || "B.Tech in Computer Science"}</div>
+                    </div>
+                  </div>
+
+                  <div className="snapshot-item">
+                    <div className="snapshot-icon"><AiOutlineBook /></div>
+                    <div>
+                      <div className="snapshot-label">Education</div>
+                      <div className="snapshot-val">{content?.education || "JNTU Hyderabad"}</div>
+                    </div>
+                  </div>
+
+                  <div className="snapshot-item">
+                    <div className="snapshot-icon"><AiOutlineCompass /></div>
+                    <div>
+                      <div className="snapshot-label">Organization</div>
+                      <div className="snapshot-val">{content?.organization || "Engineering Practice"}</div>
+                    </div>
+                  </div>
+
+                  <div className="snapshot-item">
+                    <div className="snapshot-icon"><AiOutlineGlobal /></div>
+                    <div>
+                      <div className="snapshot-label">Languages</div>
+                      <div className="snapshot-val">{content?.languages || "English, Telugu, Hindi"}</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Hobbies / Interests */}
+                <div className="mt-4 pt-3 border-top border-secondary">
+                  <div className="snapshot-label mb-2"><AiOutlineAim className="me-1" /> Core Interests</div>
+                  <div className="d-flex flex-wrap gap-2">
+                    {hobbiesList.map((hobby, i) => (
+                      <span key={i} className="hobby-chip">{hobby}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </Col>
           </Row>
-        </Col>
-      </Row>
+        </section>
 
-      <Row className="hobbies-section my-5">
-        <Col>
-          <h2>Hobbies/Interests</h2>
-          <Row>
-            {content.hobbies.split(",").map((hobbie) => (
-              <HobbieCard key={hobbie} hobbie={hobbie} />
+        {/* ================= SKILL MATRIX ================= */}
+        <section className="skills-matrix-section my-5" data-aos="fade-up">
+          <div className="text-center mb-4">
+            <h2 className="section-title">Technical <span className="gradient-text">Skillset</span></h2>
+            <p className="section-subtitle">Comprehensive overview of languages, frameworks, and architecture toolkits</p>
+
+            {/* Category Filter Pills */}
+            <div className="category-filter-strip">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  className={`filter-pill ${activeCategory === cat ? "active" : ""}`}
+                  onClick={() => setActiveCategory(cat)}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <Row className="g-4">
+            {filteredSkills.map((skill) => {
+              const proficiencyVal = skill.proficiency || 88;
+              return (
+                <Col lg={4} md={6} sm={12} key={skill._id || skill.name}>
+                  <div className="skill-matrix-card glass-panel">
+                    <div className="skill-card-top">
+                      <div className="skill-name-group">
+                        <h4 className="skill-title">{skill.name}</h4>
+                        <span className="skill-type-tag">{skill.type}</span>
+                      </div>
+                      <span className="skill-exp">{skill.experience || "3+ Yrs"}</span>
+                    </div>
+
+                    <div className="skill-meter-wrap mt-3">
+                      <div className="d-flex justify-content-between mb-1">
+                        <span className="skill-meter-label">Proficiency</span>
+                        <span className="skill-meter-percent">{proficiencyVal}%</span>
+                      </div>
+                      <div className="skill-meter-bar">
+                        <div
+                          className="skill-meter-fill"
+                          style={{ width: `${proficiencyVal}%` }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </Col>
+              );
+            })}
+          </Row>
+        </section>
+
+        {/* ================= RECENT HIGHLIGHTS ================= */}
+        <section className="recent-highlights my-5" data-aos="fade-up">
+          <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+            <div>
+              <h2 className="section-title text-start mb-1">Key <span className="gradient-text">Projects</span></h2>
+              <p className="text-secondary mb-0">Engineered systems reflecting these capabilities</p>
+            </div>
+            <Link to="/projects" className="btn-modern-primary">
+              All Projects <AiOutlineArrowRight className="ms-1" />
+            </Link>
+          </div>
+
+          <Row className="g-4">
+            {projects.slice(0, 3).map((proj) => (
+              <Col md={4} key={proj._id || proj.projectName}>
+                <div className="glass-panel p-4 h-100 d-flex flex-direction-column">
+                  <h4 className="fw-bold mb-2">{proj.projectName}</h4>
+                  <p className="text-secondary small mb-3">
+                    {proj.description?.substring(0, 110)}...
+                  </p>
+                  <a
+                    href={proj.projectLink}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="project-link-btn mt-auto"
+                  >
+                    View Project <AiOutlineArrowRight className="ms-1" />
+                  </a>
+                </div>
+              </Col>
             ))}
           </Row>
-        </Col>
-      </Row>
-
-      <Row className="social-links">
-        <Col>
-          <h2>Connect with me</h2>
-          <div className="icons">
-            {content.github && (
-              <a href={content.github}>
-                <FaGithub />
-              </a>
-            )}
-            {content.linkedin && (
-              <a href={content.linkedin}>
-                <FaLinkedin />
-              </a>
-            )}
-            {content.instagram && (
-              <a href={content.instagram}>
-                <FaInstagram />
-              </a>
-            )}
-            {content.twitter && (
-              <a href={content.twitter}>
-                <FaTwitter />
-              </a>
-            )}
-          </div>
-        </Col>
-      </Row>
-    </Container>
+        </section>
+      </Container>
+    </div>
   );
 }
-
-// DetailCard Component using Card from Reactstrap
-const DetailCard = ({ title, value }) => (
-  <Col md="4" className="mb-3">
-    <Card className="detail-card">
-      <CardBody>
-        <CardTitle tag="h5">{title}</CardTitle>
-        <CardText>{value}</CardText>
-      </CardBody>
-    </Card>
-  </Col>
-);
-
-// SkillCard Component
-const SkillCard = ({ skill }) => (
-  <Col md="2" className="mb-3">
-    <Card className="skill-card-about">
-      <CardBody className="text-center">
-        <i className={`fa ${skill.icon}`} aria-hidden="true"></i>
-        <CardText>{skill.name}</CardText>
-      </CardBody>
-    </Card>
-  </Col>
-);
-
-// SkillCard Component
-const HobbieCard = ({ hobbie }) => (
-  <Col md="3" className="mb-3">
-    <Card className="hobbie-card-about">
-      <CardBody className="text-center">
-        <CardText>{hobbie}</CardText>
-      </CardBody>
-    </Card>
-  </Col>
-);
-
-// ProjectCard Component
-const ProjectCard = ({ project }) => (
-  <Col md="4" className="mb-3">
-    <Card className="project-card-about">
-      <CardBody>
-        <CardTitle tag="h5">{project.projectName}</CardTitle>
-        <CardText>{project.description}</CardText>
-        <Button
-          href={project.projectLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          color="success"
-        >
-          View Project
-        </Button>
-      </CardBody>
-    </Card>
-  </Col>
-);

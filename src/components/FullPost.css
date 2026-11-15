@@ -1,29 +1,91 @@
-.post-container {
-    max-width: 800px; /* Limit the width for a more centered look */
-    margin: 0 auto; /* Center the post */
-    padding: 20px; /* Add padding */
-    font-family: 'Georgia', serif; /* Use a serif font for a more editorial feel */
-    line-height: 1.6; /* Improve readability */
-  }
-  
-  .post-image {
-    width: 100%; /* Full width */
-    height: auto; /* Maintain aspect ratio */
-    margin-bottom: 20px; /* Space below the image */
-  }
-  
-  .post-title {
-    font-size: 2.5rem; /* Larger title size */
-    margin-bottom: 10px; /* Space below title */
-    color: var(--text-color); /* Darker color for the title */
-  }
-  
-  .post-content {
-    font-size: 1.2rem; /* Content size */
-    color: var(--text-color); /* Slightly lighter text color */
-  }
-  
-  .go-back-button {
-    margin-top: 20px; /* Space above the button */
-  }
-  
+/* ==========================================================================
+   Modern Full Post Reader Styling
+   ========================================================================== */
+
+.full-post-page {
+  padding-bottom: 5rem;
+}
+
+.max-w-prose {
+  max-width: 820px;
+}
+
+.btn-back-nav {
+  display: inline-flex;
+  align-items: center;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.2s ease;
+}
+
+.btn-back-nav:hover {
+  color: var(--accent-cyan);
+  transform: translateX(-4px);
+}
+
+.post-hero-image-wrap {
+  border-radius: 1.25rem;
+  overflow: hidden;
+  max-height: 420px;
+}
+
+.post-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.post-header-meta {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.post-meta-item {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.post-main-title {
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.post-prose-content {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--text-secondary);
+}
+
+.post-prose-content p {
+  margin-bottom: 1.5rem;
+}
+
+.post-prose-content h2,
+.post-prose-content h3 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.author-avatar-badge {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--accent-gradient);
+  color: #ffffff;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}

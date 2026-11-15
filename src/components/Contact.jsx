@@ -1,5 +1,4 @@
-import React, { useRef, useState } from "react";
-import ReCAPTCHA from "react-google-recaptcha"; // Import reCAPTCHA
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Col,
@@ -11,10 +10,22 @@ import {
   Label,
   Row,
 } from "reactstrap";
-import Loader from "../ui-elements/Loader";
+import {
+  AiOutlineMail,
+  AiOutlinePhone,
+  AiOutlineEnvironment,
+  AiOutlineSend,
+  AiOutlineCheck,
+  AiOutlineCopy,
+  AiFillGithub,
+  AiFillInstagram,
+  AiOutlineTwitter
+} from "react-icons/ai";
+import { FaLinkedinIn } from "react-icons/fa";
 import { sweetAlert } from "../ui-elements/sweetAlert";
-import { showErrorToast } from "../ui-elements/toastConfig";
+import { showSuccessToast, showErrorToast } from "../ui-elements/toastConfig";
 import { myAxios } from "../utils/api";
+import { DEFAULT_CONTENT } from "../utils/fallbackData";
 import "./Contact.css";
 
 const Contact = () => {
@@ -23,242 +34,283 @@ const Contact = () => {
     email: "",
     mobileNumber: "",
     message: "",
-    recaptchaToken: "", // Add reCAPTCHA token to form data
   });
 
-  const [errorData, setErrorData] = useState({
-    name: "",
-    email: "",
-    mobileNumber: "",
-    message: "",
-  });
-
+  const [errorData, setErrorData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false); // New state to track reCAPTCHA verification
+  const [copiedEmail, setCopiedEmail] = useState(false);
+  const [content, setContent] = useState(DEFAULT_CONTENT);
 
-  const recaptchaRef = useRef(null); // Add reCAPTCHA reference
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
 
-  // Create refs to scroll to error fields
-  const nameRef = useRef(null);
-  const emailRef = useRef(null);
-  const mobileNumberRef = useRef(null);
-  const messageRef = useRef(null);
+    const fetchContent = async () => {
+      try {
+        const response = await myAxios.get("/content");
+        if (response.data) {
+          setContent((prev) => ({ ...prev, ...response.data }));
+        }
+      } catch (err) {
+        // Fallback already set
+      }
+    };
+    fetchContent();
+  }, []);
 
   const validateForm = () => {
     const errors = {};
-    let hasError = false;
-
+    if (!formData.name.trim()) {
+      errors.name = "Please enter your name.";
+    }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       errors.email = "Please enter a valid email address.";
-      hasError = true;
-      if (emailRef.current) {
-        emailRef.current.scrollIntoView({ behavior: "smooth" });
-      }
     }
-    if (!/^\d{10}$/.test(formData.mobileNumber)) {
+    if (formData.mobileNumber && !/^\d{10}$/.test(formData.mobileNumber)) {
       errors.mobileNumber = "Mobile Number must be 10 digits.";
-      hasError = true;
-      if (mobileNumberRef.current && !errors.email) {
-        mobileNumberRef.current.scrollIntoView({ behavior: "smooth" });
-      }
     }
-    if (formData.message.trim().length === 0) {
+    if (!formData.message.trim()) {
       errors.message = "Message cannot be empty.";
-      hasError = true;
-      if (messageRef.current && !errors.email && !errors.mobileNumber) {
-        messageRef.current.scrollIntoView({ behavior: "smooth" });
-      }
-    }
-    if (formData.name.trim().length === 0) {
-      errors.name = "Name cannot be empty.";
-      hasError = true;
-      if (
-        nameRef.current &&
-        !errors.message &&
-        !errors.email &&
-        !errors.mobileNumber
-      ) {
-        nameRef.current.scrollIntoView({ behavior: "smooth" });
-      }
     }
 
     setErrorData(errors);
-    return !hasError;
+    return Object.keys(errors).length === 0;
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     if (name === "mobileNumber") {
-      const numericValue = value.replace(/\D/g, ""); // Replace any non-digit character
-      setFormData((prevData) => ({
-        ...prevData,
-        mobileNumber: numericValue,
-      }));
+      const numericValue = value.replace(/\D/g, "");
+      setFormData((prev) => ({ ...prev, [name]: numericValue }));
     } else {
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
-
-    setErrorData((prevErrorData) => ({
-      ...prevErrorData,
-      [name]: "", // Clear the error for the current field
-    }));
+    if (errorData[name]) {
+      setErrorData((prev) => ({ ...prev, [name]: "" }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateForm()) return;
 
-    // Check if the form is valid and reCAPTCHA is solved
-    if (validateForm() && isRecaptchaVerified) {
-      setIsLoading(true);
+    setIsLoading(true);
+    try {
+      await myAxios.post("/contact", {
+        name: formData.name,
+        email: formData.email,
+        mobileNumber: formData.mobileNumber || "Not Provided",
+        message: formData.message,
+      });
 
-      try {
-        await myAxios.post(`/contact`, formData);
-        // showSuccessToast("Message sent successfully!");
-        sweetAlert({
-          type: "success",
-          title: "Success!",
-          text: "Message sent successfully!",
-          timer: 2000, // Auto-close after 2 seconds
-        });
-
-        // Reset the form data only on successful submission
-        setFormData({
-          name: "",
-          email: "",
-          mobileNumber: "",
-          message: "",
-          recaptchaToken: "", // Reset reCAPTCHA token
-        });
-
-        if (recaptchaRef.current) recaptchaRef.current.reset(); // Reset reCAPTCHA widget
-        setIsRecaptchaVerified(false); // Reset reCAPTCHA verification state
-      } catch (error) {
-        // showErrorToast("Error Sending Message!");
-        sweetAlert({
-          type: "error",
-          title: "Error!",
-          text: "Error Sending Message!",
-          timer: 2000, // Auto-close after 2 seconds
-        });
-      } finally {
-        setIsLoading(false);
-      }
-    } else {
-      showErrorToast("Please complete the reCAPTCHA verification.");
+      sweetAlert(
+        "Message Sent!",
+        "Thank you for reaching out! I will get back to you shortly.",
+        "success"
+      );
+      setFormData({ name: "", email: "", mobileNumber: "", message: "" });
+      setErrorData({});
+    } catch (error) {
+      console.error("Contact submit error:", error);
+      showErrorToast(
+        error.response?.data?.message || "Failed to deliver message. Please email me directly."
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const handleRecaptchaChange = (token) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      recaptchaToken: token, // Update reCAPTCHA token in formData
-    }));
-    setIsRecaptchaVerified(true); // reCAPTCHA is verified
+  const handleCopyEmail = (emailStr) => {
+    navigator.clipboard.writeText(emailStr);
+    setCopiedEmail(true);
+    showSuccessToast("Email copied to clipboard!");
+    setTimeout(() => setCopiedEmail(false), 3000);
   };
 
-  const handleRecaptchaExpired = () => {
-    setIsRecaptchaVerified(false); // reCAPTCHA expired, disable send button again
-    setFormData((prevData) => ({
-      ...prevData,
-      recaptchaToken: "", // Clear token when reCAPTCHA expires
-    }));
-  };
+  const targetEmail = "rajashekarchelimela1@gmail.com";
 
   return (
-    <Container className="contact">
-      <Row>
-        <Col md={8} className="mx-auto">
-          <h2 data-aos="fade-up" className="text-center my-4">
-            Contact Me
-          </h2>
-          <Form onSubmit={handleSubmit}>
-            <FormGroup data-aos="fade-right" innerRef={nameRef}>
-              <Label for="name">Name</Label>
-              <Input
-                type="text"
-                name="name"
-                className="input-dark"
-                id="name"
-                placeholder="Enter your Name"
-                value={formData.name}
-                invalid={!!errorData.name}
-                onChange={handleChange}
-              />
-              <FormFeedback>{errorData.name}</FormFeedback>
-            </FormGroup>
-            <FormGroup data-aos="fade-right" innerRef={emailRef}>
-              <Label for="email">Email</Label>
-              <Input
-                type="email"
-                name="email"
-                className="input-dark"
-                id="email"
-                placeholder="Enter your email"
-                value={formData.email}
-                invalid={!!errorData.email}
-                onChange={handleChange}
-              />
-              <FormFeedback>{errorData.email}</FormFeedback>
-            </FormGroup>
-            <FormGroup data-aos="fade-left" innerRef={mobileNumberRef}>
-              <Label for="mobileNumber">Mobile Number</Label>
-              <Input
-                type="text"
-                name="mobileNumber"
-                maxLength={10}
-                id="mobileNumber"
-                className="input-dark"
-                placeholder="Enter your Mobile number"
-                value={formData.mobileNumber}
-                invalid={!!errorData.mobileNumber}
-                onChange={handleChange}
-              />
-              <FormFeedback>{errorData.mobileNumber}</FormFeedback>
-            </FormGroup>
-            <FormGroup data-aos="fade-right" innerRef={messageRef}>
-              <Label for="message">Message</Label>
-              <Input
-                type="textarea"
-                name="message"
-                id="message"
-                className="input-dark"
-                style={{ height: "160px" }}
-                placeholder="Enter your message"
-                value={formData.message}
-                invalid={!!errorData.message}
-                onChange={handleChange}
-              />
-              <FormFeedback>{errorData.message}</FormFeedback>
-            </FormGroup>
+    <div className="contact-page">
+      <Container>
+        {/* Header Section */}
+        <section className="contact-header text-center my-4" data-aos="fade-up">
+          <span className="status-pill mb-3">
+            <span className="pulse-dot" /> Get in Touch
+          </span>
+          <h1 className="section-title">
+            Let's Start a <span className="gradient-text">Conversation</span>
+          </h1>
+          <p className="section-subtitle">
+            Whether you have a question, a project opportunity, or just want to connect, my inbox is always open.
+          </p>
+        </section>
 
-            {/* Add reCAPTCHA */}
-            <ReCAPTCHA
-              ref={recaptchaRef}
-              sitekey={process.env.REACT_APP_CAPTCHA_SITE_KEY} // Replace with your site key
-              onChange={handleRecaptchaChange}
-              onExpired={handleRecaptchaExpired} // Handle when reCAPTCHA expires
-            />
+        {/* Contact Grid */}
+        <Row className="g-4 my-3">
+          {/* Left Column: Direct Info Card */}
+          <Col lg={5} md={12} data-aos="fade-up">
+            <div className="contact-info-card glass-panel h-100">
+              <h3 className="info-card-title">Contact Channels</h3>
+              <p className="info-card-desc">
+                Feel free to email me directly or copy my email address. I usually reply within 24 hours.
+              </p>
 
-            {isLoading ? (
-              <Loader type="triangle" />
-            ) : (
-              <Button
-                color="primary"
-                style={{ marginTop: "10px" }}
-                block
-                disabled={!isRecaptchaVerified || isLoading} // Disable until reCAPTCHA is verified
-              >
-                Send
-              </Button>
-            )}
-          </Form>
-        </Col>
-      </Row>
-    </Container>
+              {/* Quick Email Pill */}
+              <div className="email-copy-pill mb-4">
+                <div className="d-flex align-items-center gap-2 text-truncate">
+                  <AiOutlineMail className="email-icon" />
+                  <span className="email-text">{targetEmail}</span>
+                </div>
+                <button
+                  type="button"
+                  className="copy-btn"
+                  onClick={() => handleCopyEmail(targetEmail)}
+                  title="Copy email"
+                >
+                  {copiedEmail ? <AiOutlineCheck className="text-success" /> : <AiOutlineCopy />}
+                </button>
+              </div>
+
+              {/* Direct Channels */}
+              <div className="channel-list">
+                <div className="channel-item">
+                  <div className="channel-icon-wrap"><AiOutlineEnvironment /></div>
+                  <div>
+                    <div className="channel-label">Location</div>
+                    <div className="channel-val">{content.location || "Hyderabad, India"}</div>
+                  </div>
+                </div>
+
+                <div className="channel-item">
+                  <div className="channel-icon-wrap"><AiOutlinePhone /></div>
+                  <div>
+                    <div className="channel-label">Availability</div>
+                    <div className="channel-val">Full-time, Contract & Remote Roles</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Social Channels */}
+              <div className="mt-auto pt-4 border-top border-secondary">
+                <div className="social-heading mb-3">Follow & Connect</div>
+                <div className="d-flex gap-2 flex-wrap">
+                  {content.github && (
+                    <a href={content.github} target="_blank" rel="noreferrer" className="contact-social-btn" aria-label="GitHub">
+                      <AiFillGithub />
+                    </a>
+                  )}
+                  {content.linkedin && (
+                    <a href={content.linkedin} target="_blank" rel="noreferrer" className="contact-social-btn" aria-label="LinkedIn">
+                      <FaLinkedinIn />
+                    </a>
+                  )}
+                  {content.twitter && (
+                    <a href={content.twitter} target="_blank" rel="noreferrer" className="contact-social-btn" aria-label="Twitter">
+                      <AiOutlineTwitter />
+                    </a>
+                  )}
+                  {content.instagram && (
+                    <a href={content.instagram} target="_blank" rel="noreferrer" className="contact-social-btn" aria-label="Instagram">
+                      <AiFillInstagram />
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
+          </Col>
+
+          {/* Right Column: Contact Form */}
+          <Col lg={7} md={12} data-aos="fade-up">
+            <div className="contact-form-card glass-panel">
+              <h3 className="form-card-title mb-4">Send a Message</h3>
+
+              <Form onSubmit={handleSubmit} noValidate>
+                <Row className="g-3">
+                  <Col md={6}>
+                    <FormGroup>
+                      <Label for="name" className="modern-label">Your Name *</Label>
+                      <Input
+                        type="text"
+                        name="name"
+                        id="name"
+                        className="modern-input"
+                        placeholder="John Doe"
+                        value={formData.name}
+                        onChange={handleChange}
+                        invalid={!!errorData.name}
+                      />
+                      <FormFeedback>{errorData.name}</FormFeedback>
+                    </FormGroup>
+                  </Col>
+
+                  <Col md={6}>
+                    <FormGroup>
+                      <Label for="email" className="modern-label">Email Address *</Label>
+                      <Input
+                        type="email"
+                        name="email"
+                        id="email"
+                        className="modern-input"
+                        placeholder="john@example.com"
+                        value={formData.email}
+                        onChange={handleChange}
+                        invalid={!!errorData.email}
+                      />
+                      <FormFeedback>{errorData.email}</FormFeedback>
+                    </FormGroup>
+                  </Col>
+                </Row>
+
+                <FormGroup className="mt-3">
+                  <Label for="mobileNumber" className="modern-label">Phone Number (Optional)</Label>
+                  <Input
+                    type="text"
+                    name="mobileNumber"
+                    id="mobileNumber"
+                    className="modern-input"
+                    placeholder="10-digit mobile number"
+                    maxLength={10}
+                    value={formData.mobileNumber}
+                    onChange={handleChange}
+                    invalid={!!errorData.mobileNumber}
+                  />
+                  <FormFeedback>{errorData.mobileNumber}</FormFeedback>
+                </FormGroup>
+
+                <FormGroup className="mt-3">
+                  <Label for="message" className="modern-label">Your Message *</Label>
+                  <Input
+                    type="textarea"
+                    name="message"
+                    id="message"
+                    rows={5}
+                    className="modern-input textarea"
+                    placeholder="Tell me about your project, idea, or role..."
+                    value={formData.message}
+                    onChange={handleChange}
+                    invalid={!!errorData.message}
+                  />
+                  <FormFeedback>{errorData.message}</FormFeedback>
+                </FormGroup>
+
+                <Button
+                  type="submit"
+                  className="btn-modern-primary w-100 mt-4"
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    "Sending Message..."
+                  ) : (
+                    <>
+                      Send Message <AiOutlineSend className="ms-2" />
+                    </>
+                  )}
+                </Button>
+              </Form>
+            </div>
+          </Col>
+        </Row>
+      </Container>
+    </div>
   );
 };
 

@@ -1,32 +1,74 @@
-/* Footer.css */
+/* ==========================================================================
+   Modern Footer Styling
+   ========================================================================== */
 
-.footer-container {
-  background-color: var(--background-color);
-  color: var(--text-color);
-  padding: 20px 0;
+.footer-wrapper {
+  background: var(--bg-nav);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+  margin-top: auto;
 }
 
-.footer-content {
+.footer-logo {
+  font-size: 1.35rem;
+}
+
+.footer-brand-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.footer-tagline {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  max-width: 440px;
+}
+
+.footer-social-links {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
-.footer-content h3 {
-  margin: 0;
+@media (max-width: 767.98px) {
+  .footer-social-links {
+    justify-content: flex-start;
+    margin-top: 1rem;
+  }
 }
 
-.social-icons {
-  display: inline-block;
-  margin-right: 10px;
+.footer-copy {
+  font-size: 0.85rem;
+  color: var(--text-muted);
 }
 
-.social-icons a {
-  color: var(--text-color);
-  font-size: 20px;
-  transition: color 0.3s ease;
+.footer-nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1.25rem;
+  flex-wrap: wrap;
 }
 
-.social-icons a:hover {
-  color: #007bff;
+@media (max-width: 767.98px) {
+  .footer-nav-links {
+    justify-content: center;
+  }
+}
+
+.footer-nav-links a {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.footer-nav-links a:hover {
+  color: var(--accent-cyan);
 }

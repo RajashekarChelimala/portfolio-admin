@@ -1,8 +1,26 @@
-body{
-  color: var(--text-color);
-  background-color: var(--background-color);
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  overflow-x: hidden;
 }
 
-strong{
-  color: rgb(184, 166, 213);
+.main-content {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+  padding-top: 5.5rem;
+  padding-bottom: 4rem;
+}
+
+strong {
+  color: var(--accent-indigo);
+  font-weight: 700;
+}
+
+.dark strong {
+  color: var(--accent-cyan);
 }
