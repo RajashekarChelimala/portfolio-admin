@@ -30,7 +30,7 @@
   margin-bottom: 1.5rem;
 }
 
-.email-copy-pill {
+.contact-quick-pill {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -38,17 +38,75 @@
   border-radius: 0.85rem;
   background: var(--bg-tertiary);
   border: 1px solid var(--border-subtle);
+  transition: all 0.2s ease;
 }
 
-.email-icon {
-  font-size: 1.25rem;
+.contact-quick-pill:hover {
+  border-color: var(--accent-cyan);
+  background: var(--bg-card);
+}
+
+.pill-icon-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 0.6rem;
+  background: rgba(56, 189, 248, 0.12);
   color: var(--accent-cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  flex-shrink: 0;
 }
 
-.email-text {
+.pill-icon-wrap.phone {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+}
+
+.pill-text-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.pill-sub {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.pill-main {
   font-size: 0.92rem;
   font-weight: 600;
   color: var(--text-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.pill-main:hover {
+  color: var(--accent-cyan);
+}
+
+.quick-icon-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.quick-icon-btn:hover {
+  background: #10b981;
+  color: #ffffff;
+  transform: scale(1.1);
 }
 
 .copy-btn {
@@ -57,7 +115,7 @@
   color: var(--text-secondary);
   font-size: 1.15rem;
   cursor: pointer;
-  padding: 0.2rem;
+  padding: 0.25rem;
   display: flex;
   align-items: center;
   transition: all 0.2s ease;

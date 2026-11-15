@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Modern About Me Page Styling
+   Modern About Me & Career Timeline Styling
    ========================================================================== */
 
 .about-me-page {
@@ -138,6 +138,112 @@
   border: 1px solid var(--border-subtle);
   color: var(--text-secondary);
   font-weight: 500;
+}
+
+/* ================= Career Timeline Section ================= */
+.timeline-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  max-width: 950px;
+  margin: 0 auto;
+}
+
+.timeline-card {
+  padding: 2.25rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.timeline-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.timeline-badge-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 1rem;
+  background: var(--bg-tertiary);
+  color: var(--accent-cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  flex-shrink: 0;
+  border: 1px solid var(--border-glow);
+}
+
+.timeline-role {
+  font-size: 1.35rem;
+  font-weight: 800;
+  margin-bottom: 0.2rem;
+}
+
+.timeline-org {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+.timeline-meta-strip {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.timeline-meta-pill {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  background: var(--bg-tertiary);
+  padding: 0.25rem 0.65rem;
+  border-radius: 0.4rem;
+  font-weight: 500;
+}
+
+.timeline-type-pill {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--accent-emerald);
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+}
+
+.timeline-bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.timeline-bullet-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  color: var(--text-secondary);
+  font-size: 0.96rem;
+  line-height: 1.65;
+}
+
+.bullet-check-icon {
+  color: var(--accent-cyan);
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  margin-top: 0.2rem;
 }
 
 /* ================= Category Filters ================= */

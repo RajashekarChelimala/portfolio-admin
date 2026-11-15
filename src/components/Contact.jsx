@@ -19,9 +19,11 @@ import {
   AiOutlineCopy,
   AiFillGithub,
   AiFillInstagram,
-  AiOutlineTwitter
+  AiOutlineTwitter,
+  AiOutlineApartment,
+  AiOutlineRead
 } from "react-icons/ai";
-import { FaLinkedinIn } from "react-icons/fa";
+import { FaLinkedinIn, FaWhatsapp } from "react-icons/fa";
 import { sweetAlert } from "../ui-elements/sweetAlert";
 import { showSuccessToast, showErrorToast } from "../ui-elements/toastConfig";
 import { myAxios } from "../utils/api";
@@ -39,6 +41,7 @@ const Contact = () => {
   const [errorData, setErrorData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
+  const [copiedPhone, setCopiedPhone] = useState(false);
   const [content, setContent] = useState(DEFAULT_CONTENT);
 
   useEffect(() => {
@@ -119,14 +122,22 @@ const Contact = () => {
     }
   };
 
-  const handleCopyEmail = (emailStr) => {
-    navigator.clipboard.writeText(emailStr);
+  const targetEmail = content.email || "rajashekarchelimala1@gmail.com";
+  const targetPhone = content.phone || "+91 9908545367";
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText(targetEmail);
     setCopiedEmail(true);
     showSuccessToast("Email copied to clipboard!");
     setTimeout(() => setCopiedEmail(false), 3000);
   };
 
-  const targetEmail = "rajashekarchelimela1@gmail.com";
+  const handleCopyPhone = () => {
+    navigator.clipboard.writeText(targetPhone);
+    setCopiedPhone(true);
+    showSuccessToast("Phone number copied to clipboard!");
+    setTimeout(() => setCopiedPhone(false), 3000);
+  };
 
   return (
     <div className="contact-page">
@@ -140,7 +151,7 @@ const Contact = () => {
             Let's Start a <span className="gradient-text">Conversation</span>
           </h1>
           <p className="section-subtitle">
-            Whether you have a question, a project opportunity, or just want to connect, my inbox is always open.
+            Whether you have an enterprise project, full-stack opportunity, or just want to connect, feel free to reach out.
           </p>
         </section>
 
@@ -149,25 +160,61 @@ const Contact = () => {
           {/* Left Column: Direct Info Card */}
           <Col lg={5} md={12} data-aos="fade-up">
             <div className="contact-info-card glass-panel h-100">
-              <h3 className="info-card-title">Contact Channels</h3>
+              <h3 className="info-card-title">Direct Channels</h3>
               <p className="info-card-desc">
-                Feel free to email me directly or copy my email address. I usually reply within 24 hours.
+                Feel free to email, call, or message me directly on WhatsApp. I typically reply within a few hours.
               </p>
 
               {/* Quick Email Pill */}
-              <div className="email-copy-pill mb-4">
+              <div className="contact-quick-pill mb-3">
                 <div className="d-flex align-items-center gap-2 text-truncate">
-                  <AiOutlineMail className="email-icon" />
-                  <span className="email-text">{targetEmail}</span>
+                  <div className="pill-icon-wrap"><AiOutlineMail /></div>
+                  <div className="pill-text-wrap text-truncate">
+                    <span className="pill-sub">Email</span>
+                    <a href={`mailto:${targetEmail}`} className="pill-main text-truncate">{targetEmail}</a>
+                  </div>
                 </div>
                 <button
                   type="button"
                   className="copy-btn"
-                  onClick={() => handleCopyEmail(targetEmail)}
+                  onClick={handleCopyEmail}
                   title="Copy email"
+                  aria-label="Copy email"
                 >
                   {copiedEmail ? <AiOutlineCheck className="text-success" /> : <AiOutlineCopy />}
                 </button>
+              </div>
+
+              {/* Quick Phone Pill */}
+              <div className="contact-quick-pill mb-4">
+                <div className="d-flex align-items-center gap-2 text-truncate">
+                  <div className="pill-icon-wrap phone"><AiOutlinePhone /></div>
+                  <div className="pill-text-wrap text-truncate">
+                    <span className="pill-sub">Phone / WhatsApp</span>
+                    <a href={`tel:${targetPhone.replace(/\s+/g, "")}`} className="pill-main">{targetPhone}</a>
+                  </div>
+                </div>
+                <div className="d-flex align-items-center gap-1">
+                  <a
+                    href={`https://wa.me/919908545367?text=Hi%20Rajashekar,%20I%20saw%20your%20portfolio...`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="quick-icon-btn whatsapp-btn"
+                    title="Chat on WhatsApp"
+                    aria-label="Chat on WhatsApp"
+                  >
+                    <FaWhatsapp />
+                  </a>
+                  <button
+                    type="button"
+                    className="copy-btn"
+                    onClick={handleCopyPhone}
+                    title="Copy phone"
+                    aria-label="Copy phone"
+                  >
+                    {copiedPhone ? <AiOutlineCheck className="text-success" /> : <AiOutlineCopy />}
+                  </button>
+                </div>
               </div>
 
               {/* Direct Channels */}
@@ -176,22 +223,30 @@ const Contact = () => {
                   <div className="channel-icon-wrap"><AiOutlineEnvironment /></div>
                   <div>
                     <div className="channel-label">Location</div>
-                    <div className="channel-val">{content.location || "Hyderabad, India"}</div>
+                    <div className="channel-val">{content.location || "Hyderabad, Telangana, India"}</div>
                   </div>
                 </div>
 
                 <div className="channel-item">
-                  <div className="channel-icon-wrap"><AiOutlinePhone /></div>
+                  <div className="channel-icon-wrap"><AiOutlineApartment /></div>
                   <div>
-                    <div className="channel-label">Availability</div>
-                    <div className="channel-val">Full-time, Contract & Remote Roles</div>
+                    <div className="channel-label">Current Role & Org</div>
+                    <div className="channel-val">Software Developer @ Centre for Good Governance</div>
+                  </div>
+                </div>
+
+                <div className="channel-item">
+                  <div className="channel-icon-wrap"><AiOutlineRead /></div>
+                  <div>
+                    <div className="channel-label">Education</div>
+                    <div className="channel-val">B.Tech CSE, RGUKT Basar (CGPA: 8.4)</div>
                   </div>
                 </div>
               </div>
 
               {/* Social Channels */}
               <div className="mt-auto pt-4 border-top border-secondary">
-                <div className="social-heading mb-3">Follow & Connect</div>
+                <div className="social-heading mb-3">Connect on Social</div>
                 <div className="d-flex gap-2 flex-wrap">
                   {content.github && (
                     <a href={content.github} target="_blank" rel="noreferrer" className="contact-social-btn" aria-label="GitHub">

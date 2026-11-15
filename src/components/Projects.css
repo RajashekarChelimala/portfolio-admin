@@ -127,6 +127,90 @@
   background: rgba(99, 102, 241, 0.1);
 }
 
+.meta-badge.org {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.meta-badge.live-active {
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+/* Badges on card header */
+.badge-govtech {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.badge-ai {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  background: rgba(168, 85, 247, 0.15);
+  color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.35);
+}
+
+.gov-highlight {
+  border-color: rgba(16, 185, 129, 0.22);
+}
+
+.gov-highlight:hover {
+  border-color: rgba(16, 185, 129, 0.45);
+  box-shadow: 0 10px 30px rgba(16, 185, 129, 0.1);
+}
+
+/* Live portal strip pill */
+.project-live-portal-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 0.55rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle);
+  font-size: 0.85rem;
+  width: fit-content;
+}
+
+.portal-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.portal-url {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--accent-cyan);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  transition: color 0.2s ease;
+}
+
+.portal-url:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
 .project-card-desc {
   font-size: 0.95rem;
   color: var(--text-secondary);

@@ -9,7 +9,9 @@ import { DEFAULT_PROJECTS } from "../utils/fallbackData";
 import {
   AiOutlineFolder,
   AiOutlineCalendar,
-  AiOutlineApartment
+  AiOutlineApartment,
+  AiOutlineCheckCircle,
+  AiOutlineThunderbolt
 } from "react-icons/ai";
 import { FiExternalLink, FiGithub } from "react-icons/fi";
 import "./Projects.css";
@@ -24,7 +26,6 @@ const Projects = () => {
 
     const fetchProjects = async () => {
       try {
-        // Fix: Use public myAxios instead of myPrivateAxios for public portfolio visitors
         const response = await myAxios.get("/projects");
         if (Array.isArray(response.data) && response.data.length > 0) {
           setProjects(response.data);
@@ -56,9 +57,33 @@ const Projects = () => {
   const filteredProjects = projects.filter((project) => {
     if (filter === "All") return true;
     if (filter === "Active") return project.currentlyWorking;
+    if (filter === "GovTech") {
+      const isGovLink = project.projectLink && project.projectLink.includes(".gov.in");
+      const isCggOrg = project.organizationName && project.organizationName.toLowerCase().includes("good governance");
+      return isGovLink || isCggOrg;
+    }
+    if (filter === "AI & GenAI") {
+      const desc = (project.description || "").toLowerCase();
+      const title = (project.projectName || "").toLowerCase();
+      const skillsList = project.skills?.map((s) => (typeof s === "object" ? s.name : s).toLowerCase()) || [];
+      return title.includes("ai") || desc.includes("ai") || desc.includes("llm") || desc.includes("vector") || skillsList.some(s => s.includes("ai") || s.includes("langchain"));
+    }
     const skillsList = project.skills?.map((s) => (typeof s === "object" ? s.name : s).toLowerCase()) || [];
-    return skillsList.some((s) => s.includes(filter.toLowerCase()));
+    const desc = (project.description || "").toLowerCase();
+    const title = (project.projectName || "").toLowerCase();
+    const target = filter.toLowerCase();
+    return skillsList.some((s) => s.includes(target)) || desc.includes(target) || title.includes(target);
   });
+
+  const getCleanDomain = (url) => {
+    try {
+      if (!url) return "";
+      const parsed = new URL(url);
+      return parsed.hostname;
+    } catch {
+      return url;
+    }
+  };
 
   return (
     <div className="projects-page">
@@ -66,18 +91,18 @@ const Projects = () => {
         {/* Header Section */}
         <section className="projects-header text-center my-4" data-aos="fade-up">
           <span className="status-pill mb-3">
-            <span className="pulse-dot" /> Portfolio Showcase
+            <span className="pulse-dot" /> Production Engineering & Deployments
           </span>
           <h1 className="section-title">
-            Featured <span className="gradient-text">Projects</span>
+            Featured <span className="gradient-text">Projects & Systems</span>
           </h1>
           <p className="section-subtitle">
-            A curated showcase of production applications, distributed microservices, and interactive web tools.
+            Enterprise GovTech platforms serving hundreds of thousands of users, secure financial workflows, and AI innovations.
           </p>
 
           {/* Filter Pills */}
           <div className="projects-filter-bar">
-            {["All", "Active", "React", "Node", "Spring Boot"].map((cat) => (
+            {["All", "GovTech", "Spring Boot", "React", "AI & GenAI", "Active"].map((cat) => (
               <button
                 key={cat}
                 className={`filter-btn ${filter === cat ? "active" : ""}`}
@@ -92,20 +117,37 @@ const Projects = () => {
         {/* Project Cards Grid */}
         <Row className="g-4 my-3">
           {filteredProjects.map((project) => {
-            const isLong = project.description && project.description.length > 140;
-            const isExpanded = expanded[project._id];
+            const isLong = project.description && project.description.length > 170;
+            const isExpanded = expanded[project._id || project.projectName];
             const displayDesc = isLong && !isExpanded
-              ? `${project.description.substring(0, 140)}...`
+              ? `${project.description.substring(0, 170)}...`
               : project.description;
+
+            const isGovProject = project.projectLink && project.projectLink.includes(".gov.in");
+            const isAiProject = (project.projectName || "").toLowerCase().includes("ai") || (project.description || "").toLowerCase().includes("langchain");
+            const domain = getCleanDomain(project.projectLink);
 
             return (
               <Col lg={6} md={12} key={project._id || project.projectName} data-aos="fade-up">
-                <div className="project-modern-card glass-panel h-100">
-                  {/* Top Bar with Folder Icon and External Links */}
+                <div className={`project-modern-card glass-panel h-100 ${isGovProject ? "gov-highlight" : ""}`}>
+                  {/* Top Bar with Badges and External Links */}
                   <div className="project-card-topbar">
-                    <div className="folder-icon-wrap">
-                      <AiOutlineFolder />
+                    <div className="d-flex align-items-center gap-2">
+                      <div className="folder-icon-wrap">
+                        <AiOutlineFolder />
+                      </div>
+                      {isGovProject && (
+                        <span className="badge-govtech">
+                          <AiOutlineCheckCircle className="me-1" /> Live GovTech Portal
+                        </span>
+                      )}
+                      {isAiProject && (
+                        <span className="badge-ai">
+                          <AiOutlineThunderbolt className="me-1" /> AI & GenAI
+                        </span>
+                      )}
                     </div>
+
                     <div className="project-action-links">
                       {project.projectLink && (
                         <a
@@ -113,8 +155,8 @@ const Projects = () => {
                           target="_blank"
                           rel="noreferrer"
                           className="action-icon-link"
-                          title="Visit Project"
-                          aria-label="Visit Project"
+                          title={`Visit ${domain || "Portal"}`}
+                          aria-label={`Visit ${domain || "Portal"}`}
                         >
                           <FiExternalLink />
                         </a>
@@ -124,8 +166,8 @@ const Projects = () => {
                         target="_blank"
                         rel="noreferrer"
                         className="action-icon-link"
-                        title="View Source on GitHub"
-                        aria-label="View Source on GitHub"
+                        title="View Source / GitHub Profile"
+                        aria-label="View Source / GitHub Profile"
                       >
                         <FiGithub />
                       </a>
@@ -137,7 +179,7 @@ const Projects = () => {
 
                   <div className="project-meta-strip">
                     {project.organizationName && (
-                      <span className="meta-badge">
+                      <span className="meta-badge org">
                         <AiOutlineApartment className="me-1" /> {project.organizationName}
                       </span>
                     )}
@@ -145,7 +187,27 @@ const Projects = () => {
                       <AiOutlineCalendar className="me-1" />
                       {formatDate(project.fromDate)} — {project.currentlyWorking ? "Present" : formatDate(project.toDate)}
                     </span>
+                    {project.currentlyWorking && (
+                      <span className="meta-badge live-active">
+                        ● Active Production
+                      </span>
+                    )}
                   </div>
+
+                  {/* Direct Link Pill for Live Portals */}
+                  {project.projectLink && (
+                    <div className="project-live-portal-pill mb-3">
+                      <span className="portal-label">Portal:</span>
+                      <a
+                        href={project.projectLink}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="portal-url"
+                      >
+                        {domain || project.projectLink} <FiExternalLink className="ms-1" />
+                      </a>
+                    </div>
+                  )}
 
                   {/* Description */}
                   <p className="project-card-desc">
@@ -153,7 +215,7 @@ const Projects = () => {
                     {isLong && (
                       <button
                         className="read-more-btn"
-                        onClick={() => toggleExpand(project._id)}
+                        onClick={() => toggleExpand(project._id || project.projectName)}
                       >
                         {isExpanded ? " Show less" : " Read more"}
                       </button>

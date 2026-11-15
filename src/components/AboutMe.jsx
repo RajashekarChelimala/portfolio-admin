@@ -11,12 +11,15 @@ import {
   AiOutlineGlobal,
   AiOutlineAim,
   AiOutlineLaptop,
-  AiOutlineCompass
+  AiOutlineCompass,
+  AiOutlineCalendar,
+  AiOutlineEnvironment,
+  AiOutlineCheckCircle
 } from "react-icons/ai";
-import { FaGraduationCap } from "react-icons/fa";
+import { FaGraduationCap, FaBriefcase } from "react-icons/fa";
 import myImg from "../assets/my-image.png";
 import { myAxios } from "../utils/api";
-import { DEFAULT_CONTENT, DEFAULT_SKILLS, DEFAULT_PROJECTS } from "../utils/fallbackData";
+import { DEFAULT_CONTENT, DEFAULT_SKILLS, DEFAULT_PROJECTS, DEFAULT_EXPERIENCES } from "../utils/fallbackData";
 import "./AboutMe.css";
 
 export default function AboutMe() {
@@ -73,7 +76,13 @@ export default function AboutMe() {
 
   const hobbiesList = content?.hobbies
     ? content.hobbies.split(",").map((h) => h.trim())
-    : ["System Architecture", "Open Source Contributing", "Tech Blogging", "UI/UX Design"];
+    : [
+        "Enterprise Architecture",
+        "Distributed Microservices",
+        "Open Source",
+        "AI & Voice Agents",
+        "Performance Optimization"
+      ];
 
   return (
     <div className="about-me-page">
@@ -87,7 +96,7 @@ export default function AboutMe() {
             About <span className="gradient-text">Me</span>
           </h1>
           <p className="section-subtitle">
-            Software engineer focused on high-performance web systems, resilient backend APIs, and modern UI engineering.
+            Java Full Stack Developer specializing in large-scale enterprise applications, high-throughput microservices, and modern web architectures.
           </p>
         </section>
 
@@ -103,24 +112,25 @@ export default function AboutMe() {
                   </div>
                   <div>
                     <h2 className="about-name">{content?.name || "Rajashekar Chelimala"}</h2>
-                    <p className="about-role-tag">{content?.designation || "Full Stack Software Engineer"}</p>
-                    <p className="about-location">📍 {content?.location || "Hyderabad, India"}</p>
+                    <p className="about-role-tag">{content?.designation || "Java Full Stack Developer"}</p>
+                    <p className="about-location">📍 {content?.location || "Hyderabad, Telangana"}</p>
                   </div>
                 </div>
 
                 <div className="about-story mt-4">
                   <p>
-                    I fell in love with programming early on and have spent years mastering scalable system design,
-                    reactive frontend architecture, and resilient API ecosystems.
+                    I am a <strong>Java Full Stack Developer with 3+ years of professional experience</strong> engineering
+                    mission-critical enterprise platforms and financial management software across the Telangana Government.
                   </p>
                   <p>
-                    I enjoy transforming complex backend workflows into seamless, high-speed user experiences.
-                    My primary toolchain centers around <strong>React, TypeScript, Node.js, Express, and MongoDB</strong> on the web,
-                    along with <strong>Java & Spring Boot</strong> for enterprise-grade distributed microservices.
+                    My core expertise spans <strong>Java, Spring Boot, Spring MVC, Hibernate, React.js, PostgreSQL, and AWS</strong>.
+                    I specialize in designing transactional workflows, multi-level approval hierarchies, role-based access control (RBAC),
+                    and scalable REST API microservices.
                   </p>
                   <p>
-                    Whenever possible, I prioritize clean architecture, automated testing, containerized deployments,
-                    and performance optimizations to ensure 99.9% uptime.
+                    Key achievements include contributing to centralized financial platforms serving <strong>160+ municipal offices</strong>,
+                    modernizing enterprise HR systems supporting <strong>100,000+ users</strong>, and architecting AI-powered microservices
+                    using Node.js, Python FastAPI, whisper.cpp, and Qwen LLMs.
                   </p>
                 </div>
               </div>
@@ -136,7 +146,15 @@ export default function AboutMe() {
                     <div className="snapshot-icon"><AiOutlineLaptop /></div>
                     <div>
                       <div className="snapshot-label">Role & Focus</div>
-                      <div className="snapshot-val">{content?.designation || "Full Stack Software Engineer"}</div>
+                      <div className="snapshot-val">{content?.designation || "Java Full Stack Developer"}</div>
+                    </div>
+                  </div>
+
+                  <div className="snapshot-item">
+                    <div className="snapshot-icon"><AiOutlineCompass /></div>
+                    <div>
+                      <div className="snapshot-label">Current Organization</div>
+                      <div className="snapshot-val">{content?.organization || "Centre for Good Governance (CGG)"}</div>
                     </div>
                   </div>
 
@@ -144,7 +162,7 @@ export default function AboutMe() {
                     <div className="snapshot-icon"><FaGraduationCap /></div>
                     <div>
                       <div className="snapshot-label">Degree</div>
-                      <div className="snapshot-val">{content?.degree || "B.Tech in Computer Science"}</div>
+                      <div className="snapshot-val">{content?.degree || "B.Tech in Computer Science Engineering (CGPA: 8.4 / 10.0)"}</div>
                     </div>
                   </div>
 
@@ -152,15 +170,7 @@ export default function AboutMe() {
                     <div className="snapshot-icon"><AiOutlineBook /></div>
                     <div>
                       <div className="snapshot-label">Education</div>
-                      <div className="snapshot-val">{content?.education || "JNTU Hyderabad"}</div>
-                    </div>
-                  </div>
-
-                  <div className="snapshot-item">
-                    <div className="snapshot-icon"><AiOutlineCompass /></div>
-                    <div>
-                      <div className="snapshot-label">Organization</div>
-                      <div className="snapshot-val">{content?.organization || "Engineering Practice"}</div>
+                      <div className="snapshot-val">{content?.education || "Rajiv Gandhi University of Knowledge Technologies (RGUKT), Basar"}</div>
                     </div>
                   </div>
 
@@ -175,7 +185,7 @@ export default function AboutMe() {
 
                 {/* Hobbies / Interests */}
                 <div className="mt-4 pt-3 border-top border-secondary">
-                  <div className="snapshot-label mb-2"><AiOutlineAim className="me-1" /> Core Interests</div>
+                  <div className="snapshot-label mb-2"><AiOutlineAim className="me-1" /> Core Disciplines</div>
                   <div className="d-flex flex-wrap gap-2">
                     {hobbiesList.map((hobby, i) => (
                       <span key={i} className="hobby-chip">{hobby}</span>
@@ -185,6 +195,54 @@ export default function AboutMe() {
               </div>
             </Col>
           </Row>
+        </section>
+
+        {/* ================= WORK EXPERIENCE / CAREER TIMELINE ================= */}
+        <section className="career-experience-section my-5" data-aos="fade-up">
+          <div className="text-center mb-5">
+            <span className="status-pill mb-3">
+              <span className="pulse-dot" /> Career Track
+            </span>
+            <h2 className="section-title">Professional <span className="gradient-text">Experience</span></h2>
+            <p className="section-subtitle">Demonstrated impact across government, enterprise, and distributed systems</p>
+          </div>
+
+          <div className="timeline-container">
+            {DEFAULT_EXPERIENCES.map((exp, index) => (
+              <div key={index} className="timeline-card glass-panel" data-aos="fade-up" data-aos-delay={index * 150}>
+                <div className="timeline-header">
+                  <div className="d-flex align-items-center gap-3 flex-wrap">
+                    <div className="timeline-badge-icon">
+                      <FaBriefcase />
+                    </div>
+                    <div>
+                      <h3 className="timeline-role">{exp.role}</h3>
+                      <h4 className="timeline-org gradient-text">{exp.organization}</h4>
+                    </div>
+                  </div>
+
+                  <div className="timeline-meta-strip">
+                    <span className="timeline-meta-pill">
+                      <AiOutlineCalendar className="me-1" /> {exp.period}
+                    </span>
+                    <span className="timeline-meta-pill">
+                      <AiOutlineEnvironment className="me-1" /> {exp.location}
+                    </span>
+                    <span className="timeline-type-pill">{exp.type}</span>
+                  </div>
+                </div>
+
+                <ul className="timeline-bullets">
+                  {exp.highlights.map((point, pIndex) => (
+                    <li key={pIndex} className="timeline-bullet-item">
+                      <AiOutlineCheckCircle className="bullet-check-icon" />
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </section>
 
         {/* ================= SKILL MATRIX ================= */}
@@ -209,7 +267,7 @@ export default function AboutMe() {
 
           <Row className="g-4">
             {filteredSkills.map((skill) => {
-              const proficiencyVal = skill.proficiency || 88;
+              const proficiencyVal = skill.proficiency || 90;
               return (
                 <Col lg={4} md={6} sm={12} key={skill._id || skill.name}>
                   <div className="skill-matrix-card glass-panel">
@@ -240,12 +298,12 @@ export default function AboutMe() {
           </Row>
         </section>
 
-        {/* ================= RECENT HIGHLIGHTS ================= */}
+        {/* ================= KEY PROJECTS HIGHLIGHT ================= */}
         <section className="recent-highlights my-5" data-aos="fade-up">
           <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
             <div>
               <h2 className="section-title text-start mb-1">Key <span className="gradient-text">Projects</span></h2>
-              <p className="text-secondary mb-0">Engineered systems reflecting these capabilities</p>
+              <p className="text-secondary mb-0">Engineered systems reflecting these enterprise capabilities</p>
             </div>
             <Link to="/projects" className="btn-modern-primary">
               All Projects <AiOutlineArrowRight className="ms-1" />
@@ -255,10 +313,11 @@ export default function AboutMe() {
           <Row className="g-4">
             {projects.slice(0, 3).map((proj) => (
               <Col md={4} key={proj._id || proj.projectName}>
-                <div className="glass-panel p-4 h-100 d-flex flex-direction-column">
+                <div className="glass-panel p-4 h-100 d-flex flex-column">
+                  <span className="org-badge mb-2 d-inline-block">{proj.organizationName}</span>
                   <h4 className="fw-bold mb-2">{proj.projectName}</h4>
                   <p className="text-secondary small mb-3">
-                    {proj.description?.substring(0, 110)}...
+                    {proj.description?.substring(0, 120)}...
                   </p>
                   <a
                     href={proj.projectLink}
