@@ -6,27 +6,39 @@
 export const KNOWLEDGE_CORPUS = [
   {
     id: "identity_surname",
-    topics: ["surname", "last name", "name", "family name", "second name", "full name", "identity", "who is he", "chelimala", "rajashekar"],
-    keywords: ["surname", "last", "family", "name", "chelimala", "rajashekar", "called", "full"],
+    topics: ["surname", "last name", "family name", "second name", "full name", "who is he", "what is his name"],
+    keywords: ["surname", "last", "family", "name", "chelimala", "called", "full"],
     answer: "Rajashekar's surname is **Chelimala**. His full legal name is **Rajashekar Chelimala**."
+  },
+  {
+    id: "identity_gender",
+    topics: ["gender", "sex", "pronouns", "is he male", "is he female"],
+    keywords: ["gender", "sex", "pronouns", "male", "he"],
+    answer: "Rajashekar Chelimala is **Male** (pronouns: **he/him**)."
   },
   {
     id: "personal_dob_age",
     topics: ["date of birth", "dob", "birthday", "birth date", "born", "birth", "age", "how old", "birth year"],
     keywords: ["dob", "birthday", "birth", "born", "age", "birthdate"],
-    answer: "Rajashekar's exact date of birth is kept private on this public portfolio for data protection and security. However, he is a 2023 B.Tech graduate from RGUKT Basar with 3+ years of professional full-stack and AI software engineering experience. For official background verification or HR documentation, please contact him directly at **rajashekarchelimela1@gmail.com** or **+91 9908545367**."
+    answer: "Rajashekar's exact date of birth is kept private on this public portfolio for data protection and security. However, he is a 2023 B.Tech graduate from RGUKT Basar with 3+ years of professional full-stack and AI software engineering experience. For official background verification or HR documentation, please contact him directly at **rajashekarchelimala1@gmail.com** or **+91 9908545367**."
+  },
+  {
+    id: "personal_family",
+    topics: ["father name", "father's name", "father", "mother", "parents", "family background", "family", "marital status", "married", "wife", "relationship"],
+    keywords: ["father", "mother", "parents", "family", "dad", "mom", "marital", "married", "wife"],
+    answer: "Information regarding Rajashekar's father's name or family details is not publicly available on his professional portfolio or resume. For official background verification or specific inquiries, please contact him directly at **rajashekarchelimala1@gmail.com**."
   },
   {
     id: "contact_mobile",
     topics: ["mobile", "phone", "contact number", "call", "cell", "phone number", "reach", "telephone", "whatsapp"],
     keywords: ["mobile", "phone", "number", "cell", "call", "dial", "telephone", "whatsapp", "contact"],
-    answer: "Rajashekar's mobile number is **+91 9908545367**. You can also reach him via email at **rajashekarchelimela1@gmail.com** or through the Contact page."
+    answer: "Rajashekar's mobile number is **+91 9908545367**. You can also reach him via email at **rajashekarchelimala1@gmail.com** or through the Contact page."
   },
   {
     id: "contact_email",
     topics: ["email", "mail", "gmail", "inbox", "send email", "write", "electronic mail"],
     keywords: ["email", "mail", "gmail", "address", "inbox", "write"],
-    answer: "Rajashekar's official email address is **rajashekarchelimela1@gmail.com**."
+    answer: "Rajashekar's official email address is **rajashekarchelimala1@gmail.com**."
   },
   {
     id: "education_degree",
@@ -59,10 +71,28 @@ export const KNOWLEDGE_CORPUS = [
     answer: "Rajashekar has **3+ years of professional full-stack software development experience** building high-scale distributed systems, microservices, and AI-powered applications."
   },
   {
-    id: "experience_freelance_ai",
-    topics: ["freelance", "independent", "candidate screening", "ai platform", "whisper", "qwen", "fastapi", "interview evaluation", "stt"],
-    keywords: ["freelance", "independent", "candidate", "screening", "whisper", "qwen", "fastapi", "interview", "evaluation", "stt", "tts"],
-    answer: "As a Freelance Full Stack & AI Developer (Dec 2024 – Dec 2025), Rajashekar architected an **AI-powered candidate screening platform** using Python FastAPI, whisper.cpp (Speech-to-Text), and Qwen LLMs for automated interview analysis and evaluation deployed on AWS."
+    id: "skills_top5",
+    topics: ["top 5 skills", "top skills", "best skills", "primary skills", "key skills", "core skills", "top five skills"],
+    keywords: ["top", "skills", "primary", "core", "five", "5", "best"],
+    answer: "Rajashekar's top 5 core engineering skills are:\n\n1. **Java & Spring Boot** (Microservices, Spring Security, Hibernate, 3+ years)\n2. **React.js & Frontend Engineering** (React Router, Context API, Vite, Modern UI)\n3. **PostgreSQL & Database Design** (Complex queries, schema design, index optimization)\n4. **AWS Cloud & DevOps** (EC2, S3, SES, Lambda, Docker, CI/CD)\n5. **AI & GenAI Integration** (Python FastAPI, Whisper STT, LLM Prompt Engineering, RAG Systems)"
+  },
+  {
+    id: "ai_projects",
+    topics: ["ai projects", "ai project", "artificial intelligence projects", "genai projects", "llm projects", "machine learning projects", "ai work"],
+    keywords: ["ai", "genai", "llm", "projects", "whisper", "qwen", "rag", "fastapi"],
+    answer: "Yes, Rajashekar has engineered multiple modern AI & Generative AI platforms:\n\n1. **AI-Powered Candidate Screening Platform** (FastAPI, Whisper.cpp STT, Qwen LLM, AWS EC2):\n   • Built automated candidate speech transcription and automated interview scoring algorithms.\n   • Live Platform: https://screener.tekavinya.com\n\n2. **Portfolio RAG AI Assistant** (Google Gemini, Node.js, Express, BM25 Knowledge Retrieval):\n   • Context-augmented personal assistant answering live technical and professional questions.\n\n3. **Comrade Encrypted Messaging Platform** (Socket.io, Node.js, React, End-to-End Encryption):\n   • Live: https://mycomrade.vercel.app/ | GitHub: https://github.com/RajashekarChelimala/comrade-frontend"
+  },
+  {
+    id: "projects_using_aws",
+    topics: ["projects using aws", "aws projects", "projects he used aws", "where did he use aws", "which projects used aws", "aws used"],
+    keywords: ["aws", "cloud", "ec2", "s3", "ses", "projects"],
+    answer: "Rajashekar leveraged **AWS Cloud Services** across several production systems:\n\n1. **Telangana Police HRMS** (Enterprise GovTech platform supporting 100K+ users):\n   • AWS EC2 for application deployment.\n   • Amazon S3 for secure departmental document uploads.\n   • Amazon SES for transactional email notifications.\n\n2. **AI Candidate Screening Platform** (Freelance, Dec 2024 – Dec 2025):\n   • AWS EC2 hosting Python FastAPI microservices, whisper.cpp speech-to-text, and Qwen LLMs for automated candidate evaluations."
+  },
+  {
+    id: "project_cdma_fms",
+    topics: ["cdma", "cdma project", "municipal administration", "municipal", "financial management system", "tgerp", "municipalities", "double entry", "accounting", "160 offices"],
+    keywords: ["cdma", "municipal", "administration", "financial", "management", "accounting", "tgerp", "ulb", "160"],
+    answer: "In the **CDMA (Municipal Administration Financial Management System)** project serving 160+ municipal offices across Telangana, Rajashekar utilized:\n\n• **Backend Technologies:** Java, Spring Boot, Spring Data JPA & Hibernate, REST APIs\n• **Frontend Technologies:** React.js\n• **Database:** PostgreSQL (double-entry municipal accounting, treasury, and financial statement generation)\n• **Security & Workflows:** Role-based access control (RBAC), multi-level municipal approvals, audit logging\n• **Live System:** https://tgerplive.cgg.gov.in"
   },
   {
     id: "project_comrade",
@@ -74,13 +104,7 @@ export const KNOWLEDGE_CORPUS = [
     id: "project_police_hrms",
     topics: ["police", "tgpolice", "hrms", "telangana police", "human resource", "leave management", "grievance", "police personnel"],
     keywords: ["police", "tgpolice", "hrms", "leave", "grievance", "transfers", "personnel", "100000", "100k"],
-    answer: "The **Telangana Police HRMS** is an enterprise Human Resource Management System supporting **100,000+ police personnel** with multi-level organizational hierarchies, RBAC, AWS S3/SES integration, and PostgreSQL."
-  },
-  {
-    id: "project_municipal_fms",
-    topics: ["municipal", "fms", "tgerp", "municipalities", "double entry", "accounting", "treasury", "160 offices", "work orders"],
-    keywords: ["municipal", "fms", "tgerp", "accounting", "double-entry", "treasury", "budget", "160", "work order"],
-    answer: "The **Municipal Administration Financial Management System** is a centralized double-entry accounting web platform serving **160+ municipal offices** across Telangana for end-to-end accounting, budgeting, treasury, and financial reporting with complex validation workflows."
+    answer: "The **Telangana Police HRMS** is an enterprise Human Resource Management System supporting **100,000+ police personnel** across Telangana. Key technologies used:\n• Java, Spring Boot, Spring MVC & JSP, PostgreSQL\n• Amazon S3 for secure document verification\n• Amazon SES for alerts, AWS EC2 deployment\n• Live Portal: https://tgpolice.cgg.gov.in"
   },
   {
     id: "project_tekavinya",
@@ -98,7 +122,7 @@ export const KNOWLEDGE_CORPUS = [
     id: "project_tghcl",
     topics: ["tghcl", "housing", "housing corporation", "struts modernization", "legacy migration"],
     keywords: ["tghcl", "housing", "corporation", "struts", "legacy", "modernization", "migration"],
-    answer: "The **Housing Corporation Financial Portal** project modernized a legacy Apache Struts/JSP system into Spring Boot and React.js, reducing technical debt across 60+ accounting screens."
+    answer: "The **Housing Corporation Financial Portal** modernized a legacy Apache Struts/JSP system into Spring Boot and React.js, reducing technical debt across 60+ accounting screens."
   },
   {
     id: "skills_java_spring",
@@ -134,7 +158,7 @@ export const KNOWLEDGE_CORPUS = [
     id: "hire_availability",
     topics: ["hire", "available", "hiring", "open to work", "job", "freelance", "opportunity", "contract", "join", "notice period"],
     keywords: ["hire", "available", "hiring", "job", "freelance", "opportunity", "join", "contract", "looking", "open"],
-    answer: "Yes! Rajashekar is **open to Full-Stack Software Engineering roles, AI-integrated product development, and select freelance engineering contracts**. You can connect with him directly at **rajashekarchelimela1@gmail.com** or via the Contact page!"
+    answer: "Yes! Rajashekar is **open to Full-Stack Software Engineering roles, AI-integrated product development, and select freelance engineering contracts**. You can connect with him directly at **rajashekarchelimala1@gmail.com** or via the Contact page!"
   },
   {
     id: "social_profiles",
@@ -150,19 +174,22 @@ export const KNOWLEDGE_CORPUS = [
   },
   {
     id: "hobbies_interests",
-    topics: ["hobbies", "interests", "passion", "free time", "what does he like"],
-    keywords: ["hobbies", "interests", "passion", "hobby", "like", "likes"],
-    answer: "Rajashekar's technical passions and hobbies include **Distributed Microservices Architecture, Generative AI & Voice Agents, Open Source Development, and Web Performance Optimization**."
+    topics: ["hobbies", "hobby", "interests", "free time", "what does he do in free time", "passions", "pastime"],
+    keywords: ["hobbies", "hobby", "interests", "free", "time", "passions", "pastime"],
+    answer: "Rajashekar's personal hobbies and interests include:\n\n• **Exploring Generative AI & Voice Agents** (experimenting with local LLMs, whisper STT, and AI agents)\n• **Open Source Development & Tech Blogging** (studying system design and sharing software engineering insights)\n• **Reading Tech Literature & Architecture Whitepapers**\n• **Photography & Travel** in his leisure time."
   }
 ];
 
 const STOPWORDS = new Set([
   "a", "about", "an", "and", "are", "as", "at", "be", "by", "can", "could", "did", "do", "does", "for", "from",
-  "get", "give", "has", "have", "he", "her", "him", "his", "how", "i", "in", "is", "it", "its", "me", "my",
+  "get", "give", "has", "have", "he", "her", "him", "his", "how", "i", "if", "in", "is", "it", "its", "me", "my",
   "of", "on", "or", "our", "please", "provide", "say", "show", "tell", "that", "the", "their", "them", "then",
   "there", "these", "they", "this", "to", "was", "we", "what", "when", "where", "which", "who", "whom", "will",
-  "with", "would", "you", "your"
+  "with", "would", "you", "your", "yes"
 ]);
+
+// Subject tokens that appear across the portfolio; if other meaningful tokens exist, these should not inflate scores
+const SUBJECT_TOKENS = new Set(["rajashekar", "chelimala"]);
 
 /**
  * Tokenize a string into clean alphanumeric keywords
@@ -182,34 +209,38 @@ export function tokenize(str) {
  */
 export function retrieveRelevantChunks(query, corpus = KNOWLEDGE_CORPUS, topK = 3) {
   const queryTokens = tokenize(query);
-  const meaningfulTokens = queryTokens.filter((t) => !STOPWORDS.has(t));
-  const tokensToUse = meaningfulTokens.length > 0 ? meaningfulTokens : queryTokens;
+  const nonStop = queryTokens.filter((t) => !STOPWORDS.has(t));
+  
+  // If there are other meaningful tokens beside 'rajashekar'/'chelimala', prioritize those
+  const nonSubject = nonStop.filter((t) => !SUBJECT_TOKENS.has(t));
+  const tokensToUse = nonSubject.length > 0 ? nonSubject : (nonStop.length > 0 ? nonStop : queryTokens);
+  
   const rawQuery = (query || "").toLowerCase();
 
   const scored = corpus.map((chunk) => {
     let score = 0;
 
-    // Check exact topic phrase match
+    // Check exact topic phrase match in raw query
     for (const topic of chunk.topics) {
       if (rawQuery.includes(topic.toLowerCase())) {
-        score += 25;
+        score += 35;
       }
     }
 
-    // Check token overlaps with whole-word precision (avoiding substring false positives like 'date' in 'candidate')
+    // Check token overlaps with whole-word precision
     for (const token of tokensToUse) {
       for (const keyword of chunk.keywords) {
         const kw = keyword.toLowerCase();
         if (kw === token) {
-          score += 12;
+          score += 15;
         } else if (token.length >= 4 && (kw.startsWith(token) || token.startsWith(kw))) {
-          score += 6;
+          score += 7;
         }
       }
       for (const topic of chunk.topics) {
         const topicWords = tokenize(topic);
         if (topicWords.includes(token)) {
-          score += 8;
+          score += 10;
         }
       }
     }
@@ -228,20 +259,20 @@ export function queryRAG(userQuery, corpus = KNOWLEDGE_CORPUS) {
   const topMatches = retrieveRelevantChunks(userQuery, corpus, 3);
   const bestMatch = topMatches[0];
 
-  // If a high-confidence match is found (score >= 8), return direct answer
-  if (bestMatch && bestMatch.score >= 8) {
+  // If a high-confidence match is found (score >= 10), return direct answer
+  if (bestMatch && bestMatch.score >= 10) {
     return bestMatch.chunk.answer;
   }
 
   // Multi-chunk synthesis if moderate confidence
-  if (bestMatch && bestMatch.score >= 6) {
+  if (bestMatch && bestMatch.score >= 7) {
     const combined = topMatches
-      .filter((m) => m.score >= 6)
+      .filter((m) => m.score >= 7)
       .map((m) => m.chunk.answer)
       .join("\n\n");
     return combined;
   }
 
   // Polite out-of-domain response when question doesn't match any verified facts
-  return "I don't have that specific information in Rajashekar's public portfolio or resume. Feel free to contact Rajashekar directly at **rajashekarchelimela1@gmail.com** or **+91 9908545367**, or ask me about his skills, projects (Comrade, Police HRMS, Screener), education (RGUKT Basar), or experience at CGG!";
+  return "I don't have that specific information in Rajashekar's public portfolio or resume. Feel free to contact Rajashekar directly at **rajashekarchelimala1@gmail.com** or **+91 9908545367**, or ask me about his skills, projects (Comrade, Police HRMS, Screener), education (RGUKT Basar), or experience at CGG!";
 }

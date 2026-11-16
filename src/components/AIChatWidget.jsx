@@ -5,6 +5,81 @@ import { myAxios } from "../utils/api";
 import { queryRAG } from "../utils/ragEngine";
 import "./AIChatWidget.css";
 
+const renderFormattedContent = (text) => {
+  if (!text) return null;
+  const lines = text.split("\n");
+  return lines.map((line, lineIdx) => {
+    if (!line.trim()) {
+      return <div key={lineIdx} style={{ height: "0.35rem" }} />;
+    }
+
+    const parts = [];
+    const regex = /(\*\*[^*]+\*\*|\[[^\]]+\]\([^)]+\)|https?:\/\/[^\s]+)/g;
+    let lastIndex = 0;
+    let match;
+
+    while ((match = regex.exec(line)) !== null) {
+      if (match.index > lastIndex) {
+        parts.push(line.substring(lastIndex, match.index));
+      }
+      const token = match[0];
+      if (token.startsWith("**") && token.endsWith("**")) {
+        parts.push(
+          <strong key={`${lineIdx}-${match.index}`} className="ai-bold-text">
+            {token.slice(2, -2)}
+          </strong>
+        );
+      } else if (token.startsWith("[") && token.includes("](")) {
+        const title = token.substring(1, token.indexOf("]("));
+        const url = token.substring(token.indexOf("](") + 2, token.length - 1);
+        parts.push(
+          <a
+            key={`${lineIdx}-${match.index}`}
+            href={url}
+            target="_blank"
+            rel="noreferrer"
+            className="ai-chat-link"
+          >
+            {title}
+          </a>
+        );
+      } else if (token.startsWith("http")) {
+        parts.push(
+          <a
+            key={`${lineIdx}-${match.index}`}
+            href={token}
+            target="_blank"
+            rel="noreferrer"
+            className="ai-chat-link"
+          >
+            {token}
+          </a>
+        );
+      }
+      lastIndex = match.index + token.length;
+    }
+
+    if (lastIndex < line.length) {
+      parts.push(line.substring(lastIndex));
+    }
+
+    const isBullet = line.trim().startsWith("•") || line.trim().startsWith("* ") || line.trim().startsWith("- ");
+
+    return (
+      <p
+        key={lineIdx}
+        style={{
+          margin: lineIdx === 0 ? 0 : "0.35rem 0 0 0",
+          paddingLeft: isBullet ? "0.6rem" : 0,
+          lineHeight: 1.55,
+        }}
+      >
+        {parts.length > 0 ? parts : line}
+      </p>
+    );
+  });
+};
+
 const SUGGESTIONS = [
   "What is his surname?",
   "What is his phone number?",
@@ -112,11 +187,7 @@ export default function AIChatWidget() {
                 </div>
               )}
               <div className="ai-message-bubble">
-                {msg.text.split("\n").map((line, i) => (
-                  <p key={i} style={{ margin: i === 0 ? 0 : "0.4rem 0 0 0" }}>
-                    {line}
-                  </p>
-                ))}
+                {renderFormattedContent(msg.text)}
               </div>
             </div>
           ))}

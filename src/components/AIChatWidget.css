@@ -338,3 +338,29 @@
     height: 48px;
   }
 }
+
+.ai-bold-text {
+  font-weight: 700 !important;
+}
+
+body.dark .ai-bold-text,
+.dark .ai-bold-text {
+  color: #f8fafc !important;
+}
+
+body.light .ai-bold-text,
+.light .ai-bold-text {
+  color: #0f172a !important;
+}
+
+.ai-chat-link {
+  color: var(--accent-cyan) !important;
+  text-decoration: underline !important;
+  word-break: break-all;
+  font-weight: 600;
+  transition: opacity 0.2s ease;
+}
+
+.ai-chat-link:hover {
+  opacity: 0.8;
+}

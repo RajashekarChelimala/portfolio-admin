@@ -220,9 +220,9 @@ const Home = () => {
             </Col>
             <Col md={3} sm={6}>
               <div className="bento-card">
-                <div className="bento-metric gradient-text">260K+</div>
+                <div className="bento-metric gradient-text">100K+</div>
                 <div className="bento-label">Users Served</div>
-                <p className="bento-desc">100K+ police personnel + 160+ municipal offices in Telangana.</p>
+                <p className="bento-desc">100K+ police personnel across 160+ municipal offices in Telangana.</p>
               </div>
             </Col>
           </Row>
