@@ -15,6 +15,21 @@ export default defineConfig(({ mode }) => {
     build: {
       outDir: 'build',
       sourcemap: false,
+      chunkSizeWarningLimit: 1000,
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              if (id.includes('jodit')) return 'vendor-jodit';
+              if (id.includes('@mui') || id.includes('@emotion')) return 'vendor-mui';
+              if (id.includes('react-loader-spinner')) return 'vendor-loader';
+              if (id.includes('react-icons') || id.includes('@fortawesome')) return 'vendor-icons';
+              if (id.includes('reactstrap') || id.includes('bootstrap')) return 'vendor-bootstrap';
+              if (id.includes('tsparticles') || id.includes('react-tsparticles')) return 'vendor-particles';
+            }
+          },
+        },
+      },
     },
     server: {
       port: 3000,

@@ -18,8 +18,9 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
+        const backendUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:5000";
         const response = await axios.get(
-          `${process.env.REACT_APP_BACKEND_URL}/auth/check`,
+          `${backendUrl}/auth/check`,
           { withCredentials: true }
         );
         if (response.status === 200) {
@@ -41,53 +42,60 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (username, password, adminKey) => {
     try {
-      console.log(`${process.env.REACT_APP_BACKEND_URL}/register`);
+      const backendUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:5000";
       const response = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/register`,
+        `${backendUrl}/register`,
         { username, password, adminKey },
         { withCredentials: true }
       );
-      console.log("response", response); // Log the response
-      navigate('/admin-login'); // Redirect to Admin Dashboard on successful registration
-      // showSuccessToast(response.data.success);
       sweetAlert({
         type: 'success',
-        title: 'Success!',
-        text: response.data.success,
-        timer: 2000, // Auto-close after 2 seconds
+        title: 'Registration Successful!',
+        text: response.data.success || 'Administrator account established.',
+        timer: 2000,
       });
+      return { success: true, message: response.data.success };
     } catch (error) {
-      console.error("Registration Failed", error); // Log the error
-      // showErrorToast(error.response.data.message);
+      console.error("Registration Failed", error);
+      const message = error.response?.data?.message || "Registration failed. Invalid admin key.";
       sweetAlert({
         type: 'error',
-        title: 'Error!',
-        text: error.response.data.message,
-        timer: 2000, // Auto-close after 2 seconds
+        title: 'Registration Failed',
+        text: message,
+        timer: 3000,
       });
+      return { success: false, message };
     }
   };
 
   const login = async (username, password) => {
     try {
-      console.log(`${process.env.REACT_APP_BACKEND_URL}/auth/login`);
+      const backendUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:5000";
       const response = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/auth/login`,
+        `${backendUrl}/auth/login`,
         { username, password },
         { withCredentials: true }
       );
-      console.log("response", response); // Log the response
-      localStorage.setItem("accessToken", response.data.accessToken); // Save token to localStorage
-      setAuth({ accessToken: response.data.accessToken, isLoggedIn: true });
+      if (response.data && response.data.accessToken) {
+        localStorage.setItem("accessToken", response.data.accessToken);
+        setAuth({ accessToken: response.data.accessToken, isLoggedIn: true });
+        return { success: true };
+      }
+      return { success: false, message: "Authentication failed: No access token received." };
     } catch (error) {
-      console.error("Login failed", error); // Log the error
+      console.error("Login failed:", error);
+      const message = error.response?.status === 401
+        ? "Invalid username or password. Please try again."
+        : (error.response?.data?.message || "Unable to reach authentication server. Please check connection.");
+      return { success: false, message };
     }
   };
 
   const logout = async () => {
     try {
+      const backendUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:5000";
       await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/auth/logout`,
+        `${backendUrl}/auth/logout`,
         {},
         { withCredentials: true }
       );

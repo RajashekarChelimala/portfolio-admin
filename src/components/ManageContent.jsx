@@ -6,6 +6,10 @@ import {
   Label,
   Input,
   Button,
+  Card,
+  CardBody,
+  Row,
+  Col,
 } from "reactstrap";
 import { myAxios, myPrivateAxios } from "../utils/api";
 import AOS from "aos";
@@ -13,6 +17,7 @@ import Swal from "sweetalert2";
 import "aos/dist/aos.css"; // AOS styles
 import JoditEditor from "jodit-react";
 import Loader from "../ui-elements/Loader";
+import AdminNav from "./AdminNav";
 import "./ManageContent.css";
 
 const ManageContent = ({ placeholder }) => {
@@ -39,11 +44,16 @@ const ManageContent = ({ placeholder }) => {
   const [contentId, setContentId] = useState(null); // Store the content ID
   const [isLoading, setIsLoading] = useState(false); // Loader state
 
+  // Cloudinary media upload states
+  const [profileFile, setProfileFile] = useState(null);
+  const [uploadingProfile, setUploadingProfile] = useState(false);
+  const [resumeFile, setResumeFile] = useState(null);
+  const [uploadingResume, setUploadingResume] = useState(false);
+
   const editor = useRef(null); // Jodit editor reference
-  // Correct useMemo implementation
   const config = useMemo(
     () => ({
-      readonly: false, 
+      readonly: false,
       placeholder: placeholder || "Start typing...",
     }),
     [placeholder]
@@ -83,6 +93,80 @@ const ManageContent = ({ placeholder }) => {
     setFormData({ ...formData, introduction: content });
   };
 
+  // Upload Profile Photo directly to Cloudinary via backend API
+  const handleUploadProfile = async () => {
+    if (!profileFile) {
+      Swal.fire("Select File", "Please select an image file first.", "warning");
+      return;
+    }
+
+    setUploadingProfile(true);
+    const data = new FormData();
+    data.append("image", profileFile);
+
+    try {
+      const response = await myPrivateAxios.post("/media/upload/profile", data, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      if (response.data && response.data.url) {
+        setFormData((prev) => ({ ...prev, imageLink: response.data.url }));
+        setProfileFile(null);
+        Swal.fire({
+          icon: "success",
+          title: "Profile Photo Uploaded!",
+          text: "Uploaded to Cloudinary and synchronized with database.",
+        });
+      }
+    } catch (err) {
+      console.error("Cloudinary profile upload error:", err);
+      Swal.fire(
+        "Upload Error",
+        err.response?.data?.message || "Failed to upload profile photo to Cloudinary.",
+        "error"
+      );
+    } finally {
+      setUploadingProfile(false);
+    }
+  };
+
+  // Upload Resume PDF directly to Cloudinary via backend API
+  const handleUploadResume = async () => {
+    if (!resumeFile) {
+      Swal.fire("Select File", "Please select a PDF file first.", "warning");
+      return;
+    }
+
+    setUploadingResume(true);
+    const data = new FormData();
+    data.append("resume", resumeFile);
+
+    try {
+      const response = await myPrivateAxios.post("/media/upload/resume", data, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      if (response.data && response.data.url) {
+        setFormData((prev) => ({ ...prev, resumeLink: response.data.url }));
+        setResumeFile(null);
+        Swal.fire({
+          icon: "success",
+          title: "Resume PDF Uploaded!",
+          text: "Uploaded to Cloudinary CDN and synchronized with database.",
+        });
+      }
+    } catch (err) {
+      console.error("Cloudinary resume upload error:", err);
+      Swal.fire(
+        "Upload Error",
+        err.response?.data?.message || "Failed to upload resume PDF to Cloudinary.",
+        "error"
+      );
+    } finally {
+      setUploadingResume(false);
+    }
+  };
+
   const validateForm = () => {
     const { name, hobbies, organization, designation, location } = formData;
     if (!name || !hobbies || !organization || !designation || !location) {
@@ -99,13 +183,11 @@ const ManageContent = ({ placeholder }) => {
     setIsLoading(true); // Start loading
     try {
       if (contentId) {
-        // If contentId exists, update the existing content
         await myPrivateAxios.put(`/content`, formData);
         Swal.fire("Success", "Content updated successfully!", "success");
       } else {
-        // If no contentId, create new content
         const response = await myPrivateAxios.post("/content", formData);
-        setContentId(response.data._id); // Set the new content ID
+        setContentId(response.data._id);
         Swal.fire("Success", "Content added successfully!", "success");
       }
     } catch (err) {
@@ -117,17 +199,35 @@ const ManageContent = ({ placeholder }) => {
   };
 
   return (
-    <Container className="manage-content-container" data-aos="fade-up">
-      <h2 className="text-center">Content Management</h2>
+    <Container className="manage-content-container py-4" data-aos="fade-up">
+      <AdminNav />
+      <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <div>
+          <h2 className="mb-1 text-light">Content & Media Management</h2>
+          <p className="text-muted small mb-0">
+            Manage your personal portfolio details, Cloudinary media assets, and professional profile.
+          </p>
+        </div>
+        <span className="badge bg-dark border border-secondary text-info px-3 py-2">
+          Cloudinary Media Connected
+        </span>
+      </div>
+
       {isLoading ? (
         <Loader type="bars" />
       ) : (
         <Form onSubmit={handleSubmit}>
           {Object.keys(formData).map((key) => (
-            <FormGroup key={key} data-aos="fade-up">
-              <Label for={key}>
-                {key.charAt(0).toUpperCase() + key.slice(1).toLowerCase()}
-              </Label>
+            <FormGroup key={key} className="mb-4" data-aos="fade-up">
+              <div className="d-flex justify-content-between align-items-center mb-1">
+                <Label for={key} className="fw-semibold text-light mb-0">
+                  {key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, " $1")}
+                </Label>
+                {["imageLink", "resumeLink"].includes(key) && (
+                  <span className="badge bg-secondary small">Cloudinary CDN Managed</span>
+                )}
+              </div>
+
               {key === "introduction" ? (
                 <JoditEditor
                   ref={editor}
@@ -141,7 +241,7 @@ const ManageContent = ({ placeholder }) => {
                   type={["footerText"].includes(key) ? "textarea" : "text"}
                   name={key}
                   id={key}
-                  value={formData[key]}
+                  value={formData[key] || ""}
                   onChange={handleChange}
                   required={[
                     "name",
@@ -150,12 +250,121 @@ const ManageContent = ({ placeholder }) => {
                     "designation",
                     "location",
                   ].includes(key)}
+                  className="bg-dark text-light border-secondary"
                 />
+              )}
+
+              {/* Dedicated Cloudinary Media Box for Profile Photo */}
+              {key === "imageLink" && (
+                <Card className="mt-3 bg-black border-info border-opacity-25 p-3">
+                  <CardBody className="p-0">
+                    <Row className="align-items-center g-3">
+                      <Col xs="auto">
+                        {formData.imageLink ? (
+                          <img
+                            src={formData.imageLink}
+                            alt="Current Profile Preview"
+                            style={{
+                              width: "72px",
+                              height: "72px",
+                              borderRadius: "50%",
+                              objectFit: "cover",
+                              border: "2px solid #00f2fe",
+                            }}
+                          />
+                        ) : (
+                          <div
+                            style={{
+                              width: "72px",
+                              height: "72px",
+                              borderRadius: "50%",
+                              background: "#222",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              border: "1px dashed #666",
+                            }}
+                          >
+                            <span className="text-muted small">No photo</span>
+                          </div>
+                        )}
+                      </Col>
+                      <Col>
+                        <h6 className="text-light mb-1">Upload New Profile Image to Cloudinary</h6>
+                        <p className="text-muted small mb-2">
+                          Optimized on upload with automatic smart cropping and WebP/AVIF delivery.
+                        </p>
+                        <div className="d-flex align-items-center gap-2 flex-wrap">
+                          <Input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => setProfileFile(e.target.files[0])}
+                            className="form-control-sm"
+                            style={{ maxWidth: "280px" }}
+                          />
+                          <Button
+                            color="info"
+                            size="sm"
+                            type="button"
+                            onClick={handleUploadProfile}
+                            disabled={uploadingProfile || !profileFile}
+                          >
+                            {uploadingProfile ? "Uploading..." : "Upload & Sync to Cloudinary"}
+                          </Button>
+                        </div>
+                      </Col>
+                    </Row>
+                  </CardBody>
+                </Card>
+              )}
+
+              {/* Dedicated Cloudinary Media Box for Resume PDF */}
+              {key === "resumeLink" && (
+                <Card className="mt-3 bg-black border-info border-opacity-25 p-3">
+                  <CardBody className="p-0">
+                    <Row className="align-items-center g-3">
+                      <Col>
+                        <h6 className="text-light mb-1">Upload New Resume PDF to Cloudinary</h6>
+                        <p className="text-muted small mb-2">
+                          Uploads your latest PDF resume to Cloudinary storage, automatically updating the Resume page viewer and download link.
+                        </p>
+                        <div className="d-flex align-items-center gap-2 flex-wrap">
+                          <Input
+                            type="file"
+                            accept=".pdf,application/pdf"
+                            onChange={(e) => setResumeFile(e.target.files[0])}
+                            className="form-control-sm"
+                            style={{ maxWidth: "280px" }}
+                          />
+                          <Button
+                            color="info"
+                            size="sm"
+                            type="button"
+                            onClick={handleUploadResume}
+                            disabled={uploadingResume || !resumeFile}
+                          >
+                            {uploadingResume ? "Uploading..." : "Upload Resume PDF to Cloudinary"}
+                          </Button>
+                          {formData.resumeLink && (
+                            <a
+                              href={formData.resumeLink}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="btn btn-sm btn-outline-light"
+                            >
+                              Preview Active Resume ↗
+                            </a>
+                          )}
+                        </div>
+                      </Col>
+                    </Row>
+                  </CardBody>
+                </Card>
               )}
             </FormGroup>
           ))}
-          <Button color="primary" type="submit" disabled={isLoading}>
-            Submit
+          <Button color="primary" type="submit" size="lg" className="px-5 mt-3" disabled={isLoading}>
+            {isLoading ? "Saving..." : "Save Content Changes"}
           </Button>
         </Form>
       )}

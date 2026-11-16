@@ -14,7 +14,7 @@ import { Col, Container, Row } from "reactstrap";
 import Type from "../ui-elements/Type";
 import { myAxios } from "../utils/api";
 import { DEFAULT_CONTENT, DEFAULT_PROJECTS } from "../utils/fallbackData";
-import myImg from "../assets/my-image.png";
+import profileAvatarImg from "../assets/profile-avatar.jpg";
 import "./Home.css";
 
 const Home = () => {
@@ -63,7 +63,7 @@ const Home = () => {
 
   const profileAvatar = contentData.imageLink && contentData.imageLink.startsWith("http")
     ? contentData.imageLink
-    : myImg;
+    : profileAvatarImg;
 
   return (
     <div className="home-page">
@@ -73,7 +73,7 @@ const Home = () => {
 
       <Container>
         {/* ================= HERO SECTION ================= */}
-        <section className="hero-section" data-aos="fade-up">
+        <section className="hero-section">
           <Row className="align-items-center">
             <Col lg={7} md={12} className="hero-text-col">
               <div className="status-pill mb-3">
@@ -110,17 +110,16 @@ const Home = () => {
                 <Link to="/contact" className="btn-modern-glass">
                   <AiOutlineMail className="me-2" /> Get in Touch
                 </Link>
-                {contentData.resumeLink && (
-                  <a
-                    href={contentData.resumeLink}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="btn-modern-ghost"
-                    title="Download Resume"
-                  >
-                    <AiOutlineDownload className="me-1" /> Resume
-                  </a>
-                )}
+                <a
+                  href={contentData.resumeLink && !contentData.resumeLink.includes("sample-resume") ? contentData.resumeLink : "/RajashekarChelimala_Resume.pdf"}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn-modern-ghost"
+                  title="Download Resume"
+                  download="RajashekarChelimala_Resume.pdf"
+                >
+                  <AiOutlineDownload className="me-1" /> Resume
+                </a>
               </div>
 
               {/* Social Channels */}
@@ -164,17 +163,21 @@ const Home = () => {
                 </div>
 
                 <div className="avatar-details">
-                  <h3 className="avatar-title">{contentData.name}</h3>
-                  <p className="avatar-subtitle">{contentData.designation || "Full Stack Engineer"}</p>
-                  <p className="avatar-location">📍 {contentData.location || "Hyderabad, India"}</p>
-                </div>
+                  <div className="avatar-status-pill mb-2">
+                    <span className="pulse-dot" /> Enterprise Software Engineer
+                  </div>
+                  <h3 className="avatar-title">{contentData.name || "Rajashekar Chelimala"}</h3>
+                  <p className="avatar-subtitle">{contentData.designation || "Java Full Stack Developer"}</p>
+                  <p className="avatar-org text-secondary small mb-3">{contentData.organization || "Centre for Good Governance (CGG)"}</p>
 
-                {/* Floating Tech Badges */}
-                <div className="floating-badge badge-top-right">
-                  <FaReact className="badge-icon react" /> React 18
-                </div>
-                <div className="floating-badge badge-bottom-left">
-                  <FaNodeJs className="badge-icon node" /> Node.js & APIs
+                  {/* Clean, Integrated Tech Summary Strip */}
+                  <div className="avatar-tech-strip">
+                    <span className="tech-pill"><FaJava className="me-1 text-warning" /> Java</span>
+                    <span className="tech-pill"><FaReact className="me-1 text-info" /> React</span>
+                    <span className="tech-pill"><FaNodeJs className="me-1 text-success" /> Node.js</span>
+                    <span className="tech-pill"><FaDocker className="me-1 text-primary" /> Docker</span>
+                    <span className="tech-pill"><SiMongodb className="me-1 text-success" /> MongoDB</span>
+                  </div>
                 </div>
               </div>
             </Col>

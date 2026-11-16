@@ -27,6 +27,7 @@ import { sweetAlert } from "../ui-elements/sweetAlert";
 import { showErrorToast, showSuccessToast } from "../ui-elements/toastConfig";
 import { myPrivateAxios } from "../utils/api";
 import "./ContactRequests.css";
+import AdminNav from "./AdminNav";
 
 const ContactRequests = () => {
   const [requests, setRequests] = useState([]);
@@ -172,6 +173,7 @@ const ContactRequests = () => {
 
   return (
     <Container className="text-white contact-request">
+      <AdminNav />
       <Row>
         <Col md={8} className="mx-auto">
           <h2 className="text-center my-4">Contact Requests</h2>

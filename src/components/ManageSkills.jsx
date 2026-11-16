@@ -30,6 +30,7 @@ import {
   Row,
 } from "reactstrap";
 import "./ManageSkills.css";
+import AdminNav from "./AdminNav";
 
 import { ThemeContext } from "../context/ThemeProvider"; // Adjust the import path
 
@@ -333,6 +334,7 @@ export default function ManageSkills() {
     <>
       <MUIThemeProvider theme={muiTheme}>
         <Container>
+          <AdminNav />
           <h2 className="modern-heading">Manage Skills</h2>
           <DataGrid
             rows={rows}
@@ -367,13 +369,15 @@ export default function ManageSkills() {
                       </CardTitle>
                     </div>
                     <div className="skill-links">
-                      <a
-                        href={skill.certificateLink}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        <img src={externalLink} alt="Visit site" />
-                      </a>
+                      {skill.certificateLink && (
+                        <a
+                          href={skill.certificateLink}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <img src={externalLink} alt="Visit site" />
+                        </a>
+                      )}
                     </div>
                   </header>
                   <CardText>
@@ -381,19 +385,26 @@ export default function ManageSkills() {
                       {skill.organizationName}
                     </h4>
                     <p className="skill-description">
-                      {expanded[skill.id]
-                        ? skill.description
-                        : `${skill.description.substring(0, 100)}...`}
-                      {skill.description.length > 100 && (
-                        <span
-                          onClick={() => toggleExpand(skill.id)} // Toggle only for the clicked skill
-                          style={{
-                            cursor: "pointer",
-                            textDecoration: "underline",
-                          }}
-                        >
-                          {expanded[skill.id] ? "Show less" : "Show more"}
-                        </span>
+                      {skill.description ? (
+                        <>
+                          {expanded[skill.id]
+                            ? skill.description
+                            : `${skill.description.substring(0, 100)}${skill.description.length > 100 ? "..." : ""}`}
+                          {skill.description.length > 100 && (
+                            <span
+                              onClick={() => toggleExpand(skill.id)}
+                              style={{
+                                cursor: "pointer",
+                                textDecoration: "underline",
+                                marginLeft: "6px",
+                              }}
+                            >
+                              {expanded[skill.id] ? "Show less" : "Show more"}
+                            </span>
+                          )}
+                        </>
+                      ) : (
+                        <span className="text-muted small">Proficiency verified</span>
                       )}
                     </p>
                   </CardText>

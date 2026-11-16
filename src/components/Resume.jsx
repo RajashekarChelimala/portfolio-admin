@@ -6,7 +6,11 @@ import { DEFAULT_CONTENT } from "../utils/fallbackData";
 import "./Resume.css";
 
 export default function Resume() {
-  const [resumeLink, setResumeLink] = useState(DEFAULT_CONTENT.resumeLink);
+  const [resumeLink, setResumeLink] = useState(
+    DEFAULT_CONTENT.resumeLink && !DEFAULT_CONTENT.resumeLink.includes("sample-resume")
+      ? DEFAULT_CONTENT.resumeLink
+      : "/RajashekarChelimala_Resume.pdf"
+  );
   const [content, setContent] = useState(DEFAULT_CONTENT);
 
   useEffect(() => {
@@ -17,8 +21,10 @@ export default function Resume() {
         const response = await myAxios.get("/content");
         if (response.data) {
           setContent((prev) => ({ ...prev, ...response.data }));
-          if (response.data.resumeLink) {
+          if (response.data.resumeLink && !response.data.resumeLink.includes("sample-resume")) {
             setResumeLink(response.data.resumeLink);
+          } else {
+            setResumeLink("/RajashekarChelimala_Resume.pdf");
           }
         }
       } catch (err) {
@@ -29,18 +35,25 @@ export default function Resume() {
   }, []);
 
   const handleDownload = () => {
-    window.open(resumeLink, "_blank");
+    const target = resumeLink || "/RajashekarChelimala_Resume.pdf";
+    const a = document.createElement("a");
+    a.href = target;
+    a.download = "RajashekarChelimala_Resume.pdf";
+    a.target = "_blank";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   };
 
   const previewUrl = resumeLink?.includes("/view")
     ? resumeLink.replace("/view", "/preview")
-    : resumeLink;
+    : (resumeLink || "/RajashekarChelimala_Resume.pdf");
 
   return (
     <div className="resume-page">
       <Container>
         {/* Header Section */}
-        <section className="resume-header text-center my-4" data-aos="fade-up">
+        <section className="resume-header text-center my-4">
           <span className="status-pill mb-3">
             <span className="pulse-dot" /> Curriculum Vitae
           </span>
@@ -89,7 +102,7 @@ export default function Resume() {
         </Row>
 
         {/* Iframe Frame Container */}
-        <div className="resume-frame-wrapper glass-panel my-4" data-aos="fade-up">
+        <div className="resume-frame-wrapper glass-panel my-4">
           {previewUrl ? (
             <iframe
               src={previewUrl}

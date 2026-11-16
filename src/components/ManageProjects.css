@@ -35,8 +35,8 @@
 
 .manage-projects-container input::placeholder,
 .manage-projects-container textarea::placeholder {
-  color: var(--text-color) !important;
-  opacity: 1;
+  color: var(--text-muted) !important;
+  opacity: 0.6;
 }
 
 input[type="date"] {

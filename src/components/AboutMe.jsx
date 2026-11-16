@@ -17,7 +17,7 @@ import {
   AiOutlineCheckCircle
 } from "react-icons/ai";
 import { FaGraduationCap, FaBriefcase } from "react-icons/fa";
-import myImg from "../assets/my-image.png";
+import profileAvatarImg from "../assets/profile-avatar.jpg";
 import { myAxios } from "../utils/api";
 import { DEFAULT_CONTENT, DEFAULT_SKILLS, DEFAULT_PROJECTS, DEFAULT_EXPERIENCES } from "../utils/fallbackData";
 import "./AboutMe.css";
@@ -57,6 +57,12 @@ export default function AboutMe() {
         }
       } catch (err) {
         console.warn("Using default projects in AboutMe:", err.message);
+      } finally {
+        setTimeout(() => {
+          if (typeof AOS !== "undefined") {
+            AOS.refresh();
+          }
+        }, 100);
       }
     };
 
@@ -65,7 +71,7 @@ export default function AboutMe() {
 
   const profileImg = (content?.imageLink && content.imageLink.startsWith("http"))
     ? content.imageLink
-    : myImg;
+    : profileAvatarImg;
 
   // Extract unique skill types
   const categories = ["All", ...Array.from(new Set(skills.map((s) => s.type || "Other")))];
@@ -101,7 +107,7 @@ export default function AboutMe() {
         </section>
 
         {/* ================= BENTO PROFILE GRID ================= */}
-        <section className="about-bento-grid my-5" data-aos="fade-up">
+        <section className="about-bento-grid my-5">
           <Row className="g-4">
             {/* Left Card: Profile & Core Bio */}
             <Col lg={7} md={12}>

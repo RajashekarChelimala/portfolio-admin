@@ -18,6 +18,7 @@ import {
 } from "reactstrap";
 import Swal from "sweetalert2";
 import Loader from "../ui-elements/Loader"; // Import the Loader component
+import AdminNav from "./AdminNav";
 import "./ManageProjects.css";
 import { myPrivateAxios } from "../utils/api";
 import externalLink from "../assets/external-link.svg";
@@ -215,6 +216,7 @@ const ManageProjects = () => {
 
   return (
     <Container className="manage-projects-container" data-aos="fade-up">
+      <AdminNav />
       <h2 className="modern-heading">Manage Projects</h2>
       <Row>
         <Col md={{ size: 8, offset: 2 }}>

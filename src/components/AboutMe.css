@@ -35,12 +35,12 @@
 }
 
 .about-avatar-ring {
-  width: 90px;
-  height: 90px;
+  width: 96px;
+  height: 96px;
   border-radius: 50%;
   padding: 3px;
   background: var(--accent-gradient);
-  box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.35);
   flex-shrink: 0;
 }
 
@@ -49,6 +49,7 @@
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
+  object-position: center 20%;
 }
 
 .about-name {

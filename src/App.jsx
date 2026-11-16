@@ -1,33 +1,34 @@
 import AOS from "aos";
 import "aos/dist/aos.css"; // AOS animations CSS
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, Suspense, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
-import BaseLayout from "../src/components/BaseLayout"; // Import the base layout component
+import BaseLayout from "./components/BaseLayout";
+import Home from "./components/Home";
 import AboutMe from "./components/AboutMe";
-import AdminDashboard from "./components/AdminDashboard";
+import Projects from "./components/Projects";
 import AllPosts from "./components/AllPosts";
 import Contact from "./components/Contact";
-import ContactRequests from "./components/ContactRequests";
-import FullPost from "./components/FullPost";
-import Home from "./components/Home";
-import Login from "./components/Login";
-import ManageContent from "./components/ManageContent";
-import ManagePosts from "./components/ManagePosts";
-import ManageProjects from "./components/ManageProjects";
-import ManageSkills from "./components/ManageSkills";
-import Projects from "./components/Projects";
-import Register from "./components/Register";
 import Resume from "./components/Resume";
-import Services from "./components/Services";
-import ToDo from "./components/ToDo";
+import Login from "./components/Login";
 import { AuthContext } from "./context/AuthProvider";
 import ProtectedRoute from "./context/ProtectedRoute";
 import { ThemeContext } from "./context/ThemeProvider";
-import MouseFollowerParticle from "./ui-elements/MouseFollowerParticle";
+
+// Code-split heavy admin routes and rich editors for optimal bundle performance
+const AdminDashboard = lazy(() => import("./components/AdminDashboard"));
+const Services = lazy(() => import("./components/Services"));
+const ToDo = lazy(() => import("./components/ToDo"));
+const ManagePosts = lazy(() => import("./components/ManagePosts"));
+const ManageProjects = lazy(() => import("./components/ManageProjects"));
+const ManageSkills = lazy(() => import("./components/ManageSkills"));
+const ContactRequests = lazy(() => import("./components/ContactRequests"));
+const ManageContent = lazy(() => import("./components/ManageContent"));
+const Register = lazy(() => import("./components/Register"));
+const FullPost = lazy(() => import("./components/FullPost"));
 
 function App() {
   useEffect(() => {
-    AOS.init({ duration: 1000, easing: "ease-in-out", once: true });
+    AOS.init({ duration: 800, easing: "ease-in-out", once: true });
   }, []);
 
   const { theme } = useContext(ThemeContext);
@@ -35,7 +36,15 @@ function App() {
 
   return (
     <div className={theme === "dark" ? "dark" : ""}>
-        {auth.isLoggedIn && <MouseFollowerParticle />}
+      <Suspense
+        fallback={
+          <div className="d-flex justify-content-center align-items-center py-5" style={{ minHeight: "60vh" }}>
+            <div className="status-pill">
+              <span className="pulse-dot" /> Loading...
+            </div>
+          </div>
+        }
+      >
         <Routes>
           <Route path="/" element={<BaseLayout />}>
             <Route index element={<Home />} />
@@ -113,6 +122,7 @@ function App() {
             <Route path="/about" element={<AboutMe />} />
           </Route>
         </Routes>
+      </Suspense>
     </div>
   );
 }

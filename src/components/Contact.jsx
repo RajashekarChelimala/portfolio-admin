@@ -143,7 +143,7 @@ const Contact = () => {
     <div className="contact-page">
       <Container>
         {/* Header Section */}
-        <section className="contact-header text-center my-4" data-aos="fade-up">
+        <section className="contact-header text-center my-4">
           <span className="status-pill mb-3">
             <span className="pulse-dot" /> Get in Touch
           </span>
@@ -158,7 +158,7 @@ const Contact = () => {
         {/* Contact Grid */}
         <Row className="g-4 my-3">
           {/* Left Column: Direct Info Card */}
-          <Col lg={5} md={12} data-aos="fade-up">
+          <Col lg={5} md={12}>
             <div className="contact-info-card glass-panel h-100">
               <h3 className="info-card-title">Direct Channels</h3>
               <p className="info-card-desc">
@@ -274,7 +274,7 @@ const Contact = () => {
           </Col>
 
           {/* Right Column: Contact Form */}
-          <Col lg={7} md={12} data-aos="fade-up">
+          <Col lg={7} md={12}>
             <div className="contact-form-card glass-panel">
               <h3 className="form-card-title mb-4">Send a Message</h3>
 

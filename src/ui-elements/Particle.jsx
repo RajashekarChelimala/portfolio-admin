@@ -23,8 +23,8 @@ const ParticlesComponent = (props) => {
         "enable": true,
         "zIndex": 0
       },
-      "detectRetina": true,
-      "fpsLimit": 60,
+      "detectRetina": false,
+      "fpsLimit": 30,
       "interactivity": {
         "events": {
           "onClick": {
@@ -237,6 +237,10 @@ const ParticlesComponent = (props) => {
     loadSlim(engine);
     // loadFull(engine); // for this sample the slim version is enough, choose whatever you prefer, slim is smaller in size but doesn't have all the plugins and the mouse trail feature
   }, []);
+
+  if (typeof window !== "undefined" && window.innerWidth < 768) {
+    return null;
+  }
 
   // setting an id can be useful for identifying the right particles component, this is useful for multiple instances or reusable components
   return <Particles id={props.id} init={particlesInit} options={options} />;
