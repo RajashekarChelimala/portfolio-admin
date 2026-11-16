@@ -304,6 +304,20 @@
   color: var(--text-primary) !important;
 }
 
+body.dark .skill-title,
+.dark .skill-title,
+body.dark .skill-name-group .skill-title,
+.dark .skill-name-group .skill-title {
+  color: #f8fafc !important;
+}
+
+body.light .skill-title,
+.light .skill-title,
+body.light .skill-name-group .skill-title,
+.light .skill-name-group .skill-title {
+  color: #0f172a !important;
+}
+
 .skill-name-group .skill-title {
   color: var(--text-primary) !important;
 }

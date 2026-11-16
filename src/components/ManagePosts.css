@@ -243,6 +243,16 @@
   opacity: 0.75 !important;
 }
 
+body.dark .admin-text-input::placeholder,
+body.dark .manage-posts-dashboard input::placeholder,
+body.dark .manage-posts-dashboard textarea::placeholder,
+.dark .admin-text-input::placeholder,
+.dark .manage-posts-dashboard input::placeholder,
+.dark .manage-posts-dashboard textarea::placeholder {
+  color: #94a3b8 !important;
+  opacity: 0.8 !important;
+}
+
 .admin-count-badge {
   background: var(--bg-tertiary) !important;
   color: var(--accent-cyan) !important;
@@ -251,14 +261,45 @@
   border-radius: 9999px;
 }
 
+body.light .admin-count-badge,
+.light .admin-count-badge {
+  background: rgba(2, 132, 199, 0.08) !important;
+  color: #0284c7 !important;
+  border: 1px solid rgba(2, 132, 199, 0.25) !important;
+}
+
 .admin-card-heading,
 .admin-section-heading {
   color: var(--text-primary) !important;
   font-weight: 700;
 }
 
+body.light .admin-card-heading,
+.light .admin-card-heading,
+body.light .admin-section-heading,
+.light .admin-section-heading,
+body.light .admin-heading,
+.light .admin-heading {
+  color: #0f172a !important;
+}
+
+body.light .admin-subheading,
+.light .admin-subheading {
+  color: #475569 !important;
+}
+
 .admin-post-title {
   color: var(--text-primary) !important;
+}
+
+body.light .admin-post-title,
+.light .admin-post-title {
+  color: #0f172a !important;
+}
+
+body.dark .admin-post-title,
+.dark .admin-post-title {
+  color: #f8fafc !important;
 }
 
 .admin-post-date {
@@ -267,29 +308,56 @@
   font-weight: 600;
 }
 
+body.dark .admin-post-date,
+.dark .admin-post-date {
+  color: #94a3b8 !important;
+}
+
+body.light .admin-post-date,
+.light .admin-post-date {
+  color: #64748b !important;
+}
+
+body.light .admin-post-card,
+.light .admin-post-card {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05) !important;
+}
+
+body.light .admin-card,
+.light .admin-card {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
 .admin-post-actions {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
 }
 
 .admin-action-btn {
   font-size: 0.8rem;
-  padding: 0.25rem 0.65rem;
+  padding: 0.3rem 0.65rem;
   border-radius: 6px;
   font-weight: 600;
   white-space: nowrap;
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .admin-view-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   font-size: 0.8rem;
   font-weight: 600;
-  padding: 0.25rem 0.65rem;
+  padding: 0.3rem 0.65rem;
   border-radius: 6px;
   background: rgba(56, 189, 248, 0.12);
   color: var(--accent-cyan) !important;

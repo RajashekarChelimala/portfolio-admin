@@ -25,6 +25,19 @@ div .skill-card {
   width: 100%;
 }
 
+body.light div .skill-card,
+.light div .skill-card {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05) !important;
+}
+
+body.dark div .skill-card,
+.dark div .skill-card {
+  background-color: #0f172a !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
 div .skill-card:hover {
   transform: translateY(-5px);
   box-shadow: var(--card-hover-shadow) !important;
@@ -37,6 +50,16 @@ div .skill-title {
   color: var(--text-primary) !important;
   font-size: 1.35rem;
   transition: color 0.2s ease;
+}
+
+body.light div .skill-title,
+.light div .skill-title {
+  color: #0f172a !important;
+}
+
+body.dark div .skill-title,
+.dark div .skill-title {
+  color: #f8fafc !important;
 }
 
 div .skill-title:hover {
@@ -58,12 +81,33 @@ div .skill-description {
   line-height: 1.6;
 }
 
+body.light div .skill-description,
+.light div .skill-description {
+  color: #475569 !important;
+}
+
 /* "Proficiency verified" fallback text — must be readable in both themes */
 .skill-description .text-muted,
 .skill-card .text-muted {
   color: var(--text-secondary) !important;
   opacity: 1 !important;
   font-weight: 500;
+}
+
+body.dark .skill-card .text-muted,
+.dark .skill-card .text-muted,
+body.dark .skill-description .text-muted,
+.dark .skill-description .text-muted {
+  color: #cbd5e1 !important;
+  opacity: 1 !important;
+}
+
+body.light .skill-card .text-muted,
+.light .skill-card .text-muted,
+body.light .skill-description .text-muted,
+.light .skill-description .text-muted {
+  color: #64748b !important;
+  opacity: 1 !important;
 }
 
 /* Hover Effects & Links */

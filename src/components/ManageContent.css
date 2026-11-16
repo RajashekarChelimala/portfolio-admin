@@ -11,6 +11,11 @@
   font-weight: 700;
 }
 
+body.light .manage-content-title,
+.light .manage-content-title {
+  color: #0f172a !important;
+}
+
 .manage-content-badge {
   background: var(--bg-tertiary) !important;
   color: var(--accent-cyan) !important;
@@ -19,10 +24,27 @@
   border-radius: 9999px;
 }
 
+body.light .manage-content-badge,
+.light .manage-content-badge {
+  background: rgba(2, 132, 199, 0.08) !important;
+  color: #0284c7 !important;
+  border: 1px solid rgba(2, 132, 199, 0.25) !important;
+}
+
 .manage-field-label {
   color: var(--text-primary) !important;
   font-size: 0.95rem;
   font-weight: 600;
+}
+
+body.light .manage-field-label,
+.light .manage-field-label {
+  color: #0f172a !important;
+}
+
+body.dark .manage-field-label,
+.dark .manage-field-label {
+  color: #f8fafc !important;
 }
 
 .manage-content-container .modern-input {
@@ -31,6 +53,13 @@
   border: 1px solid var(--border-subtle) !important;
   border-radius: 8px;
   padding: 0.65rem 0.85rem;
+}
+
+body.light .manage-content-container .modern-input,
+.light .manage-content-container .modern-input {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #e2e8f0 !important;
 }
 
 .manage-content-container .modern-input:focus {
@@ -43,6 +72,11 @@
   opacity: 0.7;
 }
 
+body.dark .manage-content-container .modern-input::placeholder,
+.dark .manage-content-container .modern-input::placeholder {
+  color: #64748b !important;
+}
+
 .cloudinary-upload-card {
   background: var(--bg-card) !important;
   border: 1px solid var(--border-subtle) !important;
@@ -51,9 +85,32 @@
   transition: all 0.2s ease;
 }
 
+body.light .cloudinary-upload-card,
+.light .cloudinary-upload-card {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04) !important;
+}
+
+body.dark .cloudinary-upload-card,
+.dark .cloudinary-upload-card {
+  background: #0f172a !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
 .cloudinary-upload-title {
   color: var(--text-primary) !important;
   font-weight: 700;
+}
+
+body.light .cloudinary-upload-title,
+.light .cloudinary-upload-title {
+  color: #0f172a !important;
+}
+
+body.dark .cloudinary-upload-title,
+.dark .cloudinary-upload-title {
+  color: #f8fafc !important;
 }
 
 /* Override Jodit editor containers in light and dark mode */

@@ -20,11 +20,31 @@
   margin-bottom: 0.35rem;
 }
 
+body.dark .resume-stat-label,
+.dark .resume-stat-label {
+  color: #38bdf8 !important;
+}
+
+body.light .resume-stat-label,
+.light .resume-stat-label {
+  color: #0284c7 !important;
+}
+
 .resume-stat-value {
   font-size: 1.05rem;
   font-weight: 700;
   color: var(--text-primary) !important;
   line-height: 1.35;
+}
+
+body.dark .resume-stat-value,
+.dark .resume-stat-value {
+  color: #f8fafc !important;
+}
+
+body.light .resume-stat-value,
+.light .resume-stat-value {
+  color: #0f172a !important;
 }
 
 .resume-frame-wrapper {

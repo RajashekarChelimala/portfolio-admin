@@ -121,6 +121,45 @@ div .custom-select__multi-value__remove:hover {
   overflow: hidden;
 }
 
+body.light .admin-project-card,
+.light .admin-project-card {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05) !important;
+}
+
+body.light .admin-project-title,
+.light .admin-project-title {
+  color: #0f172a !important;
+}
+
+body.dark .admin-project-title,
+.dark .admin-project-title {
+  color: #f8fafc !important;
+}
+
+body.light .admin-project-desc,
+.light .admin-project-desc {
+  color: #475569 !important;
+}
+
+body.light .admin-project-org,
+.light .admin-project-org {
+  color: #0284c7 !important;
+}
+
+body.light .admin-project-dates,
+.light .admin-project-dates {
+  color: #64748b !important;
+}
+
+body.light .admin-tech-chip,
+.light .admin-tech-chip {
+  background: #f1f5f9 !important;
+  color: #334155 !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
 .admin-project-card:hover {
   transform: translateY(-4px);
   border-color: var(--accent-indigo) !important;

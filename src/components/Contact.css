@@ -227,6 +227,18 @@
   opacity: 0.75 !important;
 }
 
+body.dark .modern-input::placeholder,
+.dark .modern-input::placeholder {
+  color: #94a3b8 !important;
+  opacity: 0.85 !important;
+}
+
+body.light .modern-input::placeholder,
+.light .modern-input::placeholder {
+  color: #64748b !important;
+  opacity: 0.85 !important;
+}
+
 .modern-input:focus {
   border-color: var(--accent-cyan) !important;
   box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2) !important;
