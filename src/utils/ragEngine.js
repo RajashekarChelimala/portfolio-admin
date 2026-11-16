@@ -11,6 +11,12 @@ export const KNOWLEDGE_CORPUS = [
     answer: "Rajashekar's surname is **Chelimala**. His full legal name is **Rajashekar Chelimala**."
   },
   {
+    id: "personal_dob_age",
+    topics: ["date of birth", "dob", "birthday", "birth date", "born", "birth", "age", "how old", "birth year"],
+    keywords: ["dob", "birthday", "birth", "born", "age", "birthdate"],
+    answer: "Rajashekar's exact date of birth is kept private on this public portfolio for data protection and security. However, he is a 2023 B.Tech graduate from RGUKT Basar with 3+ years of professional full-stack and AI software engineering experience. For official background verification or HR documentation, please contact him directly at **rajashekarchelimela1@gmail.com** or **+91 9908545367**."
+  },
+  {
     id: "contact_mobile",
     topics: ["mobile", "phone", "contact number", "call", "cell", "phone number", "reach", "telephone", "whatsapp"],
     keywords: ["mobile", "phone", "number", "cell", "call", "dial", "telephone", "whatsapp", "contact"],
@@ -190,18 +196,20 @@ export function retrieveRelevantChunks(query, corpus = KNOWLEDGE_CORPUS, topK = 
       }
     }
 
-    // Check token overlaps
+    // Check token overlaps with whole-word precision (avoiding substring false positives like 'date' in 'candidate')
     for (const token of tokensToUse) {
       for (const keyword of chunk.keywords) {
-        if (keyword.toLowerCase() === token) {
-          score += 10;
-        } else if (keyword.toLowerCase().includes(token) || token.includes(keyword.toLowerCase())) {
-          score += 5;
+        const kw = keyword.toLowerCase();
+        if (kw === token) {
+          score += 12;
+        } else if (token.length >= 4 && (kw.startsWith(token) || token.startsWith(kw))) {
+          score += 6;
         }
       }
       for (const topic of chunk.topics) {
-        if (topic.toLowerCase().includes(token)) {
-          score += 6;
+        const topicWords = tokenize(topic);
+        if (topicWords.includes(token)) {
+          score += 8;
         }
       }
     }
@@ -220,20 +228,20 @@ export function queryRAG(userQuery, corpus = KNOWLEDGE_CORPUS) {
   const topMatches = retrieveRelevantChunks(userQuery, corpus, 3);
   const bestMatch = topMatches[0];
 
-  // If a high-confidence match is found (score >= 6), return direct answer
-  if (bestMatch && bestMatch.score >= 6) {
+  // If a high-confidence match is found (score >= 8), return direct answer
+  if (bestMatch && bestMatch.score >= 8) {
     return bestMatch.chunk.answer;
   }
 
   // Multi-chunk synthesis if moderate confidence
-  if (bestMatch && bestMatch.score >= 4) {
+  if (bestMatch && bestMatch.score >= 6) {
     const combined = topMatches
-      .filter((m) => m.score >= 4)
+      .filter((m) => m.score >= 6)
       .map((m) => m.chunk.answer)
       .join("\n\n");
     return combined;
   }
 
-  // Graceful general overview if query is very broad
-  return "Rajashekar Chelimala is a Java Full Stack & Generative AI Developer with 3+ years of experience in Java, Spring Boot, React.js, PostgreSQL, AWS, and modern AI/LLM integration. You can ask me specific questions like: 'What is his surname?', 'What is his mobile number?', 'Where does he work?', 'Tell me about Comrade project', or 'What are his skills?'";
+  // Polite out-of-domain response when question doesn't match any verified facts
+  return "I don't have that specific information in Rajashekar's public portfolio or resume. Feel free to contact Rajashekar directly at **rajashekarchelimela1@gmail.com** or **+91 9908545367**, or ask me about his skills, projects (Comrade, Police HRMS, Screener), education (RGUKT Basar), or experience at CGG!";
 }
