@@ -17,6 +17,14 @@ const AllPosts = () => {
   const [posts, setPosts] = useState(DEFAULT_POSTS);
   const [sortOrder, setSortOrder] = useState("mostRecent");
   const [searchTerm, setSearchTerm] = useState("");
+  const [likedPosts, setLikedPosts] = useState(() => {
+    try {
+      const saved = localStorage.getItem("liked_posts");
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
   const navigate = useNavigate();
 
   const handleNewPost = (newPost) => {
@@ -79,15 +87,42 @@ const AllPosts = () => {
   const likePost = async (e, postId) => {
     e.stopPropagation();
     const visitorId = getVisitorId();
-    try {
-      await myAxios.post(`/posts/${postId}/like`, { visitorId });
+    const isCurrentlyLiked = likedPosts.includes(postId);
+    const willBeLiked = !isCurrentlyLiked;
+
+    // Optimistic toggle
+    if (willBeLiked) {
       playLikeSound();
-      // Optimistic update
-      setPosts((prev) =>
-        prev.map((p) => (p._id === postId ? { ...p, likes: (p.likes || 0) + 1 } : p))
-      );
-    } catch (err) {
-      console.error("Failed to like post:", err);
+      const updated = [...likedPosts, postId];
+      setLikedPosts(updated);
+      localStorage.setItem("liked_posts", JSON.stringify(updated));
+    } else {
+      const updated = likedPosts.filter((id) => id !== postId);
+      setLikedPosts(updated);
+      localStorage.setItem("liked_posts", JSON.stringify(updated));
+    }
+
+    setPosts((prev) =>
+      prev.map((p) => {
+        if (p._id === postId) {
+          const currentLikes = p.likes || 0;
+          const finalLikes = willBeLiked ? currentLikes + 1 : Math.max(0, currentLikes - 1);
+          return { ...p, likes: finalLikes };
+        }
+        return p;
+      })
+    );
+
+    // Sync with backend API
+    try {
+      const res = await myAxios.post(`/posts/${postId}/like`, { visitorId });
+      if (typeof res.data?.likes === "number") {
+        setPosts((prev) =>
+          prev.map((p) => (p._id === postId ? { ...p, likes: res.data.likes } : p))
+        );
+      }
+    } catch {
+      // Offline fallback: keep optimistic local state
     }
   };
 
@@ -220,9 +255,14 @@ const AllPosts = () => {
                       </span>
                     </div>
 
-                    <h3 className="article-title">{post.headline}</h3>
+                    <h3 className="article-title" title={post.headline}>
+                      {post.headline}
+                    </h3>
 
-                    <p className="article-snippet">
+                    <p
+                      className="article-snippet"
+                      title={post.content ? post.content.replace(/<[^>]*>?/gm, "").trim() : ""}
+                    >
                       {post.content
                         ? post.content.replace(/<[^>]*>?/gm, "").substring(0, 120) + "..."
                         : "Click to read full publication."}
@@ -232,9 +272,9 @@ const AllPosts = () => {
                       <div className="article-stats">
                         <button
                           type="button"
-                          className="stat-btn heart"
+                          className={`stat-btn heart ${likedPosts.includes(post._id) ? "liked text-danger" : ""}`}
                           onClick={(e) => likePost(e, post._id)}
-                          title="Like article"
+                          title={likedPosts.includes(post._id) ? "Unlike article" : "Like article"}
                         >
                           <AiFillHeart className="stat-icon heart-icon" /> {post.likes || 0}
                         </button>

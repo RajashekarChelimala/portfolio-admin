@@ -222,6 +222,11 @@
   transition: all 0.2s ease !important;
 }
 
+.modern-input::placeholder {
+  color: var(--text-muted) !important;
+  opacity: 0.75 !important;
+}
+
 .modern-input:focus {
   border-color: var(--accent-cyan) !important;
   box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2) !important;

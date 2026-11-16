@@ -219,9 +219,11 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 1.15rem;
   font-weight: 700;
   line-height: 1.35;
+  min-height: 2.7rem;
 }
 
 .post-excerpt-truncate {
@@ -229,5 +231,52 @@
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 3.8rem;
   line-height: 1.5;
+}
+
+.admin-text-input::placeholder,
+.manage-posts-dashboard input::placeholder,
+.manage-posts-dashboard textarea::placeholder {
+  color: var(--text-muted) !important;
+  opacity: 0.75 !important;
+}
+
+.admin-post-title {
+  color: var(--text-primary) !important;
+}
+
+.admin-post-date {
+  color: var(--text-secondary);
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+
+.admin-action-btn {
+  font-size: 0.8rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.admin-view-btn {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+  background: rgba(56, 189, 248, 0.12);
+  color: var(--accent-cyan) !important;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  text-decoration: none !important;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.admin-view-btn:hover {
+  background: var(--accent-cyan);
+  color: #ffffff !important;
+  border-color: var(--accent-cyan);
 }

@@ -21,10 +21,12 @@ import Loader from "../ui-elements/Loader"; // Import the Loader component
 import AdminNav from "./AdminNav";
 import "./ManageProjects.css";
 import { myPrivateAxios } from "../utils/api";
-import externalLink from "../assets/external-link.svg";
+import { DEFAULT_PROJECTS } from "../utils/fallbackData";
+import { FiExternalLink, FiGithub, FiLock } from "react-icons/fi";
+import { AiOutlineFolder } from "react-icons/ai";
 
 const ManageProjects = () => {
-  const [projects, setProjects] = useState([]);
+  const [projects, setProjects] = useState(DEFAULT_PROJECTS);
   const [formData, setFormData] = useState({
     projectName: "",
     description: "",
@@ -33,6 +35,7 @@ const ManageProjects = () => {
     toDate: "",
     currentlyWorking: false,
     projectLink: "",
+    githubLink: "",
     organizationName: "",
   });
   const [errors, setErrors] = useState({});
@@ -55,9 +58,11 @@ const ManageProjects = () => {
     setLoading(true); // Show loader
     try {
       const response = await myPrivateAxios.get("/projects");
-      setProjects(response.data);
+      if (Array.isArray(response.data) && response.data.length > 0) {
+        setProjects(response.data);
+      }
     } catch (error) {
-      console.error("Error fetching projects:", error);
+      console.warn("Using default projects while backend connects:", error.message);
     } finally {
       setLoading(false); // Hide loader
     }
@@ -154,11 +159,12 @@ const ManageProjects = () => {
         setFormData({
           projectName: "",
           description: "",
-          skills: "",
+          skills: [],
           fromDate: "",
           toDate: "",
           currentlyWorking: false,
           projectLink: "",
+          githubLink: "",
           organizationName: "",
         });
         setEditingProject(null);
@@ -196,13 +202,14 @@ const ManageProjects = () => {
   const handleEdit = (project) => {
     setFormData({
       ...project,
+      githubLink: project.githubLink || "",
       fromDate: project.fromDate
         ? new Date(project.fromDate).toISOString().split("T")[0]
         : "",
       toDate: project.toDate
         ? new Date(project.toDate).toISOString().split("T")[0]
         : "",
-      skills: project.skills.map((skill) => skill._id),
+      skills: project.skills?.map((skill) => (typeof skill === "object" ? skill._id : skill)) || [],
     });
     setEditingProject(project);
 
@@ -336,11 +343,29 @@ const ManageProjects = () => {
                 id="projectLink"
                 value={formData.projectLink}
                 onChange={handleChange}
-                placeholder="Enter project link"
+                placeholder="Enter live project link (e.g. https://screener.tekavinya.com)"
                 invalid={!!errors.projectLink}
                 className="modern-input"
               />
               <FormFeedback>{errors.projectLink}</FormFeedback>
+            </FormGroup>
+
+            <FormGroup>
+              <Label for="githubLink" className="modern-label">
+                GitHub Repository Link (Optional)
+              </Label>
+              <Input
+                type="url"
+                name="githubLink"
+                id="githubLink"
+                value={formData.githubLink || ""}
+                onChange={handleChange}
+                placeholder="https://github.com/... (Leave empty for office/private projects)"
+                className="modern-input"
+              />
+              <small className="text-secondary d-block mt-1">
+                For GovTech or client freelance projects with private source code, leave empty to display a "Private / Proprietary" badge.
+              </small>
             </FormGroup>
 
             <FormGroup>
@@ -372,81 +397,107 @@ const ManageProjects = () => {
       </Row>
       <hr />
 
-      <Row>
+      <Row className="g-4">
         {projects.map((project) => (
-          <Col md={{ size: 6, offset: 0 }} key={project._id} data-aos="fade-up">
-            <Card className="project-card">
-              <CardBody>
-                <header>
-                  <div className="project-title-container">
-                    <CardTitle tag="h3" className="project-title">
-                      {project.projectName}
-                    </CardTitle>
-                  </div>
-                  <div className="project-links">
+          <Col md={6} lg={4} key={project._id} data-aos="fade-up">
+            <div className="admin-project-card glass-panel h-100 d-flex flex-column">
+              <div className="admin-project-card-header d-flex justify-content-between align-items-center mb-3">
+                <div className="admin-project-icon-box">
+                  <AiOutlineFolder className="admin-project-folder-icon" />
+                </div>
+                <div className="d-flex align-items-center gap-2">
+                  {project.githubLink ? (
+                    <a
+                      href={project.githubLink}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="admin-project-icon-link"
+                      title="View GitHub Repository"
+                    >
+                      <FiGithub size={17} />
+                    </a>
+                  ) : (
+                    <span className="badge-private-repo" title="Proprietary / Enterprise / GovTech (Private Source)">
+                      <FiLock size={12} className="me-1" />
+                      Private
+                    </span>
+                  )}
+                  {project.projectLink && (
                     <a
                       href={project.projectLink}
                       target="_blank"
                       rel="noreferrer"
+                      className="admin-project-icon-link"
+                      title="Visit Live Application"
                     >
-                      <img src={externalLink} alt="Visit site" />
+                      <FiExternalLink size={17} />
                     </a>
-                  </div>
-                </header>
-                <CardText>
-                  <h4 className="project-organization">
-                    {project.organizationName} |{" "}
-                    {new Date(project.fromDate).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "long",
-                    })}{" "}
-                    -{" "}
-                    {project.currentlyWorking
-                      ? "Present"
-                      : new Date(project.toDate).toLocaleDateString("en-US", {
-                          year: "numeric",
-                          month: "long",
-                        })}
-                  </h4>
-                  <p className="project-description">
-                    {expanded[project._id]
-                      ? project.description
-                      : `${project.description.substring(0, 100)}...`}
-                    {project.description.length > 100 && (
-                      <Button
-                        color="link"
-                        onClick={() => toggleExpand(project._id)}
-                      >
-                        {expanded[project._id] ? "Show less" : "Show more"}
-                      </Button>
-                    )}
-                  </p>
-                </CardText>
-                <footer>
-                  <ul className="tech-list">
-                    {project.skills?.map((skill, index) => (
-                      <li key={index}>{skill.name}</li>
-                    ))}
-                  </ul>
-                </footer>
-              </CardBody>
-              <CardFooter>
+                  )}
+                </div>
+              </div>
+
+              <h4 className="admin-project-title text-truncate-2" title={project.projectName}>
+                {project.projectName}
+              </h4>
+
+              <div className="admin-project-meta mb-2 d-flex justify-content-between align-items-center">
+                <span className="admin-project-org text-truncate" title={project.organizationName}>
+                  {project.organizationName || "Independent"}
+                </span>
+                <span className="admin-project-dates text-nowrap">
+                  {project.fromDate
+                    ? new Date(project.fromDate).toLocaleDateString("en-US", { year: "numeric", month: "short" })
+                    : ""}
+                  {" — "}
+                  {project.currentlyWorking
+                    ? "Present"
+                    : project.toDate
+                    ? new Date(project.toDate).toLocaleDateString("en-US", { year: "numeric", month: "short" })
+                    : "Present"}
+                </span>
+              </div>
+
+              <p className="admin-project-desc text-truncate-3" title={project.description}>
+                {project.description}
+              </p>
+
+              <div className="admin-project-tech-strip mt-auto pt-2">
+                {project.skills?.slice(0, 5).map((skill, index) => (
+                  <span key={index} className="admin-tech-chip">
+                    {typeof skill === "object" ? skill.name : skill}
+                  </span>
+                ))}
+                {project.skills?.length > 5 && (
+                  <span
+                    className="admin-tech-chip admin-tech-chip-more"
+                    title={project.skills.slice(5).map((s) => (typeof s === "object" ? s.name : s)).join(", ")}
+                  >
+                    +{project.skills.length - 5}
+                  </span>
+                )}
+              </div>
+
+              <div className="admin-project-actions mt-3 pt-3 border-top border-secondary-subtle d-flex gap-2">
                 <Button
                   color="warning"
-                  className="modern-button me-2"
+                  outline
+                  size="sm"
+                  className="flex-grow-1"
                   onClick={() => handleEdit(project)}
                 >
-                  Edit Project
+                  Edit
                 </Button>
                 <Button
                   color="danger"
-                  className="modern-button me-2"
+                  outline
+                  size="sm"
+                  className="flex-grow-1"
                   onClick={() => handleDelete(project._id)}
                 >
-                  Delete Project
+                  Delete
                 </Button>
-              </CardFooter>
-            </Card>
+              </div>
+            </div>
           </Col>
         ))}
       </Row>

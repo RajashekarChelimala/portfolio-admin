@@ -19,6 +19,7 @@ import {
   Badge,
 } from "reactstrap";
 import { myPrivateAxios, myAxios } from "../utils/api";
+import { DEFAULT_POSTS } from "../utils/fallbackData";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { 
@@ -60,14 +61,14 @@ const ManagePosts = () => {
     setFetching(true);
     try {
       const response = await myAxios.get("/posts");
-      if (Array.isArray(response.data)) {
+      if (Array.isArray(response.data) && response.data.length > 0) {
         setPosts(response.data);
       } else {
-        setPosts([]);
+        setPosts(DEFAULT_POSTS);
       }
     } catch (err) {
-      console.error("Failed to fetch posts:", err);
-      setPosts([]);
+      console.warn("Using default articles catalog while backend connects:", err.message);
+      setPosts(DEFAULT_POSTS);
     } finally {
       setFetching(false);
     }
@@ -628,10 +629,10 @@ const ManagePosts = () => {
                       <AiOutlineFileText />
                     </div>
                   )}
-                  <CardBody className="d-flex flex-direction-column justify-content-between p-4">
+                  <CardBody className="d-flex flex-column justify-content-between p-4 h-100">
                     <div>
                       <div className="d-flex justify-content-between align-items-center mb-2">
-                        <span className="text-muted small">
+                        <span className="admin-post-date">
                           {post.createdAt
                             ? new Date(post.createdAt).toLocaleDateString("en-US", {
                                 month: "short",
@@ -644,22 +645,29 @@ const ManagePosts = () => {
                           {post.likes || 0} Likes
                         </Badge>
                       </div>
-                      <CardTitle tag="h5" className="text-light mb-2 post-title-truncate">
+                      <CardTitle
+                        tag="h5"
+                        className="admin-post-title mb-2 post-title-truncate"
+                        title={post.headline}
+                      >
                         {post.headline}
                       </CardTitle>
-                      <CardText className="text-secondary small post-excerpt-truncate mb-3">
+                      <CardText
+                        className="text-secondary small post-excerpt-truncate mb-3"
+                        title={post.content ? post.content.replace(/<[^>]*>?/gm, "") : ""}
+                      >
                         {post.content ? post.content.replace(/<[^>]*>?/gm, "").substring(0, 110) + "..." : "No content"}
                       </CardText>
                     </div>
 
-                    <div className="admin-post-actions pt-3 border-top border-secondary d-flex justify-content-between align-items-center">
+                    <div className="admin-post-actions pt-3 border-top border-secondary mt-auto d-flex justify-content-between align-items-center gap-2 flex-wrap">
                       <div className="d-flex gap-2">
                         <Button
                           color="info"
                           size="sm"
                           outline
                           onClick={() => handleEdit(post)}
-                          className="d-flex align-items-center gap-1"
+                          className="d-flex align-items-center gap-1 admin-action-btn"
                         >
                           <AiOutlineEdit /> Edit
                         </Button>
@@ -668,7 +676,7 @@ const ManagePosts = () => {
                           size="sm"
                           outline
                           onClick={() => handleDelete(post)}
-                          className="d-flex align-items-center gap-1"
+                          className="d-flex align-items-center gap-1 admin-action-btn"
                         >
                           <AiOutlineDelete /> Delete
                         </Button>
@@ -677,7 +685,7 @@ const ManagePosts = () => {
                         href={`/posts/${post._id}`}
                         target="_blank"
                         rel="noreferrer"
-                        className="btn btn-sm btn-link text-decoration-none text-info p-0"
+                        className="admin-view-btn"
                         title="View Public Article"
                       >
                         <AiOutlineEye className="me-1" /> View ↗

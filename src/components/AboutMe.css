@@ -269,6 +269,10 @@
   transition: all 0.2s ease;
 }
 
+.dark .filter-pill {
+  color: var(--text-primary) !important;
+}
+
 .filter-pill:hover {
   border-color: var(--accent-cyan);
   color: var(--text-primary);
@@ -284,6 +288,7 @@
 /* ================= Skill Matrix Cards ================= */
 .skill-matrix-card {
   padding: 1.5rem;
+  height: 100%;
 }
 
 .skill-card-top {
@@ -296,6 +301,11 @@
   font-size: 1.15rem;
   font-weight: 700;
   margin-bottom: 0.2rem;
+  color: var(--text-primary) !important;
+}
+
+.skill-name-group .skill-title {
+  color: var(--text-primary) !important;
 }
 
 .skill-type-tag {
@@ -303,8 +313,8 @@
   padding: 0.15rem 0.5rem;
   border-radius: 0.35rem;
   background: var(--bg-tertiary);
-  color: var(--text-muted);
-  font-weight: 500;
+  color: var(--accent-cyan) !important;
+  font-weight: 600;
 }
 
 .skill-exp {
@@ -344,4 +354,19 @@
   background: var(--accent-gradient);
   border-radius: 9999px;
   transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.about-key-project-card {
+  min-height: 250px;
+}
+
+.about-project-title {
+  min-height: 3rem;
+  line-height: 1.35;
+  color: var(--text-primary);
+}
+
+.about-project-desc {
+  min-height: 3.8rem;
+  line-height: 1.5;
 }

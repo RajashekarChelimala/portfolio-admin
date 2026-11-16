@@ -17,8 +17,6 @@ import {
   AiOutlineCheckCircle
 } from "react-icons/ai";
 import { FaGraduationCap, FaBriefcase } from "react-icons/fa";
-import profileAvatarImg from "../assets/profile-avatar.jpg";
-import { myAxios } from "../utils/api";
 import { DEFAULT_CONTENT, DEFAULT_SKILLS, DEFAULT_PROJECTS, DEFAULT_EXPERIENCES } from "../utils/fallbackData";
 import "./AboutMe.css";
 
@@ -71,7 +69,7 @@ export default function AboutMe() {
 
   const profileImg = (content?.imageLink && content.imageLink.startsWith("http"))
     ? content.imageLink
-    : profileAvatarImg;
+    : "https://res.cloudinary.com/ddsmuhr7k/image/upload/v1794762773/portfolio/profile/rajashekar_profile_avatar.jpg";
 
   // Extract unique skill types
   const categories = ["All", ...Array.from(new Set(skills.map((s) => s.type || "Other")))];
@@ -319,10 +317,17 @@ export default function AboutMe() {
           <Row className="g-4">
             {projects.slice(0, 3).map((proj) => (
               <Col md={4} key={proj._id || proj.projectName}>
-                <div className="glass-panel p-4 h-100 d-flex flex-column">
-                  <span className="org-badge mb-2 d-inline-block">{proj.organizationName}</span>
-                  <h4 className="fw-bold mb-2">{proj.projectName}</h4>
-                  <p className="text-secondary small mb-3">
+                <div className="glass-panel p-4 h-100 d-flex flex-column about-key-project-card">
+                  <span className="org-badge mb-2 d-inline-block text-truncate" style={{ maxWidth: "100%" }} title={proj.organizationName}>
+                    {proj.organizationName}
+                  </span>
+                  <h4 className="fw-bold mb-2 about-project-title text-truncate-2" title={proj.projectName}>
+                    {proj.projectName}
+                  </h4>
+                  <p
+                    className="text-secondary small mb-3 about-project-desc text-truncate-3"
+                    title={proj.description}
+                  >
                     {proj.description?.substring(0, 120)}...
                   </p>
                   <a
@@ -330,6 +335,7 @@ export default function AboutMe() {
                     target="_blank"
                     rel="noreferrer"
                     className="project-link-btn mt-auto"
+                    title={`View ${proj.projectName}`}
                   >
                     View Project <AiOutlineArrowRight className="ms-1" />
                   </a>

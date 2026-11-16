@@ -13,7 +13,7 @@ import {
   AiOutlineCheckCircle,
   AiOutlineThunderbolt
 } from "react-icons/ai";
-import { FiExternalLink, FiGithub } from "react-icons/fi";
+import { FiExternalLink, FiGithub, FiLock } from "react-icons/fi";
 import "./Projects.css";
 
 const Projects = () => {
@@ -85,6 +85,48 @@ const Projects = () => {
     }
   };
 
+  const getFilterCount = (cat) => {
+    if (cat === "All") return projects.length;
+    if (cat === "GovTech") {
+      return projects.filter(
+        (p) =>
+          (p.projectLink && p.projectLink.includes(".gov.in")) ||
+          (p.organizationName && p.organizationName.toLowerCase().includes("good governance"))
+      ).length;
+    }
+    if (cat === "Spring Boot") {
+      return projects.filter((p) => {
+        const skillsList = p.skills?.map((s) => (typeof s === "object" ? s.name : s).toLowerCase()) || [];
+        const desc = (p.description || "").toLowerCase();
+        return skillsList.some((s) => s.includes("spring")) || desc.includes("spring");
+      }).length;
+    }
+    if (cat === "React") {
+      return projects.filter((p) => {
+        const skillsList = p.skills?.map((s) => (typeof s === "object" ? s.name : s).toLowerCase()) || [];
+        const desc = (p.description || "").toLowerCase();
+        return skillsList.some((s) => s.includes("react")) || desc.includes("react");
+      }).length;
+    }
+    if (cat === "AI & GenAI") {
+      return projects.filter((p) => {
+        const desc = (p.description || "").toLowerCase();
+        const title = (p.projectName || "").toLowerCase();
+        const skillsList = p.skills?.map((s) => (typeof s === "object" ? s.name : s).toLowerCase()) || [];
+        return (
+          title.includes("ai") ||
+          desc.includes("ai") ||
+          desc.includes("llm") ||
+          skillsList.some((s) => s.includes("ai") || s.includes("langchain"))
+        );
+      }).length;
+    }
+    if (cat === "Active") {
+      return projects.filter((p) => p.currentlyWorking).length;
+    }
+    return 0;
+  };
+
   return (
     <div className="projects-page">
       <Container>
@@ -100,7 +142,7 @@ const Projects = () => {
             Enterprise GovTech platforms serving hundreds of thousands of users, secure financial workflows, and AI innovations.
           </p>
 
-          {/* Filter Pills */}
+          {/* Filter Pills with Counts */}
           <div className="projects-filter-bar">
             {["All", "GovTech", "Spring Boot", "React", "AI & GenAI", "Active"].map((cat) => (
               <button
@@ -108,7 +150,7 @@ const Projects = () => {
                 className={`filter-btn ${filter === cat ? "active" : ""}`}
                 onClick={() => setFilter(cat)}
               >
-                {cat}
+                {cat} <span className="filter-count-badge">({getFilterCount(cat)})</span>
               </button>
             ))}
           </div>
@@ -128,8 +170,8 @@ const Projects = () => {
             const domain = getCleanDomain(project.projectLink);
 
             return (
-              <Col lg={6} md={12} key={project._id || project.projectName} data-aos="fade-up">
-                <div className={`project-modern-card glass-panel h-100 ${isGovProject ? "gov-highlight" : ""}`}>
+              <Col lg={6} md={12} key={project._id || project.projectName} data-aos="fade-up" className="d-flex">
+                <div className={`project-modern-card glass-panel w-100 d-flex flex-column ${isGovProject ? "gov-highlight" : ""}`}>
                   {/* Top Bar with Badges and External Links */}
                   <div className="project-card-topbar">
                     <div className="d-flex align-items-center gap-2">
@@ -161,25 +203,36 @@ const Projects = () => {
                           <FiExternalLink />
                         </a>
                       )}
-                      <a
-                        href={project.projectLink?.includes("github.com") ? project.projectLink : "https://github.com/RajashekarChelimala"}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="action-icon-link"
-                        title="View Source / GitHub Profile"
-                        aria-label="View Source / GitHub Profile"
-                      >
-                        <FiGithub />
-                      </a>
+                      {project.githubLink ? (
+                        <a
+                          href={project.githubLink}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="action-icon-link"
+                          title="View GitHub Repository"
+                          aria-label="View GitHub Repository"
+                        >
+                          <FiGithub />
+                        </a>
+                      ) : (
+                        <span
+                          className="badge-private-repo"
+                          title="Enterprise / GovTech / Proprietary Codebase (Private Source)"
+                        >
+                          <FiLock size={12} className="me-1" /> Private
+                        </span>
+                      )}
                     </div>
                   </div>
 
                   {/* Project Title & Metadata */}
-                  <h3 className="project-card-title">{project.projectName}</h3>
+                  <h3 className="project-card-title text-truncate-2" title={project.projectName}>
+                    {project.projectName}
+                  </h3>
 
                   <div className="project-meta-strip">
                     {project.organizationName && (
-                      <span className="meta-badge org">
+                      <span className="meta-badge org" title={project.organizationName}>
                         <AiOutlineApartment className="me-1" /> {project.organizationName}
                       </span>
                     )}
@@ -203,6 +256,7 @@ const Projects = () => {
                         target="_blank"
                         rel="noreferrer"
                         className="portal-url"
+                        title={project.projectLink}
                       >
                         {domain || project.projectLink} <FiExternalLink className="ms-1" />
                       </a>
@@ -210,19 +264,23 @@ const Projects = () => {
                   )}
 
                   {/* Description */}
-                  <p className="project-card-desc">
+                  <p
+                    className={`project-card-desc ${isExpanded ? "expanded" : "clamped-desc"}`}
+                    title={project.description}
+                  >
                     {displayDesc}
                     {isLong && (
                       <button
                         className="read-more-btn"
                         onClick={() => toggleExpand(project._id || project.projectName)}
+                        aria-label={isExpanded ? "Show less description" : "Read full description"}
                       >
                         {isExpanded ? " Show less" : " Read more"}
                       </button>
                     )}
                   </p>
 
-                  {/* Skills / Tech List */}
+                  {/* Skills / Tech List (pinned to bottom) */}
                   <div className="project-tech-footer mt-auto pt-3">
                     <div className="tech-tag-list">
                       {project.skills?.map((skill, index) => {

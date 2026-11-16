@@ -83,7 +83,7 @@ const Header = () => {
                       onClick={closeMenu}
                     >
                       <span className="nav-icon">{link.icon}</span>
-                      <span>{link.text}</span>
+                      <span className="nav-label">{link.text}</span>
                       {isActive && <span className="active-pill" />}
                     </RouterNavLink>
                   </NavItem>

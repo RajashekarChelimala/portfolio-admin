@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
+import ScrollToTopButton from '../ui-elements/ScrollToTopButton';
 
 const BaseLayout = () => {
   return (
@@ -11,6 +12,7 @@ const BaseLayout = () => {
         <Outlet />
       </main>
       <Footer />
+      <ScrollToTopButton />
     </div>
   );
 };

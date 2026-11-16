@@ -14,7 +14,6 @@ import { Col, Container, Row } from "reactstrap";
 import Type from "../ui-elements/Type";
 import { myAxios } from "../utils/api";
 import { DEFAULT_CONTENT, DEFAULT_PROJECTS } from "../utils/fallbackData";
-import profileAvatarImg from "../assets/profile-avatar.jpg";
 import "./Home.css";
 
 const Home = () => {
@@ -61,9 +60,9 @@ const Home = () => {
         "Cloud & Scalable Architecture"
       ];
 
-  const profileAvatar = contentData.imageLink && contentData.imageLink.startsWith("http")
+  const profileAvatar = (contentData.imageLink && contentData.imageLink.startsWith("http"))
     ? contentData.imageLink
-    : profileAvatarImg;
+    : "https://res.cloudinary.com/ddsmuhr7k/image/upload/v1794762773/portfolio/profile/rajashekar_profile_avatar.jpg";
 
   return (
     <div className="home-page">
@@ -254,8 +253,10 @@ const Home = () => {
                     {project.currentlyWorking && <span className="active-badge">Active</span>}
                   </div>
 
-                  <h3 className="project-name">{project.projectName}</h3>
-                  <p className="project-summary">
+                  <h3 className="project-name text-truncate-2" title={project.projectName}>
+                    {project.projectName}
+                  </h3>
+                  <p className="project-summary text-truncate-3" title={project.description}>
                     {project.description && project.description.length > 130
                       ? `${project.description.substring(0, 130)}...`
                       : project.description}

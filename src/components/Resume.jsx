@@ -82,21 +82,21 @@ export default function Resume() {
         {/* Quick Highlights Strip */}
         <Row className="g-3 my-4">
           <Col md={4}>
-            <div className="glass-panel p-3 text-center">
-              <span className="text-muted small text-uppercase fw-bold">Primary Focus</span>
-              <div className="fw-bold mt-1">{content.designation || "Full Stack Software Engineer"}</div>
+            <div className="glass-panel p-3 text-center h-100">
+              <span className="resume-stat-label">Primary Focus</span>
+              <div className="resume-stat-value mt-1">{content.designation || "Full Stack Software Engineer"}</div>
             </div>
           </Col>
           <Col md={4}>
-            <div className="glass-panel p-3 text-center">
-              <span className="text-muted small text-uppercase fw-bold">Education</span>
-              <div className="fw-bold mt-1">{content.degree || "B.Tech in Computer Science"}</div>
+            <div className="glass-panel p-3 text-center h-100">
+              <span className="resume-stat-label">Education</span>
+              <div className="resume-stat-value mt-1">{content.degree || "B.Tech in Computer Science"}</div>
             </div>
           </Col>
           <Col md={4}>
-            <div className="glass-panel p-3 text-center">
-              <span className="text-muted small text-uppercase fw-bold">Location</span>
-              <div className="fw-bold mt-1">{content.location || "Hyderabad, India"}</div>
+            <div className="glass-panel p-3 text-center h-100">
+              <span className="resume-stat-label">Location</span>
+              <div className="resume-stat-value mt-1">{content.location || "Hyderabad, India"}</div>
             </div>
           </Col>
         </Row>

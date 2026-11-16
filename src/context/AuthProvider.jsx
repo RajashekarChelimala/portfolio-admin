@@ -31,9 +31,14 @@ export const AuthProvider = ({ children }) => {
           setAuth({ accessToken: '', isLoggedIn: false});
         }
       } catch (error) {
-        console.error("Not authenticated", error);
-        localStorage.removeItem("accessToken");
-        setAuth({ accessToken: '', isLoggedIn: false});
+        if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+          console.error("Session expired or unauthorized", error);
+          localStorage.removeItem("accessToken");
+          setAuth({ accessToken: '', isLoggedIn: false });
+        } else if (localStorage.getItem("accessToken")) {
+          // Backend network delay / waking up: preserve existing admin session
+          setAuth({ accessToken: localStorage.getItem("accessToken"), isLoggedIn: true });
+        }
       }
     };
 
