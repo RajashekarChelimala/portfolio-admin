@@ -17,7 +17,14 @@ import { DEFAULT_CONTENT, DEFAULT_PROJECTS } from "../utils/fallbackData";
 import "./Home.css";
 
 const Home = () => {
-  const [contentData, setContentData] = useState(DEFAULT_CONTENT);
+  const [contentData, setContentData] = useState(() => {
+    try {
+      const cached = localStorage.getItem("portfolio_content_cache");
+      return cached ? { ...DEFAULT_CONTENT, ...JSON.parse(cached) } : DEFAULT_CONTENT;
+    } catch {
+      return DEFAULT_CONTENT;
+    }
+  });
   const [featuredProjects, setFeaturedProjects] = useState(DEFAULT_PROJECTS);
 
   useEffect(() => {
@@ -30,6 +37,9 @@ const Home = () => {
         const response = await myAxios.get("/content");
         if (response.data && response.data.name) {
           setContentData((prev) => ({ ...prev, ...response.data }));
+          try {
+            localStorage.setItem("portfolio_content_cache", JSON.stringify(response.data));
+          } catch {}
         }
       } catch (error) {
         console.warn("Using default profile content while backend wakes up:", error.message);
@@ -62,7 +72,7 @@ const Home = () => {
 
   const profileAvatar = (contentData.imageLink && contentData.imageLink.startsWith("http"))
     ? contentData.imageLink
-    : "https://res.cloudinary.com/ddsmuhr7k/image/upload/v1794762773/portfolio/profile/rajashekar_profile_avatar.jpg";
+    : "https://res.cloudinary.com/ddsmuhr7k/image/upload/v1794806325/portfolio/profile/bw3ytpqw0vayl4478ab1.jpg";
 
   return (
     <div className="home-page">

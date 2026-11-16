@@ -12,6 +12,7 @@ import {
   Col,
 } from "reactstrap";
 import { myAxios, myPrivateAxios } from "../utils/api";
+import { DEFAULT_CONTENT } from "../utils/fallbackData";
 import AOS from "aos";
 import Swal from "sweetalert2";
 import "aos/dist/aos.css"; // AOS styles
@@ -21,24 +22,13 @@ import AdminNav from "./AdminNav";
 import "./ManageContent.css";
 
 const ManageContent = ({ placeholder }) => {
-  const [formData, setFormData] = useState({
-    name: "",
-    hobbies: "",
-    organization: "",
-    designation: "",
-    location: "",
-    degree: "",
-    education: "",
-    languages: "",
-    footerText: "",
-    introduction: "",
-    imageLink: "",
-    resumeLink: "",
-    typeWriterText: "",
-    instagram: "",
-    twitter: "",
-    linkedin: "",
-    github: "",
+  const [formData, setFormData] = useState(() => {
+    try {
+      const cached = localStorage.getItem("portfolio_content_cache");
+      return cached ? { ...DEFAULT_CONTENT, ...JSON.parse(cached) } : DEFAULT_CONTENT;
+    } catch {
+      return DEFAULT_CONTENT;
+    }
   });
 
   const [contentId, setContentId] = useState(null); // Store the content ID
@@ -69,16 +59,18 @@ const ManageContent = ({ placeholder }) => {
       setIsLoading(true); // Start loading
       try {
         const response = await myAxios.get("/content");
-        if (response.data) {
+        if (response.data && response.data.name) {
           const { _id, ...dataWithoutId } = response.data; // Destructure to exclude _id
-          setFormData(dataWithoutId); // Set form data without _id
-          setContentId(_id); // Store the _id separately
+          setFormData((prev) => ({ ...prev, ...dataWithoutId }));
+          setContentId(_id);
+          try {
+            localStorage.setItem("portfolio_content_cache", JSON.stringify(dataWithoutId));
+          } catch {}
         }
-        setIsLoading(false); // End loading
       } catch (err) {
-        console.error("Error fetching content data:", err);
-        setIsLoading(false); // End loading
-        Swal.fire("Error", "Failed to load content.", "error");
+        console.warn("Using default profile content in ManageContent:", err.message);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchData();
@@ -184,10 +176,12 @@ const ManageContent = ({ placeholder }) => {
     try {
       if (contentId) {
         await myPrivateAxios.put(`/content`, formData);
+        try { localStorage.setItem("portfolio_content_cache", JSON.stringify(formData)); } catch {}
         Swal.fire("Success", "Content updated successfully!", "success");
       } else {
         const response = await myPrivateAxios.post("/content", formData);
         setContentId(response.data._id);
+        try { localStorage.setItem("portfolio_content_cache", JSON.stringify(formData)); } catch {}
         Swal.fire("Success", "Content added successfully!", "success");
       }
     } catch (err) {
@@ -203,12 +197,12 @@ const ManageContent = ({ placeholder }) => {
       <AdminNav />
       <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
         <div>
-          <h2 className="mb-1 text-light">Content & Media Management</h2>
-          <p className="text-muted small mb-0">
+          <h2 className="mb-1 manage-content-title">Content & Media Management</h2>
+          <p className="text-secondary small mb-0">
             Manage your personal portfolio details, Cloudinary media assets, and professional profile.
           </p>
         </div>
-        <span className="badge bg-dark border border-secondary text-info px-3 py-2">
+        <span className="badge px-3 py-2 manage-content-badge">
           Cloudinary Media Connected
         </span>
       </div>
@@ -219,12 +213,12 @@ const ManageContent = ({ placeholder }) => {
         <Form onSubmit={handleSubmit}>
           {Object.keys(formData).map((key) => (
             <FormGroup key={key} className="mb-4" data-aos="fade-up">
-              <div className="d-flex justify-content-between align-items-center mb-1">
-                <Label for={key} className="fw-semibold text-light mb-0">
+              <div className="d-flex justify-content-between align-items-center mb-2">
+                <Label for={key} className="fw-semibold manage-field-label mb-0">
                   {key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, " $1")}
                 </Label>
                 {["imageLink", "resumeLink"].includes(key) && (
-                  <span className="badge bg-secondary small">Cloudinary CDN Managed</span>
+                  <span className="badge manage-content-badge small">Cloudinary CDN Managed</span>
                 )}
               </div>
 
@@ -250,13 +244,13 @@ const ManageContent = ({ placeholder }) => {
                     "designation",
                     "location",
                   ].includes(key)}
-                  className="bg-dark text-light border-secondary"
+                  className="modern-input"
                 />
               )}
 
               {/* Dedicated Cloudinary Media Box for Profile Photo */}
               {key === "imageLink" && (
-                <Card className="mt-3 bg-black border-info border-opacity-25 p-3">
+                <Card className="mt-3 cloudinary-upload-card p-3">
                   <CardBody className="p-0">
                     <Row className="align-items-center g-3">
                       <Col xs="auto">
@@ -290,8 +284,8 @@ const ManageContent = ({ placeholder }) => {
                         )}
                       </Col>
                       <Col>
-                        <h6 className="text-light mb-1">Upload New Profile Image to Cloudinary</h6>
-                        <p className="text-muted small mb-2">
+                        <h6 className="mb-1 cloudinary-upload-title">Upload New Profile Image to Cloudinary</h6>
+                        <p className="text-secondary small mb-2">
                           Optimized on upload with automatic smart cropping and WebP/AVIF delivery.
                         </p>
                         <div className="d-flex align-items-center gap-2 flex-wrap">
@@ -320,12 +314,12 @@ const ManageContent = ({ placeholder }) => {
 
               {/* Dedicated Cloudinary Media Box for Resume PDF */}
               {key === "resumeLink" && (
-                <Card className="mt-3 bg-black border-info border-opacity-25 p-3">
+                <Card className="mt-3 cloudinary-upload-card p-3">
                   <CardBody className="p-0">
                     <Row className="align-items-center g-3">
                       <Col>
-                        <h6 className="text-light mb-1">Upload New Resume PDF to Cloudinary</h6>
-                        <p className="text-muted small mb-2">
+                        <h6 className="mb-1 cloudinary-upload-title">Upload New Resume PDF to Cloudinary</h6>
+                        <p className="text-secondary small mb-2">
                           Uploads your latest PDF resume to Cloudinary storage, automatically updating the Resume page viewer and download link.
                         </p>
                         <div className="d-flex align-items-center gap-2 flex-wrap">

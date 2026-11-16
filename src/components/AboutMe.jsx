@@ -21,7 +21,14 @@ import { DEFAULT_CONTENT, DEFAULT_SKILLS, DEFAULT_PROJECTS, DEFAULT_EXPERIENCES 
 import "./AboutMe.css";
 
 export default function AboutMe() {
-  const [content, setContent] = useState(DEFAULT_CONTENT);
+  const [content, setContent] = useState(() => {
+    try {
+      const cached = localStorage.getItem("portfolio_content_cache");
+      return cached ? { ...DEFAULT_CONTENT, ...JSON.parse(cached) } : DEFAULT_CONTENT;
+    } catch {
+      return DEFAULT_CONTENT;
+    }
+  });
   const [skills, setSkills] = useState(DEFAULT_SKILLS);
   const [projects, setProjects] = useState(DEFAULT_PROJECTS);
   const [activeCategory, setActiveCategory] = useState("All");
@@ -34,6 +41,9 @@ export default function AboutMe() {
         const contentRes = await myAxios.get("/content");
         if (contentRes.data && contentRes.data.name) {
           setContent((prev) => ({ ...prev, ...contentRes.data }));
+          try {
+            localStorage.setItem("portfolio_content_cache", JSON.stringify(contentRes.data));
+          } catch {}
         }
       } catch (err) {
         console.warn("Using default content in AboutMe:", err.message);
@@ -69,7 +79,7 @@ export default function AboutMe() {
 
   const profileImg = (content?.imageLink && content.imageLink.startsWith("http"))
     ? content.imageLink
-    : "https://res.cloudinary.com/ddsmuhr7k/image/upload/v1794762773/portfolio/profile/rajashekar_profile_avatar.jpg";
+    : "https://res.cloudinary.com/ddsmuhr7k/image/upload/v1794806325/portfolio/profile/bw3ytpqw0vayl4478ab1.jpg";
 
   // Extract unique skill types
   const categories = ["All", ...Array.from(new Set(skills.map((s) => s.type || "Other")))];

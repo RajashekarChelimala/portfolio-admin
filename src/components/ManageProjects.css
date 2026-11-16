@@ -1,5 +1,5 @@
 .modern-heading {
-    color: var(--text-color);
+    color: var(--text-primary);
     font-size: 32px;
     font-weight: bold;
     margin-bottom: 30px;
@@ -11,7 +11,7 @@
 .modern-label {
     font-size: 16px;
     font-weight: 500;
-    color: var(--text-color);
+    color: var(--text-primary);
     margin-bottom: 5px;
 }
 
@@ -29,8 +29,9 @@
 
 .manage-projects-container input,
 .manage-projects-container textarea {
-  background-color: transparent !important;
-  color: var(--text-color) !important;
+  background-color: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-subtle) !important;
 }
 
 .manage-projects-container input::placeholder,
@@ -112,9 +113,9 @@ div .custom-select__multi-value__remove:hover {
 .admin-project-card {
   padding: 1.5rem;
   border-radius: 16px;
-  background: var(--card-bg, rgba(17, 24, 39, 0.7)) !important;
-  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08)) !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-subtle) !important;
+  box-shadow: var(--card-shadow) !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
@@ -122,46 +123,46 @@ div .custom-select__multi-value__remove:hover {
 
 .admin-project-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(99, 102, 241, 0.4) !important;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+  border-color: var(--accent-indigo) !important;
+  box-shadow: var(--card-hover-shadow) !important;
 }
 
 .admin-project-icon-box {
   width: 44px;
   height: 44px;
   border-radius: 12px;
-  background: rgba(99, 102, 241, 0.15);
-  border: 1px solid rgba(99, 102, 241, 0.3);
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--accent-indigo, #6366f1);
+  color: var(--accent-indigo);
   font-size: 24px;
 }
 
 .admin-project-folder-icon {
   font-size: 22px;
-  color: var(--accent-indigo, #6366f1);
+  color: var(--accent-indigo);
 }
 
 .admin-project-icon-link {
   width: 36px;
   height: 36px;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--text-secondary, #94a3b8) !important;
+  color: var(--text-secondary) !important;
   text-decoration: none;
   transition: all 0.2s ease;
 }
 
 .admin-project-icon-link:hover {
-  background: rgba(99, 102, 241, 0.2);
-  color: var(--accent-cyan, #06b6d4) !important;
-  border-color: rgba(99, 102, 241, 0.4);
+  background: rgba(99, 102, 241, 0.15);
+  color: var(--accent-cyan) !important;
+  border-color: var(--accent-indigo);
   transform: scale(1.08);
 }
 
@@ -170,7 +171,7 @@ div .custom-select__multi-value__remove:hover {
   font-weight: 600;
   padding: 4px 10px;
   border-radius: 20px;
-  background: rgba(245, 158, 11, 0.15);
+  background: rgba(245, 158, 11, 0.12);
   color: #f59e0b;
   border: 1px solid rgba(245, 158, 11, 0.3);
   display: inline-flex;
@@ -179,7 +180,7 @@ div .custom-select__multi-value__remove:hover {
 }
 
 .admin-project-title {
-  color: var(--text-primary, #f8fafc) !important;
+  color: var(--text-primary) !important;
   font-size: 1.15rem;
   font-weight: 700;
   line-height: 1.35;
@@ -189,22 +190,22 @@ div .custom-select__multi-value__remove:hover {
 
 .admin-project-meta {
   font-size: 0.8rem;
-  color: var(--text-muted, #94a3b8);
+  color: var(--text-muted);
   font-weight: 500;
 }
 
 .admin-project-org {
-  color: var(--accent-cyan, #06b6d4);
+  color: var(--accent-cyan);
   font-weight: 600;
 }
 
 .admin-project-dates {
-  color: var(--text-muted, #94a3b8);
+  color: var(--text-muted);
   font-size: 0.75rem;
 }
 
 .admin-project-desc {
-  color: var(--text-secondary, #cbd5e1);
+  color: var(--text-secondary) !important;
   font-size: 0.88rem;
   line-height: 1.5;
   margin-bottom: 1rem;
@@ -222,16 +223,16 @@ div .custom-select__multi-value__remove:hover {
   font-size: 0.72rem;
   padding: 3px 9px;
   border-radius: 6px;
-  background: rgba(99, 102, 241, 0.12);
-  color: var(--accent-indigo, #818cf8);
-  border: 1px solid rgba(99, 102, 241, 0.25);
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
   font-weight: 500;
 }
 
 .admin-tech-chip-more {
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--text-muted, #94a3b8);
-  border-color: rgba(255, 255, 255, 0.12);
+  background: var(--bg-tertiary);
+  color: var(--text-muted);
+  border-color: var(--border-subtle);
   cursor: help;
 }
 

@@ -13,7 +13,7 @@ import {
   GridRowEditStopReasons,
 } from "@mui/x-data-grid";
 
-import externalLink from "../assets/external-link.svg";
+import { FiExternalLink } from "react-icons/fi";
 import {
   ThemeProvider as MUIThemeProvider,
   createTheme,
@@ -33,6 +33,7 @@ import "./ManageSkills.css";
 import AdminNav from "./AdminNav";
 
 import { ThemeContext } from "../context/ThemeProvider"; // Adjust the import path
+import { DEFAULT_SKILLS } from "../utils/fallbackData";
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
@@ -69,7 +70,20 @@ function EditToolbar(props) {
 }
 
 export default function ManageSkills() {
-  const [rows, setRows] = useState([]);
+  const [rows, setRows] = useState(() =>
+    DEFAULT_SKILLS.map((skill, idx) => ({
+      id: skill._id || idx + 1,
+      _id: skill._id || `default-${idx + 1}`,
+      name: skill.name,
+      icon: skill.icon || "",
+      description: skill.description || "",
+      experience: skill.experience || "3+ Years",
+      priorityOrder: skill.priorityOrder || idx + 1,
+      type: skill.type || "Backend",
+      certificateLink: skill.certificateLink || "",
+      organizationName: skill.organizationName || "CGG",
+    }))
+  );
   const [rowModesModel, setRowModesModel] = useState({});
   const [expanded, setExpanded] = useState({});
   const { theme } = React.useContext(ThemeContext);
@@ -121,20 +135,23 @@ export default function ManageSkills() {
   const fetchSkills = async () => {
     try {
       const response = await myPrivateAxios.get(`/skills`);
-      const rowsWithId = response.data.map((skill) => ({
-        id: skill._id, // Use _id as id
-        name: skill.name,
-        icon: skill.icon,
-        description: skill.description,
-        experience: skill.experience,
-        priorityOrder: skill.priorityOrder,
-        type: skill.type,
-        certificateLink: skill.certificateLink,
-        organizationName: skill.organizationName,
-      }));
-      setRows(rowsWithId);
+      if (Array.isArray(response.data) && response.data.length > 0) {
+        const rowsWithId = response.data.map((skill) => ({
+          id: skill._id, // Use _id as id
+          _id: skill._id,
+          name: skill.name,
+          icon: skill.icon,
+          description: skill.description,
+          experience: skill.experience,
+          priorityOrder: skill.priorityOrder,
+          type: skill.type,
+          certificateLink: skill.certificateLink,
+          organizationName: skill.organizationName,
+        }));
+        setRows(rowsWithId);
+      }
     } catch (error) {
-      console.error("Error fetching the skills data:", error);
+      console.warn("Using default skills while backend connects:", error.message);
     }
   };
 
@@ -357,7 +374,7 @@ export default function ManageSkills() {
         <h2 className="modern-heading">Skills</h2>
         <Row>
           {rows.map((skill) => (
-            <Col md={{ size: 4, offset: 0 }} key={skill._id} data-aos="fade-up">
+            <Col md={{ size: 4, offset: 0 }} key={skill._id || skill.id} data-aos="fade-up">
               <Card className="skill-card">
                 <CardBody>
                   <header>
@@ -374,8 +391,9 @@ export default function ManageSkills() {
                           href={skill.certificateLink}
                           target="_blank"
                           rel="noreferrer"
+                          title="View Certificate"
                         >
-                          <img src={externalLink} alt="Visit site" />
+                          <FiExternalLink size={18} />
                         </a>
                       )}
                     </div>

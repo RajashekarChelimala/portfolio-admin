@@ -8,7 +8,7 @@ export const DEFAULT_CONTENT = {
   languages: "English, Telugu, Hindi",
   footerText: "Crafted with precision & passion by Rajashekar Chelimala. © 2026",
   introduction: "Java Full Stack Developer with 3+ years of experience building large-scale enterprise and financial applications using Java, Spring Boot, Spring MVC, React.js, Hibernate, PostgreSQL, and AWS. Contributed to financial management platforms supporting 160+ municipal offices and enterprise HR systems supporting 100,000+ users.",
-  imageLink: "https://res.cloudinary.com/ddsmuhr7k/image/upload/v1794762773/portfolio/profile/rajashekar_profile_avatar.jpg",
+  imageLink: "https://res.cloudinary.com/ddsmuhr7k/image/upload/v1794806325/portfolio/profile/bw3ytpqw0vayl4478ab1.jpg",
   resumeLink: "https://res.cloudinary.com/ddsmuhr7k/raw/upload/v1794762776/portfolio/resume/rajashekar_chelimala_resume.pdf",
   typeWriterText: "Java Full Stack Developer,Spring Boot & Microservices Specialist,React.js Frontend Engineer,AWS Cloud Solutions Architect,High-Scale Enterprise Systems Engineer",
   hobbies: "Enterprise Architecture, Distributed Microservices, Open Source, AI & Voice Agents, Performance Optimization",
@@ -140,15 +140,15 @@ export const DEFAULT_PROJECTS = [
   },
   {
     _id: "p6",
-    projectName: "Comrade — Real-Time Collaboration App",
+    projectName: "Comrade — Secure & Encrypted Messaging",
     organizationName: "Personal / Open Source",
     projectLink: "https://mycomrade.vercel.app/",
     githubLink: "https://github.com/RajashekarChelimala/comrade-frontend",
     fromDate: "2024-05-01T00:00:00.000Z",
     toDate: null,
     currentlyWorking: true,
-    description: "Full-stack real-time collaboration and networking web application. Features live instant messaging powered by Socket.IO, secure JWT authentication with refresh token rotation, Cloudinary media CDN uploads, real-time presence indicators, and interactive engagement feeds.",
-    skills: [{ name: "React.js" }, { name: "Node.js" }, { name: "Socket.IO" }, { name: "MongoDB" }, { name: "Express.js" }, { name: "Cloudinary" }, { name: "Vite" }]
+    description: "Comrade: Secure & Encrypted Messaging. Connect with true Comrades anywhere. Experience a new era of messaging: fast, secure, and designed for genuine connections with no algorithms. Built with real-time Socket.io instant delivery, end-to-end encryption for privacy, and simple clutter-free pure communication.",
+    skills: [{ name: "React.js" }, { name: "Node.js" }, { name: "Socket.IO" }, { name: "Tailwind CSS" }, { name: "MongoDB" }, { name: "Express.js" }, { name: "End-to-End Encryption" }]
   },
   {
     _id: "p7",

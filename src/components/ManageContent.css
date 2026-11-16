@@ -1,13 +1,62 @@
-.manage-content-container {
-  color: var(--text-color);
-  }
+/* ============================================================
+   MANAGE CONTENT THEME STYLES
+   ============================================================ */
 
-.manage-content-container input, .manage-content-container textarea {
-  background-color: transparent !important;
-  color: var(--text-color) !important;
+.manage-content-container {
+  color: var(--text-primary);
 }
 
-.manage-content-container input::placeholder, .manage-content-container textarea::placeholder {
-  color: var(--text-color) !important;
-  opacity: 1;
+.manage-content-title {
+  color: var(--text-primary) !important;
+  font-weight: 700;
+}
+
+.manage-content-badge {
+  background: var(--bg-tertiary) !important;
+  color: var(--accent-cyan) !important;
+  border: 1px solid var(--border-subtle) !important;
+  font-weight: 600;
+  border-radius: 9999px;
+}
+
+.manage-field-label {
+  color: var(--text-primary) !important;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.manage-content-container .modern-input {
+  background-color: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: 8px;
+  padding: 0.65rem 0.85rem;
+}
+
+.manage-content-container .modern-input:focus {
+  border-color: var(--accent-indigo) !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15) !important;
+}
+
+.manage-content-container .modern-input::placeholder {
+  color: var(--text-muted) !important;
+  opacity: 0.7;
+}
+
+.cloudinary-upload-card {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--card-shadow);
+  transition: all 0.2s ease;
+}
+
+.cloudinary-upload-title {
+  color: var(--text-primary) !important;
+  font-weight: 700;
+}
+
+/* Override Jodit editor containers in light and dark mode */
+.manage-content-container .jodit-container {
+  border-color: var(--border-subtle) !important;
 }

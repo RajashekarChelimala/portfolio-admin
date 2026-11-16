@@ -157,7 +157,7 @@ const AdminDashboard = () => {
         </Row>
 
         {/* Management Modules Grid */}
-        <h2 className="h4 text-light mb-3">Management Modules</h2>
+        <h2 className="dashboard-section-heading mb-3">Management Modules</h2>
         <Row className="g-4 mb-5">
           {managementModules.map((module) => (
             <Col lg={4} md={6} key={module.path}>
@@ -173,7 +173,7 @@ const AdminDashboard = () => {
                           {module.badge}
                         </Badge>
                       </div>
-                      <CardTitle tag="h5" className="module-title text-light mb-2">
+                      <CardTitle tag="h5" className="module-title mb-2">
                         {module.title}
                       </CardTitle>
                       <CardText className="module-desc text-secondary">

@@ -116,10 +116,18 @@
 .module-icon-wrap.warning { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
 .module-icon-wrap.danger { background: rgba(239, 68, 68, 0.15); color: #f87171; }
 
+.dashboard-section-heading {
+  color: var(--text-primary) !important;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
 .module-title {
   font-size: 1.25rem;
   font-weight: 700;
   letter-spacing: -0.02em;
+  color: var(--text-primary) !important;
 }
 
 .module-desc {

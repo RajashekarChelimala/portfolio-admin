@@ -286,7 +286,7 @@ const ManagePosts = () => {
             </p>
           </div>
           <div className="d-flex align-items-center gap-2">
-            <span className="badge bg-dark border border-secondary text-info px-3 py-2">
+            <span className="badge px-3 py-2 admin-count-badge">
               {posts.length} {posts.length === 1 ? "Article" : "Articles"} Published
             </span>
           </div>
@@ -301,7 +301,7 @@ const ManagePosts = () => {
               <span className="admin-card-icon">
                 {formData._id ? <AiOutlineEdit /> : <AiOutlinePlus />}
               </span>
-              <h3 className="h4 text-light mb-0">
+              <h3 className="h4 admin-card-heading mb-0">
                 {formData._id ? "Edit Article" : "Create New Article"}
               </h3>
               {formData._id && (
@@ -577,7 +577,7 @@ const ManagePosts = () => {
       <div className="published-posts-section">
         <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
           <div>
-            <h2 className="h4 text-light mb-1">Published Articles Catalog</h2>
+            <h2 className="h4 admin-section-heading mb-1">Published Articles Catalog</h2>
             <p className="text-secondary small mb-0">
               Manage existing live articles, edit content, and view engagement metrics.
             </p>
@@ -660,7 +660,7 @@ const ManagePosts = () => {
                       </CardText>
                     </div>
 
-                    <div className="admin-post-actions pt-3 border-top border-secondary mt-auto d-flex justify-content-between align-items-center gap-2 flex-wrap">
+                    <div className="admin-post-actions pt-3 border-top border-secondary mt-auto">
                       <div className="d-flex gap-2">
                         <Button
                           color="info"

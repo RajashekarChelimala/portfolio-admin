@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Row,
   Col,
@@ -84,8 +84,21 @@ const AllPosts = () => {
     }
   };
 
+  const likeCooldownRef = useRef({});
+  const likeSeqRef = useRef({});
+
   const likePost = async (e, postId) => {
     e.stopPropagation();
+    const now = Date.now();
+    // Guard against rapid click spamming within 350ms
+    if (likeCooldownRef.current[postId] && now - likeCooldownRef.current[postId] < 350) {
+      return;
+    }
+    likeCooldownRef.current[postId] = now;
+
+    const seq = (likeSeqRef.current[postId] || 0) + 1;
+    likeSeqRef.current[postId] = seq;
+
     const visitorId = getVisitorId();
     const isCurrentlyLiked = likedPosts.includes(postId);
     const willBeLiked = !isCurrentlyLiked;
@@ -116,7 +129,8 @@ const AllPosts = () => {
     // Sync with backend API
     try {
       const res = await myAxios.post(`/posts/${postId}/like`, { visitorId });
-      if (typeof res.data?.likes === "number") {
+      // Guard against race conditions: only update if no newer click occurred
+      if (likeSeqRef.current[postId] === seq && typeof res.data?.likes === "number") {
         setPosts((prev) =>
           prev.map((p) => (p._id === postId ? { ...p, likes: res.data.likes } : p))
         );
