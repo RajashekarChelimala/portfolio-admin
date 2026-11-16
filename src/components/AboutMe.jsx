@@ -110,7 +110,7 @@ export default function AboutMe() {
             About <span className="gradient-text">Me</span>
           </h1>
           <p className="section-subtitle">
-            Java Full Stack Developer specializing in large-scale enterprise applications, high-throughput microservices, and modern web architectures.
+            Java Full Stack Developer & AI Enthusiast specializing in large-scale enterprise applications, high-throughput microservices, Generative AI integration, and modern web architectures.
           </p>
         </section>
 

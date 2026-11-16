@@ -58,6 +58,14 @@ div .skill-description {
   line-height: 1.6;
 }
 
+/* "Proficiency verified" fallback text — must be readable in both themes */
+.skill-description .text-muted,
+.skill-card .text-muted {
+  color: var(--text-secondary) !important;
+  opacity: 1 !important;
+  font-weight: 500;
+}
+
 /* Hover Effects & Links */
 .skill-links a {
   width: 32px;

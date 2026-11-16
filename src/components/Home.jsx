@@ -12,6 +12,7 @@ import { FaLinkedinIn, FaReact, FaNodeJs, FaJava, FaDocker } from "react-icons/f
 import { SiMongodb, SiTypescript } from "react-icons/si";
 import { Col, Container, Row } from "reactstrap";
 import Type from "../ui-elements/Type";
+import AnimatedCounter from "../ui-elements/AnimatedCounter";
 import { myAxios } from "../utils/api";
 import { DEFAULT_CONTENT, DEFAULT_PROJECTS } from "../utils/fallbackData";
 import "./Home.css";
@@ -205,23 +206,23 @@ const Home = () => {
             </Col>
             <Col md={3} sm={6}>
               <div className="bento-card">
-                <div className="bento-metric gradient-text">15+</div>
+                <div className="bento-metric gradient-text">18+</div>
                 <div className="bento-label">Technologies Mastered</div>
                 <p className="bento-desc">MERN, Java Spring Boot, TypeScript, Docker, SQL & NoSQL.</p>
               </div>
             </Col>
             <Col md={3} sm={6}>
               <div className="bento-card">
-                <div className="bento-metric gradient-text">Real-Time</div>
-                <div className="bento-label">WebSocket Systems</div>
-                <p className="bento-desc">Event-driven live sockets, JWT security & microservices.</p>
+                <div className="bento-metric gradient-text">7+</div>
+                <div className="bento-label">Production Projects</div>
+                <p className="bento-desc">GovTech, enterprise, AI-powered & freelance applications.</p>
               </div>
             </Col>
             <Col md={3} sm={6}>
               <div className="bento-card">
-                <div className="bento-metric gradient-text">99.9%</div>
-                <div className="bento-label">Reliability Focus</div>
-                <p className="bento-desc">Clean architecture, defensive error handling & responsive UX.</p>
+                <div className="bento-metric gradient-text">260K+</div>
+                <div className="bento-label">Users Served</div>
+                <p className="bento-desc">100K+ police personnel + 160+ municipal offices in Telangana.</p>
               </div>
             </Col>
           </Row>
@@ -296,12 +297,62 @@ const Home = () => {
           </Row>
         </section>
 
-        {/* ================= CALL TO ACTION STRIP ================= */}
-        <section className="cta-banner my-5" data-aos="zoom-in">
+        {/* ================= AI & INNOVATION STRIP ================= */}
+        <section className="ai-interest-section my-5">
+          <div className="ai-strip-inner glass-panel">
+            <div className="ai-strip-left">
+              <span className="ai-strip-badge">🤖 Currently Exploring</span>
+              <h3 className="ai-strip-title">
+                AI-Integrated Development & <span className="gradient-text">Generative AI</span>
+              </h3>
+              <p className="ai-strip-desc">
+                Building AI-augmented systems using LLMs, Whisper speech-to-text, and Python FastAPI microservices.
+                Passionate about integrating Generative AI, RAG pipelines, and voice agents into enterprise workflows.
+              </p>
+              <div className="ai-tags-wrap">
+                <span className="ai-tag">Gemini API</span>
+                <span className="ai-tag">LLM Integration</span>
+                <span className="ai-tag">Whisper STT</span>
+                <span className="ai-tag">FastAPI + RAG</span>
+                <span className="ai-tag">AI Agents</span>
+              </div>
+            </div>
+            <div className="ai-strip-right">
+              <div className="ai-icon-glow">🧠</div>
+            </div>
+          </div>
+        </section>
+
+        {/* ================= GITHUB STATS ================= */}
+        <section className="github-stats-section my-5">
+          <h2 className="section-title text-center">
+            GitHub <span className="gradient-text">Activity</span>
+          </h2>
+          <p className="section-subtitle text-center">Open source contributions and coding consistency</p>
+          <div className="github-stats-grid">
+            <img
+              src="https://github-readme-stats.vercel.app/api?username=RajashekarChelimala&show_icons=true&theme=tokyonight&hide_border=true&bg_color=00000000&title_color=38bdf8&text_color=94a3b8&icon_color=818cf8"
+              alt="GitHub Stats"
+              className="github-stat-card"
+              loading="lazy"
+              onError={(e) => { e.target.style.display = 'none'; }}
+            />
+            <img
+              src="https://github-readme-streak-stats.herokuapp.com/?user=RajashekarChelimala&theme=tokyonight&hide_border=true&background=00000000&ring=38bdf8&fire=c084fc&currStreakLabel=38bdf8"
+              alt="GitHub Streak"
+              className="github-stat-card"
+              loading="lazy"
+              onError={(e) => { e.target.style.display = 'none'; }}
+            />
+          </div>
+        </section>
+
+        {/* ================= CALL TO ACTION STRIP (Final Climax Before Footer) ================= */}
+        <section className="cta-banner my-5">
           <div className="cta-inner">
             <h2 className="cta-title">Have a project in mind or looking for a developer?</h2>
             <p className="cta-subtitle">
-              Let's connect and build something extraordinary together.
+              Let's connect and build something extraordinary together — from enterprise systems to AI-powered applications.
             </p>
             <div className="cta-actions">
               <Link to="/contact" className="btn-modern-primary">

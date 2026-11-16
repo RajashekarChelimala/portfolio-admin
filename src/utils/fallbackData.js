@@ -1,17 +1,17 @@
 export const DEFAULT_CONTENT = {
   name: "Rajashekar Chelimala",
-  designation: "Java Full Stack Developer",
+  designation: "Java Full Stack & Generative AI Developer",
   organization: "Centre for Good Governance (CGG)",
   location: "Hyderabad, Telangana",
   degree: "B.Tech in Computer Science Engineering (CGPA: 8.4 / 10.0)",
   education: "Rajiv Gandhi University of Knowledge Technologies (RGUKT), Basar",
   languages: "English, Telugu, Hindi",
   footerText: "Crafted with precision & passion by Rajashekar Chelimala. © 2026",
-  introduction: "Java Full Stack Developer with 3+ years of experience building large-scale enterprise and financial applications using Java, Spring Boot, Spring MVC, React.js, Hibernate, PostgreSQL, and AWS. Contributed to financial management platforms supporting 160+ municipal offices and enterprise HR systems supporting 100,000+ users.",
+  introduction: "Java Full Stack Developer & AI Enthusiast with 3+ years of experience building large-scale enterprise, financial, and AI-integrated applications using Java, Spring Boot, React.js, PostgreSQL, AWS, and Generative AI. Engineered systems supporting 100,000+ users, 160+ municipal offices, and AI candidate screening pipelines using Whisper STT and LLMs.",
   imageLink: "https://res.cloudinary.com/ddsmuhr7k/image/upload/v1794806325/portfolio/profile/bw3ytpqw0vayl4478ab1.jpg",
   resumeLink: "https://res.cloudinary.com/ddsmuhr7k/raw/upload/v1794762776/portfolio/resume/rajashekar_chelimala_resume.pdf",
-  typeWriterText: "Java Full Stack Developer,Spring Boot & Microservices Specialist,React.js Frontend Engineer,AWS Cloud Solutions Architect,High-Scale Enterprise Systems Engineer",
-  hobbies: "Enterprise Architecture, Distributed Microservices, Open Source, AI & Voice Agents, Performance Optimization",
+  typeWriterText: "Java Full Stack Developer,Spring Boot & Microservices Specialist,React.js Frontend Engineer,Generative AI & LLM Integrator,AWS Cloud Solutions Architect,High-Scale Enterprise Systems Engineer",
+  hobbies: "Enterprise Architecture, Generative AI & Voice Agents, Distributed Microservices, Open Source, Performance Optimization",
   instagram: "https://instagram.com/RajashekarChelimala",
   twitter: "https://twitter.com/RajashekarChelimala",
   linkedin: "https://www.linkedin.com/in/rajashekar-chelimala",
@@ -75,6 +75,10 @@ export const DEFAULT_SKILLS = [
   { _id: "s16", name: "AWS (EC2, S3, Lambda, SES, Route53)", type: "Cloud & DevOps", experience: "2+ Years", icon: "docker-icon", proficiency: 86, organizationName: "CGG & Freelance" },
   { _id: "s17", name: "Docker", type: "Cloud & DevOps", experience: "2+ Years", icon: "docker-icon", proficiency: 85, organizationName: "CGG & Freelance" },
   { _id: "s18", name: "Git & GitLab CI/CD", type: "Cloud & DevOps", experience: "3+ Years", icon: "github-icon", proficiency: 92, organizationName: "CGG" },
+
+  // AI & Machine Learning
+  { _id: "s19", name: "Generative AI & LLM Integration", type: "AI & Machine Learning", experience: "1+ Years", icon: "brain-icon", proficiency: 90, organizationName: "Independent & Freelance" },
+  { _id: "s20", name: "FastAPI, Whisper STT & Qwen", type: "AI & Machine Learning", experience: "1+ Years", icon: "api-icon", proficiency: 88, organizationName: "Freelance AI Platform" },
 ];
 
 export const DEFAULT_PROJECTS = [

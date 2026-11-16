@@ -28,7 +28,7 @@ const FullPost = lazy(() => import("./components/FullPost"));
 
 function App() {
   useEffect(() => {
-    AOS.init({ duration: 800, easing: "ease-in-out", once: true });
+    AOS.init({ duration: 800, easing: "ease-in-out", once: false, offset: 50 });
   }, []);
 
   const { theme } = useContext(ThemeContext);

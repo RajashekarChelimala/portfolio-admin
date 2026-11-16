@@ -21,6 +21,8 @@ import Loader from "../ui-elements/Loader";
 import AdminNav from "./AdminNav";
 import "./ManageContent.css";
 
+const EXCLUDED_KEYS = new Set(["_id", "__v", "createdAt", "updatedAt"]);
+
 const ManageContent = ({ placeholder }) => {
   const [formData, setFormData] = useState(() => {
     try {
@@ -56,7 +58,6 @@ const ManageContent = ({ placeholder }) => {
   // Fetch existing content data for editing
   useEffect(() => {
     const fetchData = async () => {
-      setIsLoading(true); // Start loading
       try {
         const response = await myAxios.get("/content");
         if (response.data && response.data.name) {
@@ -69,8 +70,6 @@ const ManageContent = ({ placeholder }) => {
         }
       } catch (err) {
         console.warn("Using default profile content in ManageContent:", err.message);
-      } finally {
-        setIsLoading(false);
       }
     };
     fetchData();
@@ -193,7 +192,7 @@ const ManageContent = ({ placeholder }) => {
   };
 
   return (
-    <Container className="manage-content-container py-4" data-aos="fade-up">
+    <Container className="manage-content-container py-4">
       <AdminNav />
       <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
         <div>
@@ -211,8 +210,8 @@ const ManageContent = ({ placeholder }) => {
         <Loader type="bars" />
       ) : (
         <Form onSubmit={handleSubmit}>
-          {Object.keys(formData).map((key) => (
-            <FormGroup key={key} className="mb-4" data-aos="fade-up">
+          {Object.keys(formData).filter((key) => !EXCLUDED_KEYS.has(key)).map((key) => (
+            <FormGroup key={key} className="mb-4">
               <div className="d-flex justify-content-between align-items-center mb-2">
                 <Label for={key} className="fw-semibold manage-field-label mb-0">
                   {key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, " $1")}
