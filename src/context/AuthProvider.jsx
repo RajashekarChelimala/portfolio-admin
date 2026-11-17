@@ -19,9 +19,11 @@ export const AuthProvider = ({ children }) => {
     const checkAuth = async () => {
       try {
         const backendUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:5000";
+        const token = localStorage.getItem("accessToken");
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
         const response = await axios.get(
           `${backendUrl}/auth/check`,
-          { withCredentials: true }
+          { withCredentials: true, headers }
         );
         if (response.status === 200) {
           localStorage.setItem("accessToken", response.data.accessToken);

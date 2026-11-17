@@ -189,3 +189,334 @@ body.light .stat-sub,
 .module-card:hover .module-action-link {
   color: var(--accent-cyan) !important;
 }
+
+
+/* ==========================================================================
+   Analytics Suite & Jerry AI Chat History Styling
+   ========================================================================== */
+
+.status-indicator-pill.ai {
+  border-color: rgba(168, 85, 247, 0.4);
+  color: #c084fc;
+  background: rgba(168, 85, 247, 0.08);
+}
+
+.btn-refresh-analytics {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.btn-refresh-analytics:hover {
+  background: var(--accent-cyan);
+  color: #fff;
+  border-color: var(--accent-cyan);
+}
+
+.spin-icon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Stat Card Glow Highlights */
+.stat-card-glow {
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  filter: blur(40px);
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+.stat-card-glow.cyan { background: #38bdf8; }
+.stat-card-glow.purple { background: #a855f7; }
+.stat-card-glow.emerald { background: #10b981; }
+
+.stat-icon-pill {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-icon-pill.cyan { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
+.stat-icon-pill.purple { background: rgba(168, 85, 247, 0.15); color: #c084fc; }
+.stat-icon-pill.emerald { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+
+.gradient-text-purple {
+  background: linear-gradient(135deg, #c084fc 0%, #a855f7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-text-emerald {
+  background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Analytics Panels */
+.analytics-card {
+  border-radius: 1.25rem;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-card);
+}
+
+.analytics-card-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+}
+
+.page-path-pill code {
+  color: var(--accent-cyan);
+  background: rgba(56, 189, 248, 0.1);
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.page-hit-count {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.device-stat-chip {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+}
+
+.device-chip-icon {
+  color: var(--accent-indigo);
+  margin-bottom: 0.25rem;
+}
+
+.device-chip-name {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.device-chip-count {
+  font-size: 1.1rem;
+  color: var(--text-primary);
+}
+
+/* Jerry AI Q&A Table */
+.ai-icon-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat-search-wrap {
+  width: 240px;
+}
+
+.chat-search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 1rem;
+  pointer-events: none;
+}
+
+.chat-search-input {
+  padding-left: 32px !important;
+  font-size: 0.85rem !important;
+  height: 36px;
+  border-radius: 9999px !important;
+  background: var(--bg-tertiary) !important;
+  border: 1px solid var(--border-subtle) !important;
+  color: var(--text-primary) !important;
+}
+
+.engine-select-dropdown {
+  height: 36px;
+  border-radius: 9999px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  font-size: 0.82rem;
+  padding: 0 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-clear-chats {
+  height: 36px;
+  border-radius: 9999px;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0 0.85rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.2s;
+}
+
+.btn-clear-chats:hover {
+  background: #ef4444;
+  color: #fff;
+}
+
+/* Chat History Table */
+.chat-history-table {
+  color: var(--text-primary);
+}
+
+.chat-history-table thead th {
+  background: var(--bg-tertiary) !important;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-subtle) !important;
+}
+
+.chat-history-table tbody td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--border-subtle) !important;
+  vertical-align: middle;
+}
+
+.chat-log-row {
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.chat-log-row:hover {
+  background: rgba(56, 189, 248, 0.05) !important;
+}
+
+.log-date {
+  font-weight: 600;
+  font-size: 0.88rem;
+}
+
+.visitor-badge {
+  font-family: monospace;
+  font-size: 0.8rem;
+  background: var(--bg-tertiary);
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  border: 1px solid var(--border-subtle);
+}
+
+.question-bubble {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  padding: 0.45rem 0.75rem;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+}
+
+.question-text {
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 260px;
+}
+
+.answer-preview {
+  font-size: 0.85rem;
+  line-height: 1.4;
+  margin-bottom: 0.2rem;
+}
+
+.view-full-pill {
+  font-size: 0.72rem;
+  color: var(--accent-cyan);
+  font-weight: 600;
+}
+
+.btn-delete-log-row {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.3rem 0.5rem;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.btn-delete-log-row:hover {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
+/* Modal Styling */
+.modal-qa-card {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-qa-card.question {
+  background: rgba(56, 189, 248, 0.08);
+  border-color: rgba(56, 189, 248, 0.2);
+}
+
+.modal-qa-card.answer {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* Light Mode Overrides */
+body.light .analytics-card,
+.light .analytics-card {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04) !important;
+}
+
+body.light .chat-history-table thead th,
+.light .chat-history-table thead th {
+  background: #f8fafc !important;
+  color: #64748b !important;
+}
+
+body.light .question-bubble,
+.light .question-bubble {
+  background: #f1f5f9 !important;
+  border-color: #e2e8f0 !important;
+}
+
+body.light .device-stat-chip,
+.light .device-stat-chip {
+  background: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+}

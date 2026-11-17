@@ -3,6 +3,7 @@ import { AiOutlineClose, AiOutlineSend, AiOutlineRobot } from "react-icons/ai";
 import { BsStars } from "react-icons/bs";
 import { myAxios } from "../utils/api";
 import { queryRAG } from "../utils/ragEngine";
+import { getOrCreateVisitorId } from "../utils/visitorTracker";
 import "./AIChatWidget.css";
 
 const renderFormattedContent = (text) => {
@@ -125,7 +126,8 @@ export default function AIChatWidget() {
 
     try {
       // Secure backend call — NO API keys are exposed to the browser client
-      const response = await myAxios.post("/chat", { message: userText });
+      const visitorId = getOrCreateVisitorId();
+      const response = await myAxios.post("/chat", { message: userText, visitorId });
       const aiText = response.data?.reply || queryRAG(userText);
       setMessages((prev) => [...prev, { role: "ai", text: aiText }]);
     } catch (err) {
