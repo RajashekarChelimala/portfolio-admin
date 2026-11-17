@@ -61,14 +61,14 @@ const ManagePosts = () => {
     setFetching(true);
     try {
       const response = await myAxios.get("/posts");
-      if (Array.isArray(response.data) && response.data.length > 0) {
+      if (Array.isArray(response.data)) {
         setPosts(response.data);
       } else {
-        setPosts(DEFAULT_POSTS);
+        setPosts([]);
       }
     } catch (err) {
-      console.warn("Using default articles catalog while backend connects:", err.message);
-      setPosts(DEFAULT_POSTS);
+      console.warn("Could not fetch articles from server:", err.message);
+      setPosts([]);
     } finally {
       setFetching(false);
     }
@@ -516,7 +516,7 @@ const ManagePosts = () => {
                   {errors.content && (
                     <div className="invalid-feedback d-block">{errors.content}</div>
                   )}
-                  <small className="text-muted mt-1 d-block">
+                  <small className="editor-helper-text mt-1 d-block">
                     Supports HTML elements: &lt;p&gt;, &lt;h2&gt;, &lt;h3&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;pre&gt;&lt;code&gt;, and &lt;strong&gt;.
                   </small>
                 </>

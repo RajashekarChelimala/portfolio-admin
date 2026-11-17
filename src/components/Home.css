@@ -559,6 +559,15 @@
   line-height: 1;
   filter: drop-shadow(0 0 24px rgba(129, 140, 248, 0.5));
   animation: float-btn 4s ease-in-out infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ai-feature-icon {
+  font-size: 4.5rem;
+  color: #a855f7;
+  filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.6));
 }
 
 /* ================= GitHub Stats ================= */

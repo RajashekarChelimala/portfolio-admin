@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { AiOutlineClose, AiOutlineSend, AiOutlineRobot } from "react-icons/ai";
-import { FaBrain } from "react-icons/fa";
+import { BsStars } from "react-icons/bs";
 import { myAxios } from "../utils/api";
 import { queryRAG } from "../utils/ragEngine";
 import "./AIChatWidget.css";
@@ -93,7 +93,7 @@ export default function AIChatWidget() {
   const [messages, setMessages] = useState([
     {
       role: "ai",
-      text: "Hi! 👋 I'm Rajashekar's AI assistant. Ask me anything about his skills, experience, projects, or how to collaborate!",
+      text: "Hi! 👋 I'm Jerry, Rajashekar's AI assistant. Ask me anything about his skills, experience, projects, or how to collaborate!",
     },
   ]);
   const [input, setInput] = useState("");
@@ -151,9 +151,9 @@ export default function AIChatWidget() {
         className={`ai-chat-trigger ${isOpen ? "active" : ""}`}
         onClick={() => setIsOpen((v) => !v)}
         aria-label="Open AI Assistant"
-        title="Chat with Rajashekar's AI Assistant"
+        title="Chat with Jerry, Rajashekar's AI Assistant"
       >
-        {isOpen ? <AiOutlineClose size={22} /> : <FaBrain size={22} />}
+        {isOpen ? <AiOutlineClose size={22} /> : <BsStars size={22} />}
         {!isOpen && <span className="ai-trigger-badge">AI</span>}
       </button>
 
@@ -166,7 +166,7 @@ export default function AIChatWidget() {
               <AiOutlineRobot size={18} />
             </div>
             <div>
-              <div className="ai-chat-title">RC Assistant</div>
+              <div className="ai-chat-title">Jerry • AI Assistant</div>
               <div className="ai-chat-subtitle">
                 <span className="ai-online-dot" /> Powered by Gemini AI
               </div>

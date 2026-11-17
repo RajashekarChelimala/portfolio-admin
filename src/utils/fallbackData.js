@@ -168,14 +168,4 @@ export const DEFAULT_PROJECTS = [
   }
 ];
 
-export const DEFAULT_POSTS = [
-  {
-    _id: "post1",
-    headline: "Architecting Large-Scale Enterprise Systems with Spring Boot & Microservices",
-    content: "<p>Building software for 100,000+ users and 160+ municipal offices requires deep architectural discipline. From double-entry accounting to multi-level approval hierarchies, transactional consistency and role-based access control (RBAC) are paramount.</p><p>By combining Spring Boot, PostgreSQL query optimization, and modern React.js frontend interfaces, legacy Struts systems can be successfully modernized into high-performance, maintainable platforms with zero data loss.</p>",
-    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80",
-    likes: 54,
-    engagementCount: 92,
-    createdAt: new Date().toISOString()
-  }
-];
+export const DEFAULT_POSTS = [];

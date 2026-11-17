@@ -20,9 +20,7 @@ const FullPost = () => {
         const response = await myAxios.get(`/posts/${id}`);
         setPost(response.data);
       } catch (err) {
-        // Fallback to match default post
-        const defaultMatch = DEFAULT_POSTS.find((p) => p._id === id) || DEFAULT_POSTS[0];
-        setPost(defaultMatch);
+        setPost(null);
       } finally {
         setLoading(false);
       }

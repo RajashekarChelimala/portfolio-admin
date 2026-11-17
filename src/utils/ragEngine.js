@@ -5,9 +5,15 @@
 
 export const KNOWLEDGE_CORPUS = [
   {
+    id: "bot_identity",
+    topics: ["who are you", "what is your name", "what's your name", "your name", "who made you", "jerry", "assistant name", "bot name", "chatbot", "what are you"],
+    keywords: ["jerry", "assistant", "bot", "who", "your", "name"],
+    answer: "My name is **Jerry**! 🤖 I'm Rajashekar Chelimala's personal AI Assistant. You can ask me anything about his technical skills, enterprise projects, career experience, or how to get in touch with him!"
+  },
+  {
     id: "identity_surname",
-    topics: ["surname", "last name", "family name", "second name", "full name", "who is he", "what is his name"],
-    keywords: ["surname", "last", "family", "name", "chelimala", "called", "full"],
+    topics: ["surname", "last name", "family name", "second name", "full name", "who is he", "what is his name", "rajashekar name", "chelimala"],
+    keywords: ["surname", "last", "family", "chelimala", "called", "full"],
     answer: "Rajashekar's surname is **Chelimala**. His full legal name is **Rajashekar Chelimala**."
   },
   {

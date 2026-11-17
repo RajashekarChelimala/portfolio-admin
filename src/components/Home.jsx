@@ -10,6 +10,7 @@ import {
 } from "react-icons/ai";
 import { FaLinkedinIn, FaReact, FaNodeJs, FaJava, FaDocker } from "react-icons/fa";
 import { SiMongodb, SiTypescript } from "react-icons/si";
+import { BsStars } from "react-icons/bs";
 import { Col, Container, Row } from "reactstrap";
 import Type from "../ui-elements/Type";
 import AnimatedCounter from "../ui-elements/AnimatedCounter";
@@ -222,7 +223,7 @@ const Home = () => {
               <div className="bento-card">
                 <div className="bento-metric gradient-text">100K+</div>
                 <div className="bento-label">Users Served</div>
-                <p className="bento-desc">100K+ police personnel across 160+ municipal offices in Telangana.</p>
+                <p className="bento-desc">100K+ police personnel and 160+ municipal offices in Telangana.</p>
               </div>
             </Col>
           </Row>
@@ -318,32 +319,10 @@ const Home = () => {
               </div>
             </div>
             <div className="ai-strip-right">
-              <div className="ai-icon-glow">🧠</div>
+              <div className="ai-icon-glow">
+                <BsStars className="ai-feature-icon" />
+              </div>
             </div>
-          </div>
-        </section>
-
-        {/* ================= GITHUB STATS ================= */}
-        <section className="github-stats-section my-5">
-          <h2 className="section-title text-center">
-            GitHub <span className="gradient-text">Activity</span>
-          </h2>
-          <p className="section-subtitle text-center">Open source contributions and coding consistency</p>
-          <div className="github-stats-grid">
-            <img
-              src="https://github-readme-stats.vercel.app/api?username=RajashekarChelimala&show_icons=true&theme=tokyonight&hide_border=true&bg_color=00000000&title_color=38bdf8&text_color=94a3b8&icon_color=818cf8"
-              alt="GitHub Stats"
-              className="github-stat-card"
-              loading="lazy"
-              onError={(e) => { e.target.style.display = 'none'; }}
-            />
-            <img
-              src="https://github-readme-streak-stats.herokuapp.com/?user=RajashekarChelimala&theme=tokyonight&hide_border=true&background=00000000&ring=38bdf8&fire=c084fc&currStreakLabel=38bdf8"
-              alt="GitHub Streak"
-              className="github-stat-card"
-              loading="lazy"
-              onError={(e) => { e.target.style.display = 'none'; }}
-            />
           </div>
         </section>
 
