@@ -391,7 +391,13 @@ body.light .stat-sub,
 
 /* Chat History Table */
 .chat-history-table {
+  --bs-table-bg: transparent !important;
+  --bs-table-accent-bg: transparent !important;
+  --bs-table-striped-bg: transparent !important;
+  --bs-table-hover-bg: transparent !important;
+  background-color: transparent !important;
   color: var(--text-primary);
+  margin-bottom: 0;
 }
 
 .chat-history-table thead th {
@@ -408,6 +414,8 @@ body.light .stat-sub,
   padding: 0.85rem 1rem;
   border-bottom: 1px solid var(--border-subtle) !important;
   vertical-align: middle;
+  background-color: transparent !important;
+  color: var(--text-primary) !important;
 }
 
 .chat-log-row {
@@ -416,18 +424,28 @@ body.light .stat-sub,
 }
 
 .chat-log-row:hover {
-  background: rgba(56, 189, 248, 0.05) !important;
+  background: rgba(56, 189, 248, 0.07) !important;
+}
+
+.chat-log-row:hover td {
+  background: transparent !important;
 }
 
 .log-date {
   font-weight: 600;
   font-size: 0.88rem;
+  color: var(--text-primary);
+}
+
+.log-time {
+  color: var(--text-muted);
 }
 
 .visitor-badge {
   font-family: monospace;
   font-size: 0.8rem;
   background: var(--bg-tertiary);
+  color: var(--text-secondary);
   padding: 0.25rem 0.5rem;
   border-radius: 6px;
   border: 1px solid var(--border-subtle);
@@ -457,6 +475,7 @@ body.light .stat-sub,
   font-size: 0.85rem;
   line-height: 1.4;
   margin-bottom: 0.2rem;
+  color: var(--text-secondary);
 }
 
 .view-full-pill {
@@ -481,21 +500,266 @@ body.light .stat-sub,
   color: #ef4444;
 }
 
-/* Modal Styling */
+/* ================= PAGINATION STYLES ================= */
+.table-pagination-bar {
+  border-top: 1px solid var(--border-subtle);
+}
+
+.pagination-info {
+  color: var(--text-secondary);
+}
+
+.pagination-info strong {
+  color: var(--text-primary);
+}
+
+.page-size-select {
+  height: 32px;
+  padding: 0 0.6rem;
+  border-radius: 6px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.page-size-select:focus {
+  outline: none;
+  border-color: #38bdf8;
+}
+
+.pagination-btn {
+  height: 32px;
+  width: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: rgba(56, 189, 248, 0.15);
+  border-color: #38bdf8;
+  color: #38bdf8;
+}
+
+.pagination-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.pagination-page-number {
+  height: 32px;
+  min-width: 32px;
+  padding: 0 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pagination-page-number:hover {
+  border-color: #38bdf8;
+  color: #38bdf8;
+}
+
+.pagination-page-number.active {
+  background: #0284c7 !important;
+  border-color: #0284c7 !important;
+  color: #ffffff !important;
+  font-weight: 700;
+}
+
+/* ================= MODAL STYLES (DARK & LIGHT) ================= */
+.chat-detail-modal .modal-content {
+  background: var(--bg-secondary) !important;
+  border: 1px solid var(--border-subtle) !important;
+  color: var(--text-primary) !important;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+}
+
+.admin-modal-header {
+  background: var(--bg-secondary) !important;
+  border-bottom: 1px solid var(--border-subtle) !important;
+  color: var(--text-primary) !important;
+  padding: 1.25rem 1.5rem;
+}
+
+.admin-modal-body {
+  background: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
+}
+
+.admin-modal-footer {
+  background: var(--bg-tertiary) !important;
+  border-top: 1px solid var(--border-subtle) !important;
+  padding: 1rem 1.5rem;
+}
+
+.modal-meta-label {
+  display: block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-bottom: 2px;
+}
+
+.modal-meta-value {
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
 .modal-qa-card {
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
 }
 
 .modal-qa-card.question {
   background: rgba(56, 189, 248, 0.08);
-  border-color: rgba(56, 189, 248, 0.2);
+  border: 1px solid rgba(56, 189, 248, 0.22);
+}
+
+.modal-qa-label.question-label {
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #0284c7;
+}
+
+.modal-qa-text.question-text-highlight {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-primary);
 }
 
 .modal-qa-card.answer {
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
 }
 
-/* Light Mode Overrides */
+.modal-qa-label.answer-label {
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #10b981;
+}
+
+.modal-answer-prose {
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.modal-meta-footer {
+  border-top: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.modal-code {
+  background: var(--bg-tertiary);
+  color: var(--accent-cyan);
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.82rem;
+  border: 1px solid var(--border-subtle);
+}
+
+/* ================= DARK MODE EXPLICIT OVERRIDES ================= */
+body.dark .chat-history-table {
+  --bs-table-bg: transparent !important;
+  background-color: transparent !important;
+}
+
+body.dark .chat-history-table tbody td {
+  background-color: transparent !important;
+  color: #f1f5f9 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+body.dark .chat-history-table thead th {
+  background: #0f172a !important;
+  color: #94a3b8 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+body.dark .chat-search-input {
+  background: rgba(15, 23, 42, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: #f8fafc !important;
+}
+
+body.dark .chat-search-input::placeholder {
+  color: #64748b !important;
+}
+
+body.dark .engine-select-dropdown {
+  background: #0f172a !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: #f8fafc !important;
+}
+
+body.dark .visitor-badge {
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: #cbd5e1 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+body.dark .question-bubble {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+body.dark .question-text {
+  color: #f8fafc !important;
+}
+
+body.dark .answer-preview {
+  color: #94a3b8 !important;
+}
+
+body.dark .log-date {
+  color: #f1f5f9 !important;
+}
+
+body.dark .log-time {
+  color: #64748b !important;
+}
+
+body.dark .modal-qa-label.question-label {
+  color: #38bdf8 !important;
+}
+
+body.dark .modal-qa-card.answer {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+body.dark .admin-modal-header .btn-close {
+  filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+/* ================= LIGHT MODE EXPLICIT OVERRIDES ================= */
 body.light .analytics-card,
 .light .analytics-card {
   background: #ffffff !important;
@@ -503,20 +767,212 @@ body.light .analytics-card,
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04) !important;
 }
 
+body.light .chat-history-table,
+.light .chat-history-table {
+  --bs-table-bg: #ffffff !important;
+  background-color: #ffffff !important;
+}
+
 body.light .chat-history-table thead th,
 .light .chat-history-table thead th {
   background: #f8fafc !important;
   color: #64748b !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+
+body.light .chat-history-table tbody td,
+.light .chat-history-table tbody td {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+
+body.light .chat-log-row:hover,
+.light .chat-log-row:hover {
+  background: #f8fafc !important;
+}
+
+body.light .chat-log-row:hover td,
+.light .chat-log-row:hover td {
+  background: #f8fafc !important;
+}
+
+body.light .log-date,
+.light .log-date {
+  color: #0f172a !important;
+}
+
+body.light .log-time,
+.light .log-time {
+  color: #64748b !important;
+}
+
+body.light .visitor-badge,
+.light .visitor-badge {
+  background: #f1f5f9 !important;
+  color: #334155 !important;
+  border-color: #e2e8f0 !important;
 }
 
 body.light .question-bubble,
 .light .question-bubble {
-  background: #f1f5f9 !important;
+  background: #f8fafc !important;
   border-color: #e2e8f0 !important;
+}
+
+body.light .question-text,
+.light .question-text {
+  color: #0f172a !important;
+}
+
+body.light .answer-preview,
+.light .answer-preview {
+  color: #475569 !important;
+}
+
+body.light .chat-search-input,
+.light .chat-search-input {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+body.light .chat-search-input::placeholder,
+.light .chat-search-input::placeholder {
+  color: #94a3b8 !important;
+}
+
+body.light .engine-select-dropdown,
+.light .engine-select-dropdown {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+body.light .page-size-select,
+.light .page-size-select {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+body.light .pagination-btn,
+.light .pagination-btn {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+body.light .pagination-btn:hover:not(:disabled),
+.light .pagination-btn:hover:not(:disabled) {
+  background: #f1f5f9 !important;
+  border-color: #0284c7 !important;
+  color: #0284c7 !important;
+}
+
+body.light .pagination-page-number,
+.light .pagination-page-number {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  color: #475569 !important;
+}
+
+body.light .pagination-page-number.active,
+.light .pagination-page-number.active {
+  background: #0284c7 !important;
+  border-color: #0284c7 !important;
+  color: #ffffff !important;
 }
 
 body.light .device-stat-chip,
 .light .device-stat-chip {
   background: #f8fafc !important;
   border-color: #e2e8f0 !important;
+}
+
+body.light .chat-detail-modal .modal-content,
+.light .chat-detail-modal .modal-content {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  color: #0f172a !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12) !important;
+}
+
+body.light .admin-modal-header,
+.light .admin-modal-header {
+  background: #ffffff !important;
+  border-bottom-color: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+
+body.light .admin-modal-header .btn-close,
+.light .admin-modal-header .btn-close {
+  filter: none !important;
+}
+
+body.light .admin-modal-body,
+.light .admin-modal-body {
+  background: #ffffff !important;
+  color: #0f172a !important;
+}
+
+body.light .admin-modal-footer,
+.light .admin-modal-footer {
+  background: #f8fafc !important;
+  border-top-color: #e2e8f0 !important;
+}
+
+body.light .modal-meta-label,
+.light .modal-meta-label {
+  color: #64748b !important;
+}
+
+body.light .modal-meta-value,
+.light .modal-meta-value {
+  color: #0f172a !important;
+}
+
+body.light .modal-qa-card.question,
+.light .modal-qa-card.question {
+  background: #f0f9ff !important;
+  border-color: #bae6fd !important;
+}
+
+body.light .modal-qa-label.question-label,
+.light .modal-qa-label.question-label {
+  color: #0284c7 !important;
+}
+
+body.light .modal-qa-text.question-text-highlight,
+.light .modal-qa-text.question-text-highlight {
+  color: #0f172a !important;
+}
+
+body.light .modal-qa-card.answer,
+.light .modal-qa-card.answer {
+  background: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+}
+
+body.light .modal-qa-label.answer-label,
+.light .modal-qa-label.answer-label {
+  color: #059669 !important;
+}
+
+body.light .modal-answer-prose,
+.light .modal-answer-prose {
+  color: #1e293b !important;
+}
+
+body.light .modal-meta-footer,
+.light .modal-meta-footer {
+  border-top-color: #e2e8f0 !important;
+  color: #64748b !important;
+}
+
+body.light .modal-code,
+.light .modal-code {
+  background: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+  color: #0284c7 !important;
 }

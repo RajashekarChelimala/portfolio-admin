@@ -13,6 +13,8 @@ import {
   AiOutlineDelete,
   AiOutlineReload,
   AiOutlineSearch,
+  AiOutlineLeft,
+  AiOutlineRight,
 } from "react-icons/ai";
 import { BsStars, BsPeople, BsRobot, BsChatSquareDots, BsLaptop, BsPhone } from "react-icons/bs";
 import { FaHeart } from "react-icons/fa";
@@ -72,6 +74,10 @@ const AdminDashboard = () => {
   const [engineFilter, setEngineFilter] = useState("all");
   const [selectedChat, setSelectedChat] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Pagination State for Jerry AI History Table
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
 
   useEffect(() => {
     fetchDashboardData();
@@ -169,6 +175,17 @@ const AdminDashboard = () => {
 
     return matchesSearch && matchesEngine;
   });
+
+  // Reset page to 1 whenever search, filter, or page size changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, engineFilter, pageSize]);
+
+  // Pagination calculation
+  const totalPages = Math.ceil(filteredChatLogs.length / pageSize) || 1;
+  const startIndex = (currentPage - 1) * pageSize;
+  const endIndex = Math.min(startIndex + pageSize, filteredChatLogs.length);
+  const paginatedChatLogs = filteredChatLogs.slice(startIndex, endIndex);
 
   const managementModules = [
     {
@@ -478,17 +495,17 @@ const AdminDashboard = () => {
             <Table className="chat-history-table align-middle mb-0">
               <thead>
                 <tr>
-                  <th style={{ width: "16%" }}>Time</th>
+                  <th style={{ width: "15%" }}>Time</th>
                   <th style={{ width: "12%" }}>Visitor</th>
-                  <th style={{ width: "32%" }}>User Question</th>
+                  <th style={{ width: "33%" }}>User Question</th>
                   <th style={{ width: "24%" }}>Jerry's Answer</th>
                   <th style={{ width: "10%" }}>Engine</th>
                   <th style={{ width: "6%" }} className="text-center">Action</th>
                 </tr>
               </thead>
               <tbody>
-                {filteredChatLogs.length > 0 ? (
-                  filteredChatLogs.map((log) => {
+                {paginatedChatLogs.length > 0 ? (
+                  paginatedChatLogs.map((log) => {
                     const isGemini = log.source === "gemini";
                     const formattedDate = new Date(log.createdAt).toLocaleDateString("en-US", {
                       month: "short",
@@ -504,7 +521,7 @@ const AdminDashboard = () => {
                         {/* Time */}
                         <td>
                           <div className="log-date">{formattedDate}</div>
-                          <div className="log-time text-muted small">{formattedTime}</div>
+                          <div className="log-time small">{formattedTime}</div>
                         </td>
 
                         {/* Visitor ID */}
@@ -524,9 +541,9 @@ const AdminDashboard = () => {
 
                         {/* Jerry's Answer */}
                         <td>
-                          <div className="answer-preview text-secondary" title="Click to view full answer">
-                            {log.answer && log.answer.length > 90
-                              ? `${log.answer.substring(0, 90)}...`
+                          <div className="answer-preview" title="Click to view full answer">
+                            {log.answer && log.answer.length > 85
+                              ? `${log.answer.substring(0, 85)}...`
                               : log.answer}
                           </div>
                           <span className="view-full-pill">Click to expand</span>
@@ -542,7 +559,7 @@ const AdminDashboard = () => {
                             {isGemini ? "Gemini 3.5" : "RAG Engine"}
                           </Badge>
                           {log.responseTimeMs > 0 && (
-                            <div className="text-muted small mt-1 font-monospace">
+                            <div className="latency-label small mt-1 font-monospace">
                               {(log.responseTimeMs / 1000).toFixed(1)}s
                             </div>
                           )}
@@ -575,6 +592,58 @@ const AdminDashboard = () => {
               </tbody>
             </Table>
           </div>
+
+          {/* ================= PAGINATION CONTROLS ================= */}
+          {filteredChatLogs.length > 0 && (
+            <div className="table-pagination-bar d-flex justify-content-between align-items-center flex-wrap gap-3 mt-3 pt-3">
+              <div className="pagination-info small">
+                Showing <strong>{startIndex + 1}</strong> – <strong>{endIndex}</strong> of <strong>{filteredChatLogs.length}</strong> questions
+              </div>
+
+              <div className="d-flex align-items-center gap-2 flex-wrap">
+                <span className="small text-secondary me-1">Rows per page:</span>
+                <select
+                  className="page-size-select"
+                  value={pageSize}
+                  onChange={(e) => setPageSize(Number(e.target.value))}
+                >
+                  <option value={5}>5</option>
+                  <option value={10}>10</option>
+                  <option value={20}>20</option>
+                </select>
+
+                <div className="pagination-nav-buttons d-flex align-items-center gap-1 ms-2">
+                  <button
+                    className="pagination-btn"
+                    onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                    disabled={currentPage === 1}
+                    title="Previous page"
+                  >
+                    <AiOutlineLeft size={13} />
+                  </button>
+
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                    <button
+                      key={pageNum}
+                      className={`pagination-page-number ${pageNum === currentPage ? "active" : ""}`}
+                      onClick={() => setCurrentPage(pageNum)}
+                    >
+                      {pageNum}
+                    </button>
+                  ))}
+
+                  <button
+                    className="pagination-btn"
+                    onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                    disabled={currentPage === totalPages}
+                    title="Next page"
+                  >
+                    <AiOutlineRight size={13} />
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* ================= 4. MANAGEMENT MODULES GRID ================= */}
@@ -626,16 +695,16 @@ const AdminDashboard = () => {
         size="lg"
         className="chat-detail-modal"
       >
-        <ModalHeader toggle={() => setIsModalOpen(false)} className="border-secondary bg-dark text-light">
+        <ModalHeader toggle={() => setIsModalOpen(false)} className="admin-modal-header">
           <BsStars className="me-2 text-warning" /> Jerry AI Conversation Detail
         </ModalHeader>
-        <ModalBody className="bg-dark text-light p-4">
+        <ModalBody className="admin-modal-body p-4">
           {selectedChat && (
             <div>
               <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
                 <div>
-                  <span className="text-secondary small d-block">Asked On</span>
-                  <strong>
+                  <span className="modal-meta-label">Asked On</span>
+                  <strong className="modal-meta-value">
                     {new Date(selectedChat.createdAt).toLocaleString("en-US", {
                       dateStyle: "medium",
                       timeStyle: "short",
@@ -656,34 +725,31 @@ const AdminDashboard = () => {
 
               {/* Question Section */}
               <div className="modal-qa-card question mb-4 p-3 rounded">
-                <div className="small text-muted text-uppercase mb-1">User Question</div>
-                <div className="fs-5 fw-bold text-info">
+                <div className="modal-qa-label question-label mb-1">User Question</div>
+                <div className="modal-qa-text question-text-highlight">
                   "{selectedChat.question}"
                 </div>
               </div>
 
               {/* Answer Section */}
               <div className="modal-qa-card answer p-3 rounded">
-                <div className="small text-muted text-uppercase mb-2">Jerry's Generated Answer</div>
-                <div
-                  className="modal-answer-prose text-light"
-                  style={{ whiteSpace: "pre-line", lineHeight: 1.7 }}
-                >
+                <div className="modal-qa-label answer-label mb-2">Jerry's Generated Answer</div>
+                <div className="modal-answer-prose">
                   {selectedChat.answer}
                 </div>
               </div>
 
               {/* Technical Metadata */}
-              <div className="mt-4 pt-3 border-top border-secondary small text-muted d-flex justify-content-between flex-wrap gap-2">
-                <span>Visitor Session: <code>{selectedChat.visitorId}</code></span>
+              <div className="modal-meta-footer mt-4 pt-3 d-flex justify-content-between flex-wrap gap-2">
+                <span>Visitor Session: <code className="modal-code">{selectedChat.visitorId}</code></span>
                 {selectedChat.ipAddress && (
-                  <span>Client IP: <code>{selectedChat.ipAddress}</code></span>
+                  <span>Client IP: <code className="modal-code">{selectedChat.ipAddress}</code></span>
                 )}
               </div>
             </div>
           )}
         </ModalBody>
-        <ModalFooter className="border-secondary bg-dark">
+        <ModalFooter className="admin-modal-footer">
           <Button color="secondary" onClick={() => setIsModalOpen(false)}>
             Close
           </Button>
