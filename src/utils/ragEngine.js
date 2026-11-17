@@ -12,9 +12,27 @@ export const KNOWLEDGE_CORPUS = [
   },
   {
     id: "identity_surname",
-    topics: ["surname", "last name", "family name", "second name", "full name", "who is he", "what is his name", "rajashekar name", "chelimala"],
-    keywords: ["surname", "last", "family", "chelimala", "called", "full"],
+    topics: ["surname", "last name", "family name", "what is his surname", "full name", "what is his full name"],
+    keywords: ["surname", "last", "family", "fullname"],
     answer: "Rajashekar's surname is **Chelimala**. His full legal name is **Rajashekar Chelimala**."
+  },
+  {
+    id: "personal_weakness",
+    topics: ["weakness", "weaknesses", "flaws", "areas of improvement", "drawbacks", "what is his weakness", "what are his weaknesses"],
+    keywords: ["weakness", "weaknesses", "flaw", "flaws", "drawback", "drawbacks", "improvement"],
+    answer: "Rajashekar approaches engineering with high attention to detail and continuous learning. Professionally, he has identified a tendency to over-invest in edge-case perfectionism and a habit of taking on many complex challenges at once—areas he actively balances by adopting strict iterative milestones and agile sprint boundaries."
+  },
+  {
+    id: "personal_character",
+    topics: ["good guy", "is he good", "is he a good guy", "personality", "character", "work ethic", "attitude", "how is he as a person", "team player"],
+    keywords: ["good", "guy", "personality", "character", "attitude", "ethic", "colleague", "behavior"],
+    answer: "Yes, Rajashekar is widely regarded by teammates and managers as a dedicated, humble, and dependable software engineer. At the Centre for Good Governance (CGG), he has demonstrated strong ownership, a collaborative mindset, and high integrity while engineering mission-critical government applications."
+  },
+  {
+    id: "skills_strengths",
+    topics: ["strong at", "strengths", "what is he strong at", "what things is he strong at", "what are his strengths", "expertise", "what does he excel at"],
+    keywords: ["strong", "strengths", "excel", "excels", "expertise", "specialization", "best"],
+    answer: "Rajashekar is exceptionally strong at **full-stack enterprise engineering and cloud architectures**:\n\n1. **Java & Spring Boot:** High-throughput microservices, Spring Security & RBAC, Spring Data JPA & Hibernate.\n2. **React.js Frontend:** Component architecture, modern state management, and responsive interfaces.\n3. **PostgreSQL & Database Tuning:** Complex relational modeling, query optimization, and transaction management.\n4. **AWS Cloud & DevOps:** Scalable EC2 hosting, Amazon S3 storage, SES notifications, and Docker containerization.\n5. **AI & GenAI Integration:** Whisper speech-to-text, FastAPI services, and context-grounded RAG pipelines."
   },
   {
     id: "identity_gender",
@@ -210,6 +228,19 @@ export function tokenize(str) {
 }
 
 /**
+ * Check if a text contains a word or phrase with clean word boundary awareness
+ * to prevent false substring collisions (e.g. 'ses' matching inside 'weaknesses').
+ */
+function hasWordOrPhrase(text, phrase) {
+  if (!text || !phrase) return false;
+  const p = phrase.toLowerCase().trim();
+  if (!p) return false;
+  const escaped = p.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const regex = new RegExp(`(^|\\b|[^a-z0-9])${escaped}($|\\b|[^a-z0-9])`, "i");
+  return regex.test(text);
+}
+
+/**
  * RAG Retriever: Calculates relevance score of each knowledge chunk
  * against the incoming user query.
  */
@@ -226,9 +257,9 @@ export function retrieveRelevantChunks(query, corpus = KNOWLEDGE_CORPUS, topK = 
   const scored = corpus.map((chunk) => {
     let score = 0;
 
-    // Check exact topic phrase match in raw query
+    // Check exact topic phrase match in raw query with word boundary awareness
     for (const topic of chunk.topics) {
-      if (rawQuery.includes(topic.toLowerCase())) {
+      if (hasWordOrPhrase(rawQuery, topic)) {
         score += 35;
       }
     }
